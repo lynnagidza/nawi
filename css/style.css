@@ -407,3 +407,8 @@ footer {
         order: 3;
     }
 }
+
+.meta a {
+    color: var(--indigo);
+    font-weight: 500;
+}

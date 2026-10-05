@@ -87,6 +87,15 @@ function renderQuestion() {
     });
 }
 
+function sourceLink(q) {
+    const a = document.createElement('a');
+    a.href = q.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = q.source;
+    return a;
+}
+
 function selectAnswer(i) {
     const q = questions[current];
     answers[current] = i;
@@ -98,7 +107,8 @@ function selectAnswer(i) {
             else if (idx === i) btn.classList.add('wrong');
         });
         $('fb-text').textContent = (i === q.answer ? 'Correct. ' : 'Not quite. ') + q.explanation;
-        $('fb-source').textContent = 'Source: ' + q.source;
+        $('fb-source').textContent = 'Source: ';
+        $('fb-source').appendChild(sourceLink(q));
         $('feedback').hidden = false;
     } else {
         [...$('options').children].forEach((btn, idx) => {
@@ -228,7 +238,9 @@ function finishQuiz(timedOut) {
         item.appendChild(reviewLine('Your answer: ' + (chosen === undefined ? 'no answer' : q.options[chosen])));
         if (!ok) item.appendChild(reviewLine('Correct answer: ' + q.options[q.answer]));
         item.appendChild(reviewLine(q.explanation, 'review-why'));
-        item.appendChild(reviewLine('Source: ' + q.source, 'meta'));
+        const src = reviewLine('Source: ', 'meta');
+        src.appendChild(sourceLink(q));
+        item.appendChild(src);
         review.appendChild(item);
     });
     renderBreakdown();

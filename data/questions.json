@@ -2,85 +2,241 @@
     {
         "id": "test-01",
         "skill": "Test automation",
-        "question": "Which AL object type holds test functions in Business Central?",
+        "question": "Which property setting makes a codeunit a test codeunit?",
         "options": [
-            "A codeunit with the Subtype property set to Test",
-            "A page with the PageType property set to Test",
-            "A report with the ProcessingOnly property set to true",
-            "A query with the QueryType property set to Test"
+            "TestIsolation = Codeunit",
+            "SingleInstance = true",
+            "Subtype = Test",
+            "TableNo = \"Test Runner\""
         ],
-        "answer": 0,
-        "explanation": "Test functions live in test codeunits, which are codeunits with Subtype = Test.",
-        "source": "Introduction to test automation in Business Central (Microsoft Learn)"
+        "answer": 2,
+        "explanation": "A test codeunit is a codeunit whose Subtype property is set to Test. Setting Subtype to TestRunner creates a test runner codeunit instead.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
     },
     {
         "id": "test-02",
         "skill": "Test automation",
-        "question": "Which attribute marks a procedure in a test codeunit as a test?",
+        "question": "A test codeunit contains several test methods and the first one fails. What happens to the others?",
         "options": [
-            "[EventSubscriber]",
-            "[Test]",
-            "[TryFunction]",
-            "[Scope('OnPrem')]"
+            "Execution stops immediately, as in a normal codeunit",
+            "The next tests still run",
+            "The whole codeunit is rolled back and run again",
+            "The remaining tests are skipped and reported as passed"
         ],
         "answer": 1,
-        "explanation": "The [Test] attribute tells the test runner that the procedure is a test to execute.",
-        "source": "Introduction to test automation in Business Central (Microsoft Learn)"
+        "explanation": "In a normal codeunit, a failing method stops execution. In a test codeunit, the next tests still continue to run even if a method failed.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-03",
+        "skill": "Test automation",
+        "question": "A test method has no TransactionModel attribute. What happens at the end of the test method?",
+        "options": [
+            "The transaction is always rolled back",
+            "A commit is issued, and an error during the test rolls the transaction back",
+            "Each page interaction runs in its own separate transaction",
+            "The test can't run until a transaction model is chosen"
+        ],
+        "answer": 1,
+        "explanation": "AutoCommit is the default TransactionModel. A commit is issued at the end of the test method, and if an error occurs during the method the transaction is rolled back, even if the error is caught with AssertError.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-04",
+        "skill": "Test automation",
+        "question": "A test method uses TransactionModel::AutoRollback, and the code under test calls Commit. What is the result?",
+        "options": [
+            "The commit is ignored and the test passes",
+            "The commit succeeds and the data is kept",
+            "The test fails with an error",
+            "The test runner switches to AutoCommit"
+        ],
+        "answer": 2,
+        "explanation": "With AutoRollback the transaction is always rolled back after the test, so if a Commit is used during the test, that test fails with an error.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-05",
+        "skill": "Test automation",
+        "question": "Which TransactionModel is primarily used with TestPages?",
+        "options": [
+            "AutoCommit",
+            "AutoRollback",
+            "None",
+            "Isolated"
+        ],
+        "answer": 2,
+        "explanation": "None is primarily used with TestPages. The test method itself doesn't use a write transaction, and each page interaction runs in its own (mostly smaller) transaction that commits if no errors occur.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-06",
+        "skill": "Test automation",
+        "question": "What happens if you put asserterror in front of a statement that does NOT cause an error?",
+        "options": [
+            "The test passes, because asserterror always succeeds",
+            "The test fails",
+            "The problem is logged as a warning only",
+            "The test is skipped"
+        ],
+        "answer": 1,
+        "explanation": "asserterror makes a test succeed only when the statement fails. If the statement doesn't cause an error, the test function fails.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-07",
+        "skill": "Test automation",
+        "question": "On a test runner codeunit, which TestIsolation value rolls back all database changes after each test METHOD?",
+        "options": [
+            "Disabled",
+            "Codeunit",
+            "Function",
+            "AutoRollback"
+        ],
+        "answer": 2,
+        "explanation": "Function rolls back after each test method. Codeunit rolls back after each test codeunit. Disabled is the default and rolls nothing back, so tests aren't isolated from each other. AutoRollback is a TransactionModel value, not a TestIsolation value.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+    },
+    {
+        "id": "test-08",
+        "skill": "Test automation",
+        "question": "You wrote a ConfirmHandler method to answer a confirm dialog during a test. How does a test method use it?",
+        "options": [
+            "List the handler's name in the HandlerFunctions attribute on the test method",
+            "Call the handler from the OnRun trigger of the test codeunit",
+            "Set the TestIsolation property to Function",
+            "Subscribe the handler to a confirm event"
+        ],
+        "answer": 0,
+        "explanation": "You specify the handler's name in the HandlerFunctions attribute on the test method, for example [HandlerFunctions('ConfirmDeleteHandler')]. The handler then answers the dialog without user interaction.",
+        "source": "Test applications in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
     },
     {
         "id": "ws-01",
         "skill": "Web services",
-        "question": "Which web service type is described by a WSDL document?",
+        "question": "Business Central supports REST API, OData and SOAP web services. Which does Microsoft describe as the recommended and preferred way to integrate?",
         "options": [
-            "OData",
-            "SOAP",
-            "API pages",
-            "Webhooks"
-        ],
-        "answer": 1,
-        "explanation": "SOAP services describe themselves with a WSDL. OData describes itself with a $metadata document instead.",
-        "source": "Work with web services in Dynamics 365 Business Central (Microsoft Learn)"
-    },
-    {
-        "id": "app-01",
-        "skill": "Application types",
-        "question": "What is the main purpose of a connect app?",
-        "options": [
-            "To connect Business Central to an external service or product",
-            "To replace code in the base application",
-            "To provide test data for other apps",
-            "To change how the platform itself runs"
-        ],
-        "answer": 0,
-        "explanation": "Connect apps integrate Business Central with an external service or product. Add-on apps extend Business Central with new functionality.",
-        "source": "Introduction to application types in Business Central (Microsoft Learn)"
-    },
-    {
-        "id": "file-01",
-        "skill": "File management",
-        "question": "Which standard codeunit lets you hold binary data in memory without a table record?",
-        "options": [
-            "Temp Blob",
-            "Job Queue Dispatcher",
-            "Record Link",
-            "Dialog"
-        ],
-        "answer": 0,
-        "explanation": "The Temp Blob codeunit holds data in memory and gives you streams to read and write it.",
-        "source": "Introduction to the basics of file management in Dynamics 365 Business Central (Microsoft Learn)"
-    },
-    {
-        "id": "page-01",
-        "skill": "Page extensions",
-        "question": "In a page extension, which keyword adds a new field after an existing control?",
-        "options": [
-            "insertafter",
-            "modifyafter",
-            "addafter",
-            "appendafter"
+            "SOAP web services",
+            "OData web services",
+            "REST API web services",
+            "Web services secured with Basic authentication"
         ],
         "answer": 2,
-        "explanation": "Inside the layout section of a page extension, addafter places new controls after an existing one. addfirst, addlast and addbefore work the same way.",
-        "source": "Extend and modify an existing page in Dynamics 365 Business Central (Microsoft Learn)"
+        "explanation": "REST API web services are the recommended and preferred way to integrate with Business Central. You should evaluate them first for new integrations.",
+        "source": "Define differences between SOAP, OData, REST, and API",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/2-differences"
+    },
+    {
+        "id": "ws-02",
+        "skill": "Web services",
+        "question": "A SOAP service exposes a WSDL document. Which metadata document does an OData web service expose?",
+        "options": [
+            "WADL",
+            "EDMX",
+            "A Swagger file",
+            "An XSD file only"
+        ],
+        "answer": 1,
+        "explanation": "OData exposes an EDMX document that contains metadata for all published web services. SOAP exposes WSDL instead.",
+        "source": "Define differences between SOAP, OData, REST, and API",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/2-differences"
+    },
+    {
+        "id": "ws-03",
+        "skill": "Web services",
+        "question": "Which authentication option can an external application use against Business Central SaaS?",
+        "options": [
+            "Basic authentication with a web service access key",
+            "OAuth2 only",
+            "Windows authentication",
+            "Basic or OAuth2, at the administrator's choice"
+        ],
+        "answer": 1,
+        "explanation": "Basic authentication hasn't been supported for Business Central SaaS since April 2022, so OAuth2 is the only option. Basic authentication is still supported on-premises.",
+        "source": "Web service authentication",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/3-authentication"
+    },
+    {
+        "id": "ws-04",
+        "skill": "Web services",
+        "question": "A background service with no user interface must call Business Central web services. Which OAuth2 flow fits?",
+        "options": [
+            "Authorization Code Flow",
+            "Client Credentials Flow",
+            "Implicit Flow",
+            "Device Code Flow"
+        ],
+        "answer": 1,
+        "explanation": "Business Central supports two flows. Authorization Code Flow needs a user to sign in each time, so it doesn't suit services without a UI. Client Credentials Flow needs only a client ID and secret and uses application permissions.",
+        "source": "Web service authentication",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/3-authentication"
+    },
+    {
+        "id": "ws-05",
+        "skill": "Web services",
+        "question": "Which scope do you use with Application Permissions (Client Credentials Flow)?",
+        "options": [
+            "https://api.businesscentral.dynamics.com/Financials.ReadWrite.All",
+            "https://api.businesscentral.dynamics.com/.default",
+            "https://businesscentral.dynamics.com/OAuthLanding.htm",
+            "https://api.businesscentral.dynamics.com/user_impersonation"
+        ],
+        "answer": 1,
+        "explanation": "Application Permissions use the .default scope. Financials.ReadWrite.All is the scope for Delegated Permissions, and OAuthLanding.htm is the redirect URI used when registering the app.",
+        "source": "Web service authentication",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/3-authentication"
+    },
+    {
+        "id": "ws-06",
+        "skill": "Web services",
+        "question": "Which OData query skips the first 10 records and returns the next 5?",
+        "options": [
+            "/Items?$top=10&$skip=5",
+            "/Items?$skip=5&$top=10",
+            "/Items?$top=5&$skip=10",
+            "/Items?$select=5&$skip=10"
+        ],
+        "answer": 2,
+        "explanation": "$top limits how many records are returned and $skip says how many to pass over first, so $top=5&$skip=10 returns records 11 to 15.",
+        "source": "Work with OData query options",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/7-query-options"
+    },
+    {
+        "id": "ws-07",
+        "skill": "Web services",
+        "question": "You want to retrieve sales orders together with their sales lines in one OData request. Which query option do you use?",
+        "options": [
+            "$select",
+            "$expand",
+            "$orderby",
+            "$filter"
+        ],
+        "answer": 1,
+        "explanation": "$expand retrieves related details, such as /SalesOrders?$expand=SalesOrderSalesLines. It works when the EDM document shows a NavigationProperty for the entity.",
+        "source": "Work with OData query options",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/7-query-options"
+    },
+    {
+        "id": "ws-08",
+        "skill": "Web services",
+        "question": "You use the in operator in an OData $filter, for example No in ('10000','20000','30000'). What extra requirement applies?",
+        "options": [
+            "You must request $schemaversion=2.1",
+            "You must add $top=1",
+            "The field must be a FlowFilter",
+            "The service must use Basic authentication"
+        ],
+        "answer": 0,
+        "explanation": "The in operator only works when you request $schemaversion=2.1. The other operators (eq, ne, lt, gt, le, ge) don't need it.",
+        "source": "Work with OData query options",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/7-query-options"
     }
 ]
