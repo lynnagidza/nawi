@@ -73,14 +73,18 @@ function renderQuestion() {
     $('q-skill').textContent = q.skill;
     $('q-text').textContent = q.question;
     $('feedback').hidden = true;
-    $('next').hidden = true;
+
+    const instant = tier.feedback === 'instant';
+    $('next').hidden = instant;
     $('next').textContent = current === questions.length - 1 ? 'Finish' : 'Next';
+    $('prev').hidden = instant || current === 0;
 
     const box = $('options');
     box.innerHTML = '';
     q.options.forEach((text, i) => {
         const btn = document.createElement('button');
         btn.className = 'option';
+        if (!instant && answers[current] === i) btn.classList.add('selected');
         btn.textContent = text;
         btn.addEventListener('click', () => selectAnswer(i));
         box.appendChild(btn);
@@ -253,6 +257,18 @@ document.querySelectorAll('.start').forEach((btn) => {
 });
 $('next').addEventListener('click', nextQuestion);
 $('restart').addEventListener('click', () => show('home'));
+$('prev').addEventListener('click', () => {
+    if (current > 0) {
+        current--;
+        renderQuestion();
+    }
+});
+$('quit').addEventListener('click', () => {
+    if (confirm("Quit this quiz? Your answers so far won't be saved.")) {
+        clearInterval(timerId);
+        show('home');
+    }
+});
 
 loadQuestions().catch(() => {
     document.querySelectorAll('.start').forEach((btn) => {

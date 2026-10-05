@@ -238,5 +238,260 @@
         "explanation": "The in operator only works when you request $schemaversion=2.1. The other operators (eq, ne, lt, gt, le, ge) don't need it.",
         "source": "Work with OData query options",
         "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/7-query-options"
+    },
+    {
+        "id": "app-01",
+        "skill": "Application types",
+        "question": "What best describes a Connect app?",
+        "options": [
+            "An app that adds new AL objects and pages inside Business Central",
+            "A point-to-point connection between Business Central and another solution or service, typically built with standard REST API",
+            "An app that holds common code shared by other apps",
+            "An app that replaces the base application"
+        ],
+        "answer": 1,
+        "explanation": "A Connect app establishes a point-to-point connection between Business Central and a third-party solution or service, and is typically created using standard REST API to interchange data.",
+        "source": "Get started developing Connect apps for Business Central",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-develop-connect-apps"
+    },
+    {
+        "id": "app-02",
+        "skill": "Application types",
+        "question": "Three of your AppSource apps share the same licensing and registration code. How should you package that shared code?",
+        "options": [
+            "Copy it into each app",
+            "In a library app that the AppSource apps depend on",
+            "In a Connect app",
+            "In the base application"
+        ],
+        "answer": 1,
+        "explanation": "A library app contains common code that other apps depend on, such as licensing and registration. The AppSource apps declare it as a dependency.",
+        "source": "Understand library and dependency applications",
+        "url": "https://learn.microsoft.com/en-us/training/modules/application-types/3-library-dependency-applications"
+    },
+    {
+        "id": "app-03",
+        "skill": "Application types",
+        "question": "What is the key difference between a dependency app and a library app?",
+        "options": [
+            "A library app can only be installed on-premises",
+            "A dependency app can't contain code",
+            "A dependency app has its own offer on AppSource, while a library app doesn't appear there",
+            "A library app must be installed manually by the customer"
+        ],
+        "answer": 2,
+        "explanation": "A dependency app isn't much different from a library app, except that it has its own offer on AppSource. Behind the scenes, both are handled the same way when the service walks the dependency chain and installs what the top-level app needs.",
+        "source": "Understand library and dependency applications",
+        "url": "https://learn.microsoft.com/en-us/training/modules/application-types/3-library-dependency-applications"
+    },
+    {
+        "id": "app-04",
+        "skill": "Application types",
+        "question": "A customer installs an AppSource app that depends on a library app. What happens?",
+        "options": [
+            "The customer is asked to install the library app first",
+            "The service reads the app's manifest and installs the library apps behind the scenes",
+            "The install fails unless the library app is already on the tenant",
+            "The library app is merged into the main app's package at runtime"
+        ],
+        "answer": 1,
+        "explanation": "When the customer installs the app, the service looks into the app's manifest to see whether it needs to install any library or dependency apps first. The customer doesn't even know the library apps exist.",
+        "source": "Understand library and dependency applications",
+        "url": "https://learn.microsoft.com/en-us/training/modules/application-types/3-library-dependency-applications"
+    },
+    {
+        "id": "app-05",
+        "skill": "Application types",
+        "question": "Which code analyzer do you enable to help validate your extension package before bringing it to AppSource?",
+        "options": [
+            "CodeCop",
+            "UICop",
+            "PerTenantExtensionCop",
+            "AppSourceCop"
+        ],
+        "answer": 3,
+        "explanation": "AppSourceCop is the analyzer for AppSource validation. CodeCop and UICop can be added as well, and you can specify a custom ruleset. PerTenantExtensionCop applies to per-tenant extensions.",
+        "source": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+    },
+    {
+        "id": "app-06",
+        "skill": "Application types",
+        "question": "According to the AppSource technical validation checklist, how should you place your actions on Business Central pages so your app doesn't break when core pages change?",
+        "options": [
+            "Anchor each action to a specific standard action with addafter",
+            "Use addfirst and addlast",
+            "Use modify on the standard action group",
+            "Use movebefore on the standard actions"
+        ],
+        "answer": 1,
+        "explanation": "The checklist says to use addfirst and addlast for placing actions, which eliminates breaking your app due to Business Central core changes.",
+        "source": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+    },
+    {
+        "id": "file-01",
+        "skill": "File management",
+        "question": "Why do you use streaming functions to import and export files in Business Central?",
+        "options": [
+            "Streams are faster than other approaches",
+            "You can't access the file system directly",
+            "Files must always be stored as BLOB fields",
+            "The File data type is obsolete"
+        ],
+        "answer": 1,
+        "explanation": "You can use the File data type to import and export files, but because you can't access the file system directly, you need the streaming functions of the File data type.",
+        "source": "Summary: basics of file management",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/7-summary"
+    },
+    {
+        "id": "file-02",
+        "skill": "File management",
+        "question": "Which function prompts the user to select a file from their local disk and uploads it into Business Central?",
+        "options": [
+            "DownloadFromStream",
+            "CreateInStream",
+            "UploadIntoStream",
+            "ReadText"
+        ],
+        "answer": 2,
+        "explanation": "UploadIntoStream prompts the user to select a file from their local disk and uploads it. DownloadFromStream does the reverse: it gives the user a download prompt to save the file locally.",
+        "source": "Summary: basics of file management",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/7-summary"
+    },
+    {
+        "id": "file-03",
+        "skill": "File management",
+        "question": "Which codeunit helps you convert between an InStream and an OutStream?",
+        "options": [
+            "Temp Blob",
+            "File Management",
+            "Data Compression",
+            "Dialog"
+        ],
+        "answer": 0,
+        "explanation": "The Temp Blob codeunit can be used to convert between the two stream types. The File Management codeunit is for handling file names and file extensions.",
+        "source": "Read and write files by using streaming",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/4-read-write-stream"
+    },
+    {
+        "id": "file-04",
+        "skill": "File management",
+        "question": "You want to write text into a Temp Blob. Which stream type do you use?",
+        "options": [
+            "InStream",
+            "OutStream",
+            "Record variable",
+            "TextConst"
+        ],
+        "answer": 1,
+        "explanation": "You read from streams with InStream and write to them with OutStream. For example, OutStream.WriteText writes text into the stream.",
+        "source": "Read and write files by using streaming",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/4-read-write-stream"
+    },
+    {
+        "id": "file-05",
+        "skill": "File management",
+        "question": "Which of these is NOT a text encoding that Business Central supports?",
+        "options": [
+            "UTF-8",
+            "UTF-16",
+            "UTF-32",
+            "ANSI"
+        ],
+        "answer": 2,
+        "explanation": "Business Central supports MS-DOS, UTF-8, UTF-16 and ANSI encoding. UTF-32 isn't on the list.",
+        "source": "Summary: basics of file management",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/7-summary"
+    },
+    {
+        "id": "file-06",
+        "skill": "File management",
+        "question": "A user needs to download several files at once from the web client, but browsers can handle only one file per request. What does Microsoft suggest?",
+        "options": [
+            "Call DownloadFromStream repeatedly in one loop",
+            "Bundle the files in an archive (.zip) and download that",
+            "Convert every file to a BLOB field first",
+            "Raise the browser request limit in the server settings"
+        ],
+        "answer": 1,
+        "explanation": "Internet browsers can only handle one file per request, so when designing for the Web client you bundle the files in an archive file (.zip).",
+        "source": "File.DownloadFromStream method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-downloadfromstream-method"
+    },
+    {
+        "id": "page-01",
+        "skill": "Page extensions",
+        "question": "Which of these can you NOT do to an existing page with a page extension?",
+        "options": [
+            "Add a new field",
+            "Modify some properties of an existing field",
+            "Delete an existing field",
+            "Move an existing field"
+        ],
+        "answer": 2,
+        "explanation": "You can add new fields and modify some properties of existing fields, but you can't delete existing fields. You can also modify some page properties, but not all of them.",
+        "source": "Get started with page extensions",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extend-modify-existing-pages/2-get-started"
+    },
+    {
+        "id": "page-02",
+        "skill": "Page extensions",
+        "question": "How do you move an existing field to a different position in a page extension?",
+        "options": [
+            "Use modify and set a Position property",
+            "Use the move keywords, such as moveafter, in place of the add keywords",
+            "Delete the field and add it again",
+            "You can't. Only the Page Designer can move fields"
+        ],
+        "answer": 1,
+        "explanation": "To move existing fields you use the same keywords as for adding (addbefore, addafter, addfirst, addlast), with move in place of add. The same keywords work for actions. To change properties of an existing field you use modify.",
+        "source": "Summary: extend and modify an existing page",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extend-modify-existing-pages/6-summary"
+    },
+    {
+        "id": "page-03",
+        "skill": "Page extensions",
+        "question": "In Visual Studio Code, which shortcut key starts the Page Designer?",
+        "options": [
+            "F5",
+            "F6",
+            "F8",
+            "Ctrl+F6"
+        ],
+        "answer": 1,
+        "explanation": "F6 launches a browser that opens the Business Central client in Designer. From the client you can also select the Settings icon and then Design. F5 starts debugging, not Designer.",
+        "source": "Personalize pages",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extend-modify-existing-pages/4-layout"
+    },
+    {
+        "id": "page-04",
+        "skill": "Page extensions",
+        "question": "A colleague uses Designer in the client to add a field to a page. What is true about the result?",
+        "options": [
+            "It creates a new extension, and the change applies to all users",
+            "It is saved only for that colleague's profile",
+            "It modifies the base application directly",
+            "It is lost when the session ends"
+        ],
+        "answer": 0,
+        "explanation": "Every time you start designing, you create a new extension, and the changes you make in Designer apply to all users. You can uninstall the extension from the Extension Management page or download its source from there.",
+        "source": "Build your first sample extension",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/Business-Central/dev-ITPro/developer/devenv-extension-example"
+    },
+    {
+        "id": "page-05",
+        "skill": "Page extensions",
+        "question": "Which type of page can't be extended with a page extension object?",
+        "options": [
+            "Card page",
+            "List page",
+            "API page",
+            "Document page"
+        ],
+        "answer": 2,
+        "explanation": "A page of type API page can't be extended by creating a page extension object.",
+        "source": "Page extension object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-ext-object"
     }
 ]

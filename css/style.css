@@ -412,3 +412,32 @@ footer {
     color: var(--indigo);
     font-weight: 500;
 }
+
+.quiz-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--indigo);
+    border: 2px solid var(--indigo);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #E9EBF5;
+}
+
+.btn-quit {
+    margin-left: auto;
+    background: transparent;
+    color: var(--muted);
+    text-decoration: underline;
+}
+
+.btn-quit:hover:not(:disabled) {
+    background: transparent;
+    color: var(--crimson);
+}
