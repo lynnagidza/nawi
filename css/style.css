@@ -217,3 +217,26 @@ footer {
 .feedback p {
     margin: 0 0 0.5rem;
 }
+
+.quiz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timer {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--indigo);
+    font-variant-numeric: tabular-nums;
+}
+
+.timer.low {
+    color: var(--crimson);
+}
+
+.option.selected {
+    border-color: var(--indigo);
+    background: #E9EBF5;
+}

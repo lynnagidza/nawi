@@ -32,28 +32,31 @@
                     <h3>Quick</h3>
                     <p class="meta">10 questions · 15 min</p>
                     <p>A short drill. Feedback after every question.</p>
-                    <button id="start-quick" class="btn">Start</button>
+                    <button class="btn start" data-tier="quick">Start</button>
                 </article>
 
                 <article class="card tier-standard">
                     <h3>Standard</h3>
                     <p class="meta">25 questions · 40 min</p>
                     <p>Mixed skill areas. Answers revealed at the end.</p>
-                    <button class="btn" disabled>Coming soon</button>
+                    <button class="btn start" data-tier="standard">Start</button>
                 </article>
 
                 <article class="card tier-exam">
                     <h3>Exam-like</h3>
                     <p class="meta">50 questions · 100 min</p>
                     <p>Timed, no hints, scored out of 1000.</p>
-                    <button class="btn" disabled>Coming soon</button>
+                    <button class="btn start" data-tier="exam">Start</button>
                 </article>
             </section>
         </div>
 
         <section id="quiz" hidden>
             <p id="q-skill" class="skill"></p>
-            <p id="progress" class="meta"></p>
+            <div class="quiz-top">
+                <p id="progress" class="meta"></p>
+                <p id="timer" class="timer"></p>
+            </div>
             <h2 id="q-text"></h2>
             <div id="options"></div>
             <div id="feedback" class="feedback" hidden>
