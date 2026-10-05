@@ -240,3 +240,101 @@ footer {
     border-color: var(--indigo);
     background: #E9EBF5;
 }
+
+/* Results */
+#done h2,
+#done h3 {
+    color: var(--indigo);
+}
+
+.score-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.score-ring {
+    flex: none;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 8px solid var(--ochre);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-ring span {
+    font: 700 2.2rem "Fraunces", Georgia, serif;
+    color: var(--indigo);
+    line-height: 1;
+}
+
+.score-ring small {
+    color: var(--muted);
+}
+
+.verdict {
+    margin: 0 0 0.25rem;
+    font: 700 1.4rem "Fraunces", Georgia, serif;
+}
+
+.verdict.pass {
+    color: #2F6B4F;
+}
+
+.verdict.fail {
+    color: var(--crimson);
+}
+
+.review-item {
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-left: 6px solid var(--muted);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.review-item.ok {
+    border-left-color: #2F6B4F;
+}
+
+.review-item.bad {
+    border-left-color: var(--crimson);
+}
+
+.review-item p {
+    margin: 0 0 0.5rem;
+}
+
+.review-head {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.review-q {
+    font-weight: 700;
+}
+
+.review-why {
+    background: var(--bone);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+}
+
+@media (max-width: 520px) {
+    .score-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}

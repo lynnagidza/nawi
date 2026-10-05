@@ -67,8 +67,17 @@
         </section>
 
         <section id="done" hidden>
-            <h2>Quiz complete</h2>
-            <p id="summary"></p>
+            <h2>Results</h2>
+            <div class="score-card">
+                <div class="score-ring"><span id="scaled"></span><small>/ 1000</small></div>
+                <div>
+                    <p id="verdict" class="verdict"></p>
+                    <p id="summary"></p>
+                    <p class="meta">Estimate only. Microsoft's real scaling isn't published. Pass mark: 700.</p>
+                </div>
+            </div>
+            <h3>Review</h3>
+            <div id="review"></div>
             <button id="restart" class="btn">Back to start</button>
         </section>
     </main>

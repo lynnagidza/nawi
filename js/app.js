@@ -113,19 +113,53 @@ function nextQuestion() {
     }
 }
 
+function reviewLine(text, className) {
+    const p = document.createElement('p');
+    if (className) p.className = className;
+    p.textContent = text;
+    return p;
+}
+
 function finishQuiz(timedOut) {
     clearInterval(timerId);
+
+    const total = questions.length;
     const score = questions.filter((q, i) => answers[i] === q.answer).length;
+    const percent = Math.round((score / total) * 100);
+    const scaled = Math.round((score / total) * 1000);
+    const passed = scaled >= 700;
+
+    $('scaled').textContent = scaled;
+    $('verdict').textContent = passed ? 'Pass (estimated)' : 'Not yet (estimated)';
+    $('verdict').className = 'verdict ' + (passed ? 'pass' : 'fail');
 
     let text = timedOut ? 'Time is up. ' : '';
-    text += `You got ${score} of ${questions.length} correct (unanswered questions count as wrong).`;
-    if (questions.length < tier.count) {
-        text += ` Your bank only has ${questions.length} questions so far, so this ${tier.label} run was shorter than usual.`;
+    text += `${score} of ${total} correct (${percent}%). Unanswered questions count as wrong.`;
+    if (total < tier.count) {
+        text += ` Your bank only has ${total} questions so far, so this ${tier.label} run was shorter than usual.`;
     }
-    text += ' The full review comes in Step 5.';
-
     $('summary').textContent = text;
+
+    const review = $('review');
+    review.innerHTML = '';
+    questions.forEach((q, i) => {
+        const chosen = answers[i];
+        const ok = chosen === q.answer;
+        const status = ok ? 'Correct' : chosen === undefined ? 'Unanswered' : 'Incorrect';
+
+        const item = document.createElement('article');
+        item.className = 'review-item ' + (ok ? 'ok' : 'bad');
+        item.appendChild(reviewLine(`${i + 1}. ${q.skill} · ${status}`, 'review-head'));
+        item.appendChild(reviewLine(q.question, 'review-q'));
+        item.appendChild(reviewLine('Your answer: ' + (chosen === undefined ? 'no answer' : q.options[chosen])));
+        if (!ok) item.appendChild(reviewLine('Correct answer: ' + q.options[q.answer]));
+        item.appendChild(reviewLine(q.explanation, 'review-why'));
+        item.appendChild(reviewLine('Source: ' + q.source, 'meta'));
+        review.appendChild(item);
+    });
+
     show('done');
+    window.scrollTo(0, 0);
 }
 
 document.querySelectorAll('.start').forEach((btn) => {
