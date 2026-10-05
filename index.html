@@ -20,32 +20,53 @@
     </header>
 
     <main>
-        <section class="hero">
-            <h2>Revise the way you learn best.</h2>
-            <p>Practise with exam-style questions, see why each answer is right, then write down what you learnt.</p>
+        <div id="home">
+            <section class="hero">
+                <h2>Revise the way you learn best.</h2>
+                <p>Practise with exam-style questions, see why each answer is right, then write down what you learnt.
+                </p>
+            </section>
+
+            <section class="tiers">
+                <article class="card tier-quick">
+                    <h3>Quick</h3>
+                    <p class="meta">10 questions · 15 min</p>
+                    <p>A short drill. Feedback after every question.</p>
+                    <button id="start-quick" class="btn">Start</button>
+                </article>
+
+                <article class="card tier-standard">
+                    <h3>Standard</h3>
+                    <p class="meta">25 questions · 40 min</p>
+                    <p>Mixed skill areas. Answers revealed at the end.</p>
+                    <button class="btn" disabled>Coming soon</button>
+                </article>
+
+                <article class="card tier-exam">
+                    <h3>Exam-like</h3>
+                    <p class="meta">50 questions · 100 min</p>
+                    <p>Timed, no hints, scored out of 1000.</p>
+                    <button class="btn" disabled>Coming soon</button>
+                </article>
+            </section>
+        </div>
+
+        <section id="quiz" hidden>
+            <p id="q-skill" class="skill"></p>
+            <p id="progress" class="meta"></p>
+            <h2 id="q-text"></h2>
+            <div id="options"></div>
+            <div id="feedback" class="feedback" hidden>
+                <p id="fb-text"></p>
+                <p id="fb-source" class="meta"></p>
+            </div>
+            <button id="next" class="btn" hidden>Next</button>
         </section>
 
-        <section class="tiers">
-            <article class="card tier-quick">
-                <h3>Quick</h3>
-                <p class="meta">10 questions · 15 min</p>
-                <p>A short drill. Feedback after every question.</p>
-                <button class="btn" disabled>Coming soon</button>
-            </article>
-
-            <article class="card tier-standard">
-                <h3>Standard</h3>
-                <p class="meta">25 questions · 40 min</p>
-                <p>Mixed skill areas. Answers revealed at the end.</p>
-                <button class="btn" disabled>Coming soon</button>
-            </article>
-
-            <article class="card tier-exam">
-                <h3>Exam-like</h3>
-                <p class="meta">50 questions · 100 min</p>
-                <p>Timed, no hints, scored out of 1000.</p>
-                <button class="btn" disabled>Coming soon</button>
-            </article>
+        <section id="done" hidden>
+            <h2>Quiz complete</h2>
+            <p id="summary"></p>
+            <button id="restart" class="btn">Back to start</button>
         </section>
     </main>
 

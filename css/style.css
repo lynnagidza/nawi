@@ -153,3 +153,67 @@ footer {
     padding: 2rem 1rem;
     font-size: 0.9rem;
 }
+
+[hidden] {
+    display: none !important;
+}
+
+/* Quiz */
+#quiz h2 {
+    color: var(--indigo);
+    font-size: 1.6rem;
+    margin: 0.25rem 0 1.5rem;
+}
+
+.skill {
+    margin: 0 0 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--crimson);
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--surface);
+    color: var(--ink);
+    border: 2px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.option:hover:not(:disabled) {
+    border-color: var(--ochre);
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+.option.correct {
+    border-color: #2F6B4F;
+    background: #E7F2EA;
+}
+
+.option.wrong {
+    border-color: var(--crimson);
+    background: #F8E6E6;
+}
+
+.feedback {
+    background: var(--surface);
+    border-left: 6px solid var(--ochre);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.feedback p {
+    margin: 0 0 0.5rem;
+}

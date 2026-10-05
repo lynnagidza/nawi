@@ -1,0 +1,86 @@
+[
+    {
+        "id": "test-01",
+        "skill": "Test automation",
+        "question": "Which AL object type holds test functions in Business Central?",
+        "options": [
+            "A codeunit with the Subtype property set to Test",
+            "A page with the PageType property set to Test",
+            "A report with the ProcessingOnly property set to true",
+            "A query with the QueryType property set to Test"
+        ],
+        "answer": 0,
+        "explanation": "Test functions live in test codeunits, which are codeunits with Subtype = Test.",
+        "source": "Introduction to test automation in Business Central (Microsoft Learn)"
+    },
+    {
+        "id": "test-02",
+        "skill": "Test automation",
+        "question": "Which attribute marks a procedure in a test codeunit as a test?",
+        "options": [
+            "[EventSubscriber]",
+            "[Test]",
+            "[TryFunction]",
+            "[Scope('OnPrem')]"
+        ],
+        "answer": 1,
+        "explanation": "The [Test] attribute tells the test runner that the procedure is a test to execute.",
+        "source": "Introduction to test automation in Business Central (Microsoft Learn)"
+    },
+    {
+        "id": "ws-01",
+        "skill": "Web services",
+        "question": "Which web service type is described by a WSDL document?",
+        "options": [
+            "OData",
+            "SOAP",
+            "API pages",
+            "Webhooks"
+        ],
+        "answer": 1,
+        "explanation": "SOAP services describe themselves with a WSDL. OData describes itself with a $metadata document instead.",
+        "source": "Work with web services in Dynamics 365 Business Central (Microsoft Learn)"
+    },
+    {
+        "id": "app-01",
+        "skill": "Application types",
+        "question": "What is the main purpose of a connect app?",
+        "options": [
+            "To connect Business Central to an external service or product",
+            "To replace code in the base application",
+            "To provide test data for other apps",
+            "To change how the platform itself runs"
+        ],
+        "answer": 0,
+        "explanation": "Connect apps integrate Business Central with an external service or product. Add-on apps extend Business Central with new functionality.",
+        "source": "Introduction to application types in Business Central (Microsoft Learn)"
+    },
+    {
+        "id": "file-01",
+        "skill": "File management",
+        "question": "Which standard codeunit lets you hold binary data in memory without a table record?",
+        "options": [
+            "Temp Blob",
+            "Job Queue Dispatcher",
+            "Record Link",
+            "Dialog"
+        ],
+        "answer": 0,
+        "explanation": "The Temp Blob codeunit holds data in memory and gives you streams to read and write it.",
+        "source": "Introduction to the basics of file management in Dynamics 365 Business Central (Microsoft Learn)"
+    },
+    {
+        "id": "page-01",
+        "skill": "Page extensions",
+        "question": "In a page extension, which keyword adds a new field after an existing control?",
+        "options": [
+            "insertafter",
+            "modifyafter",
+            "addafter",
+            "appendafter"
+        ],
+        "answer": 2,
+        "explanation": "Inside the layout section of a page extension, addafter places new controls after an existing one. addfirst, addlast and addbefore work the same way.",
+        "source": "Extend and modify an existing page in Dynamics 365 Business Central (Microsoft Learn)"
+    }
+]
