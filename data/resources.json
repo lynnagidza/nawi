@@ -1,0 +1,27 @@
+{
+    "Test automation": {
+        "title": "Introduction to test automation in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation",
+        "note": "Test codeunits, the Test Toolkit in Docker, and the standard tests."
+    },
+    "Web services": {
+        "title": "Work with web services in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/",
+        "note": "SOAP vs OData, enabling services, authentication and query options."
+    },
+    "Application types": {
+        "title": "Introduction to application types in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/application-types",
+        "note": "Connect vs add-on apps, library and dependency apps, and the code cops."
+    },
+    "File management": {
+        "title": "Introduction to the basics of file management in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-basics-file-management/",
+        "note": "The File object, File Management codeunit, Temp Blob and streams."
+    },
+    "Page extensions": {
+        "title": "Extend and modify an existing page in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extend-modify-existing-pages",
+        "note": "Creating page extensions, their limits, and the Page Designer."
+    }
+}

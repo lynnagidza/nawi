@@ -5,6 +5,7 @@ const TIERS = {
 };
 
 let bank = [];
+let resources = {};
 let questions = [];
 let tier = null;
 let current = 0;
@@ -30,8 +31,12 @@ function shuffle(list) {
 }
 
 async function loadQuestions() {
-    const res = await fetch('data/questions.json');
-    bank = await res.json();
+    const [qRes, rRes] = await Promise.all([
+        fetch('data/questions.json'),
+        fetch('data/resources.json'),
+    ]);
+    bank = await qRes.json();
+    resources = await rRes.json();
 }
 
 function startQuiz(tierKey) {
@@ -120,6 +125,75 @@ function reviewLine(text, className) {
     return p;
 }
 
+function renderBreakdown() {
+    const stats = {};
+    questions.forEach((q, i) => {
+        if (!stats[q.skill]) stats[q.skill] = { correct: 0, total: 0 };
+        stats[q.skill].total++;
+        if (answers[i] === q.answer) stats[q.skill].correct++;
+    });
+
+    const rows = Object.entries(stats)
+        .map(([skill, s]) => ({ skill, ...s, pct: Math.round((s.correct / s.total) * 100) }))
+        .sort((a, b) => a.pct - b.pct);
+
+    const breakdown = $('breakdown');
+    breakdown.innerHTML = '';
+    rows.forEach((r) => {
+        const row = document.createElement('div');
+        row.className = 'skill-row';
+
+        const name = document.createElement('span');
+        name.className = 'skill-name';
+        name.textContent = r.skill;
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        const fill = document.createElement('div');
+        fill.className = 'bar-fill' + (r.pct < 70 ? ' weak' : '');
+        fill.style.width = r.pct + '%';
+        bar.appendChild(fill);
+
+        const score = document.createElement('span');
+        score.className = 'skill-score';
+        score.textContent = `${r.correct}/${r.total} · ${r.pct}%`;
+
+        row.append(name, bar, score);
+        breakdown.appendChild(row);
+    });
+
+    const focus = $('focus');
+    focus.innerHTML = '';
+    const weak = rows.filter((r) => r.pct < 70);
+
+    if (weak.length === 0) {
+        focus.appendChild(reviewLine('No weak areas in this run. Try a longer tier to check again.'));
+        return;
+    }
+
+    weak.forEach((r) => {
+        const item = document.createElement('div');
+        item.className = 'focus-item';
+        item.appendChild(reviewLine(`${r.skill} · ${r.pct}%`, 'review-head'));
+
+        const res = resources[r.skill];
+        if (res) {
+            const p = document.createElement('p');
+            const a = document.createElement('a');
+            a.href = res.url;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = res.title;
+            p.appendChild(a);
+            item.appendChild(p);
+            item.appendChild(reviewLine(res.note, 'meta'));
+        } else {
+            item.appendChild(reviewLine('No resource linked yet for this skill.', 'meta'));
+        }
+        focus.appendChild(item);
+    });
+}
+
 function finishQuiz(timedOut) {
     clearInterval(timerId);
 
@@ -157,7 +231,7 @@ function finishQuiz(timedOut) {
         item.appendChild(reviewLine('Source: ' + q.source, 'meta'));
         review.appendChild(item);
     });
-
+    renderBreakdown();
     show('done');
     window.scrollTo(0, 0);
 }
