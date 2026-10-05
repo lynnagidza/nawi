@@ -1,44 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="nawi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nawi · MB-820 Revision</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <header class="site-header">
-        <div>
-            <h1>Nawi</h1>
-            <p>MB-820 · Business Central Developer revision</p>
-        </div>
-        <button id="theme-toggle" class="btn btn-ghost">Switch theme</button>
+        <h1>Nawi</h1>
+        <p>MB-820 · Business Central Developer revision</p>
     </header>
 
     <main>
-        <h2>Choose your practice</h2>
+        <section class="hero">
+            <h2>Revise the way you learn best.</h2>
+            <p>Practise with exam-style questions, see why each answer is right, then write down what you learnt.</p>
+        </section>
+
         <section class="tiers">
-            <article class="card">
+            <article class="card tier-quick">
                 <h3>Quick</h3>
                 <p class="meta">10 questions · 15 min</p>
                 <p>A short drill. Feedback after every question.</p>
-                <button class="btn" disabled>Start</button>
+                <button class="btn" disabled>Coming soon</button>
             </article>
 
-            <article class="card">
+            <article class="card tier-standard">
                 <h3>Standard</h3>
                 <p class="meta">25 questions · 40 min</p>
                 <p>Mixed skill areas. Answers revealed at the end.</p>
-                <button class="btn" disabled>Start</button>
+                <button class="btn" disabled>Coming soon</button>
             </article>
 
-            <article class="card card-featured">
+            <article class="card tier-exam">
                 <h3>Exam-like</h3>
                 <p class="meta">50 questions · 100 min</p>
                 <p>Timed, no hints, scored out of 1000.</p>
-                <button class="btn" disabled>Start</button>
+                <button class="btn" disabled>Coming soon</button>
             </article>
         </section>
     </main>
