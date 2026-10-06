@@ -1484,5 +1484,293 @@
         "explanation": "Once created, an XMLport can be run from a page or codeunit object, for example with Xmlport.Run. You can also give it a request page so the user can filter, sort, or choose between import and export.",
         "source": "XMLport object",
         "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-object"
+    },
+    {
+        "id": "enum-01",
+        "skill": "Enums",
+        "question": "Which property must be set to true on an enum so that other apps can add values to it?",
+        "options": [
+            "Extensible",
+            "Access",
+            "AssignmentCompatibility",
+            "DefaultImplementation"
+        ],
+        "answer": 0,
+        "explanation": "Only enums with the Extensible property set to true can be extended, by enum extension objects in other apps.",
+        "source": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums"
+    },
+    {
+        "id": "enum-02",
+        "skill": "Enums",
+        "question": "In an enum, what is the number in value(0; None)?",
+        "options": [
+            "A caption translation ID",
+            "The ordinal value on the enumeration list, which must be unique",
+            "A permission level",
+            "A sort priority that can repeat"
+        ],
+        "answer": 1,
+        "explanation": "The value ID is the ordinal value on the enumeration list and must be unique. Since Business Central 2023 release wave 1, IntelliSense suggests the next available ordinal value.",
+        "source": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums"
+    },
+    {
+        "id": "enum-03",
+        "skill": "Enums",
+        "question": "Extension B extends an enum that was declared in extension A. In which order are the values displayed?",
+        "options": [
+            "B's values first, then A's",
+            "Alphabetically by caption",
+            "A's values first, then B's",
+            "In random order"
+        ],
+        "answer": 2,
+        "explanation": "If extension B extends extension A, the enum values declared in A are displayed before the enum values declared in B.",
+        "source": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums"
+    },
+    {
+        "id": "enum-04",
+        "skill": "Enums",
+        "question": "Which AL object do you create to add the value Diamond to an existing extensible enum from your own app?",
+        "options": [
+            "enumextension",
+            "tableextension",
+            "pageextension",
+            "A second enum with the same name"
+        ],
+        "answer": 0,
+        "explanation": "An enumextension object adds new values to an existing enum, for example value(50130; Diamond) extending the Loyalty enum.",
+        "source": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums"
+    },
+    {
+        "id": "enum-05",
+        "skill": "Enums",
+        "question": "What happens at installation if your enum's object ID clashes with an enum that is already installed?",
+        "options": [
+            "The new enum silently replaces the old one",
+            "The installation fails",
+            "Both enums are merged",
+            "The ID is renumbered automatically"
+        ],
+        "answer": 1,
+        "explanation": "Uniqueness validation is enforced during installation, which fails if an enum object ID clashes with an already installed enum.",
+        "source": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums"
+    },
+    {
+        "id": "pg-01",
+        "skill": "Page types",
+        "question": "Which page type is intended for master, reference and set-up data management?",
+        "options": [
+            "Card",
+            "List",
+            "Worksheet",
+            "Document"
+        ],
+        "answer": 0,
+        "explanation": "Card pages are for master, reference and setup data. List pages are for entity overviews, navigation and inline editing of simple entities.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-02",
+        "skill": "Page types",
+        "question": "Which page type fits transaction and document management, such as a sales order with a header and lines?",
+        "options": [
+            "Card",
+            "List",
+            "Document",
+            "Worksheet"
+        ],
+        "answer": 2,
+        "explanation": "Document pages are for transaction and other document management. A Document page looks like a Card page but also includes a list with lines.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-03",
+        "skill": "Page types",
+        "question": "Which page type is meant for line-based data entry tasks such as journals?",
+        "options": [
+            "Document",
+            "ListPart",
+            "ConfirmationDialog",
+            "Worksheet"
+        ],
+        "answer": 3,
+        "explanation": "The Worksheet page type is for line-based data entry tasks such as journals, and for inquiries.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-04",
+        "skill": "Page types",
+        "question": "Which page type is the overview of business performance and the start page for a specific user profile?",
+        "options": [
+            "RoleCenter",
+            "Card",
+            "HeadlinePart",
+            "Document"
+        ],
+        "answer": 0,
+        "explanation": "A RoleCenter page is the start page for a specific user profile, giving an overview of business performance.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-05",
+        "skill": "Page types",
+        "question": "What is a HeadlinePart page for?",
+        "options": [
+            "Showing a confirmation before a destructive action",
+            "Embedding in a RoleCenter page to display relevant insights from across the business",
+            "Entering journal lines",
+            "Hosting a single control add-in"
+        ],
+        "answer": 1,
+        "explanation": "A HeadlinePart is a page embedded in a RoleCenter page to display relevant insights from across the business.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-06",
+        "skill": "Page types",
+        "type": "multi",
+        "question": "Which two page types are designed to be embedded in another page, for example in a FactBox? (Select two)",
+        "options": [
+            "CardPart",
+            "ListPart",
+            "Card",
+            "Worksheet"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "CardPart and ListPart pages are embedded in other pages, such as in a FactBox. Card and Worksheet are standalone page types.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "pg-07",
+        "skill": "Page types",
+        "question": "How does a ListPlus page differ from Card and Document pages?",
+        "options": [
+            "It has a prominent ListPart and either few or no header fields",
+            "It can only be used in role centers",
+            "It has no actions",
+            "It must be based on a temporary table"
+        ],
+        "answer": 0,
+        "explanation": "Unlike Card and Document pages, the ListPlus page type is for pages that have a prominent ListPart and either few or no header fields.",
+        "source": "Page types and layouts",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-types-and-layouts"
+    },
+    {
+        "id": "tbl-01",
+        "skill": "Table types",
+        "question": "Which functional table type works as a table of contents for its corresponding ledger tables?",
+        "options": [
+            "Journal tables",
+            "Register tables",
+            "Document history tables",
+            "Setup tables"
+        ],
+        "answer": 1,
+        "explanation": "Register tables function as a table of contents for their ledger tables. Examples are the G/L Register and Item Register tables.",
+        "source": "Identify the different table types",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types"
+    },
+    {
+        "id": "tbl-02",
+        "skill": "Table types",
+        "question": "Which functional table type is the primary transactional entry point, because all transactions are booked through it?",
+        "options": [
+            "Ledger tables",
+            "Master tables",
+            "Journal tables",
+            "Register tables"
+        ],
+        "answer": 2,
+        "explanation": "All transactions are booked through journals, so journal tables are the primary transactional entry tables. Examples are the General Journal and Item Journal tables.",
+        "source": "Identify the different table types",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types"
+    },
+    {
+        "id": "tbl-03",
+        "skill": "Table types",
+        "question": "G/L Setup and Sales & Receivables Setup are examples of which functional table type?",
+        "options": [
+            "Master tables",
+            "Setup tables",
+            "Supplemental tables",
+            "Register tables"
+        ],
+        "answer": 1,
+        "explanation": "You configure and organize data in setup tables. G/L Setup and Sales & Receivables Setup are examples.",
+        "source": "Identify the different table types",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types"
+    },
+    {
+        "id": "tbl-04",
+        "skill": "Table types",
+        "question": "Which three tables make up a journal?",
+        "options": [
+            "Journal Template, Journal Setup and Journal Line",
+            "Journal Template, Journal Batch and Journal Line",
+            "Journal Template, Journal Batch and Journal Entry",
+            "Journal Master, Journal Batch and Journal Line"
+        ],
+        "answer": 1,
+        "explanation": "A journal is made up of the Journal Template, Journal Batch and Journal Line tables.",
+        "source": "Implement the data process model: knowledge check",
+        "url": "https://learn.microsoft.com/en-us/training/modules/implement-data-process-model-business-central/5-check"
+    },
+    {
+        "id": "tbl-05",
+        "skill": "Table types",
+        "question": "What type of table is the Document Header table?",
+        "options": [
+            "Batch posting table",
+            "Configuration table",
+            "Posted transaction table",
+            "Operational transaction table"
+        ],
+        "answer": 3,
+        "explanation": "The Document Header is an operational transaction table, one of the primary work tables where users regularly enter information.",
+        "source": "Implement the data process model: knowledge check",
+        "url": "https://learn.microsoft.com/en-us/training/modules/implement-data-process-model-business-central/5-check"
+    },
+    {
+        "id": "tbl-06",
+        "skill": "Table types",
+        "question": "Which group of tables has its information generated automatically by the application during posting and similar processes?",
+        "options": [
+            "Configuration tables",
+            "Operational transaction tables",
+            "Posted transaction tables",
+            "Temporary tables"
+        ],
+        "answer": 2,
+        "explanation": "Every application area has three groups of tables: configuration, operational transaction and posted transaction. Posted transaction tables are filled automatically during posting.",
+        "source": "Work with the standard data model",
+        "url": "https://learn.microsoft.com/en-us/training/modules/implement-data-process-model-business-central/2-standard-data-model"
+    },
+    {
+        "id": "tbl-07",
+        "skill": "Table types",
+        "type": "order",
+        "question": "Put the path of a document through posting in the right order.",
+        "items": [
+            "Document table (for example, a sales document)",
+            "Journal table",
+            "Document history table (the posted document)"
+        ],
+        "explanation": "When you post documents from the document tables, they go through a journal table and then end up in a document history table. Posting also creates ledger entries.",
+        "source": "Identify the different table types",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types"
     }
 ]

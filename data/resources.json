@@ -68,5 +68,20 @@
         "title": "XMLport object",
         "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-object",
         "note": "Importing and exporting data, schema nodes and properties."
+    },
+    "Enums": {
+        "title": "Extensible enums",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums",
+        "note": "Enum values, the Extensible property, and enum extensions."
+    },
+    "Page types": {
+        "title": "Page types and layouts",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-types-and-layouts",
+        "note": "Card, List, Document, Worksheet, RoleCenter and the part page types."
+    },
+    "Table types": {
+        "title": "Identify the different table types",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types",
+        "note": "Master, setup, journal, ledger, register and document tables."
     }
 }
