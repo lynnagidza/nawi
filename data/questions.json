@@ -869,5 +869,311 @@
         "explanation": "The is operator checks whether an object implements a specific interface, and the as operator casts an object to a specific interface type.",
         "source": "Extending interfaces in AL",
         "url": "https://learn.microsoft.com/en-ie/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al-extend"
+    },
+    {
+        "id": "ev-01",
+        "skill": "Events",
+        "question": "Where can the EventSubscriber attribute be used?",
+        "options": [
+            "Only in tables",
+            "Only in pages",
+            "Only inside codeunits",
+            "In any object type"
+        ],
+        "answer": 2,
+        "explanation": "The EventSubscriber attribute can only be set inside codeunits. Pressing Shift+Alt+E in the AL editor lists the available events and inserts a subscriber for the one you pick.",
+        "source": "EventSubscriber attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-eventsubscriber-attribute"
+    },
+    {
+        "id": "ev-02",
+        "skill": "Events",
+        "question": "Which type of event is a system event that is automatically declared and published in table and page objects?",
+        "options": [
+            "Business events",
+            "Integration events",
+            "Isolated events",
+            "Trigger events"
+        ],
+        "answer": 3,
+        "explanation": "Trigger events are system events automatically declared and published in table and page objects, such as OnAfterValidateEvent. Business and integration events are published by publisher methods you write.",
+        "source": "EventSubscriber attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-eventsubscriber-attribute"
+    },
+    {
+        "id": "ev-03",
+        "skill": "Events",
+        "question": "How do business and integration events differ from trigger events?",
+        "options": [
+            "They are declared and raised automatically by the runtime",
+            "They must be explicitly published and raised, using publisher methods you add to objects",
+            "They can only be subscribed to from tables",
+            "They can't have more than one subscriber"
+        ],
+        "answer": 1,
+        "explanation": "Business and integration type events must be explicitly published and raised. You create event publisher functions and add them to objects manually.",
+        "source": "Events in AL",
+        "url": "https://learn.microsoft.com/en-in/dynamics365/business-central/dev-itpro/developer/devenv-events-in-al"
+    },
+    {
+        "id": "ev-04",
+        "skill": "Events",
+        "question": "You subscribe to the OnAfterValidateEvent trigger event for the Location Code field of the Purchase Line table. What goes in the ElementName argument of the EventSubscriber attribute?",
+        "options": [
+            "'Purchase Line'",
+            "'OnAfterValidateEvent'",
+            "'Location Code'",
+            "An empty string"
+        ],
+        "answer": 2,
+        "explanation": "For field trigger events, ElementName is the field name, as in [EventSubscriber(ObjectType::Table, Database::\"Purchase Line\", 'OnAfterValidateEvent', 'Location Code', false, false)]. For events published by a codeunit, ElementName is typically an empty string.",
+        "source": "EventSubscriber attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-eventsubscriber-attribute"
+    },
+    {
+        "id": "ev-05",
+        "skill": "Events",
+        "question": "What does setting GlobalVarAccess to true on an IntegrationEvent allow?",
+        "options": [
+            "Subscribers can access global variables in the object that declares the publisher",
+            "The event runs in an isolated transaction",
+            "The event becomes visible to other tenants",
+            "Subscribers run without a license check"
+        ],
+        "answer": 0,
+        "explanation": "With GlobalVarAccess set to true, subscribers can use the global variables of the publishing object. You must add those variables to the subscriber's signature manually, with a matching name and type.",
+        "source": "IntegrationEvent attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-integrationevent-attribute"
+    },
+    {
+        "id": "ev-06",
+        "skill": "Events",
+        "question": "What does IncludeSender = true on a BusinessEvent give subscribers?",
+        "options": [
+            "A Sender parameter that references the publishing object",
+            "The event is raised in its own transaction",
+            "Only the sender's company can subscribe",
+            "The event is hidden from other apps"
+        ],
+        "answer": 0,
+        "explanation": "When IncludeSender is true, the firing instance of the object is available as a parameter, so a subscriber can declare a Sender parameter that references the publishing object.",
+        "source": "BusinessEvent attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-businessevent-attribute"
+    },
+    {
+        "id": "ev-07",
+        "skill": "Events",
+        "question": "What does the SkipOnMissingLicense argument of the EventSubscriber attribute control?",
+        "options": [
+            "Whether the subscriber call is skipped when the user's license doesn't include the subscriber's codeunit",
+            "Whether the subscriber is skipped when the table is empty",
+            "Whether the event is raised at all",
+            "Whether the subscriber needs its own permission set"
+        ],
+        "answer": 0,
+        "explanation": "SkipOnMissingLicense specifies what happens to the subscriber call when the license of the user running the session doesn't include the codeunit that contains the subscriber method.",
+        "source": "EventSubscriber attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-eventsubscriber-attribute"
+    },
+    {
+        "id": "ev-08",
+        "skill": "Events",
+        "question": "Event subscribers bind automatically by default. How can you bind a subscriber manually instead?",
+        "options": [
+            "Set the EventSubscriberInstance property on the subscriber codeunit",
+            "Set Isolated = true on the publisher",
+            "Set SingleInstance = true on the subscriber codeunit",
+            "Use the Shift+Alt+E shortcut"
+        ],
+        "answer": 0,
+        "explanation": "The example binds the subscriber automatically to the event. You can also bind a subscriber manually by setting the EventSubscriberInstance property.",
+        "source": "Event example",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-events-example"
+    },
+    {
+        "id": "up-01",
+        "skill": "Install and upgrade",
+        "question": "Which trigger in an upgrade codeunit does the actual per-company upgrade work?",
+        "options": [
+            "OnValidateUpgradePerCompany",
+            "OnUpgradePerCompany",
+            "OnInstallAppPerCompany",
+            "OnRun"
+        ],
+        "answer": 1,
+        "explanation": "OnUpgradePerCompany and OnUpgradePerDatabase do the actual upgrade. The OnValidateUpgrade triggers check that the upgrade was successful. An upgrade codeunit is a codeunit whose Subtype property is Upgrade.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-02",
+        "skill": "Install and upgrade",
+        "question": "An error occurs in the OnValidateUpgradePerCompany trigger. What happens?",
+        "options": [
+            "The error is ignored and the upgrade completes",
+            "The extension upgrade is canceled",
+            "Only that company is skipped",
+            "The upgrade restarts from the beginning"
+        ],
+        "answer": 1,
+        "explanation": "OnValidateUpgradePerCompany is used to check that the upgrade was successful. If an error occurs, the extension upgrade is canceled. It runs once for each company, in its own system session.",
+        "source": "OnValidateUpgradePerCompany trigger",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/triggers-auto/codeunit/devenv-onvalidateupgradepercompany-codeunit-trigger"
+    },
+    {
+        "id": "up-03",
+        "skill": "Install and upgrade",
+        "question": "How many upgrade codeunits can an extension have?",
+        "options": [
+            "Exactly one",
+            "One per company",
+            "More than one",
+            "None. Upgrade codeunits aren't allowed in extensions"
+        ],
+        "answer": 2,
+        "explanation": "You can have more than one upgrade codeunit. The upgrade codeunit becomes an integral part of the extension and can be modified for later versions.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-04",
+        "skill": "Install and upgrade",
+        "question": "Which method do you call in the OnInstallAppPerCompany trigger of the install codeunit to register an upgrade tag?",
+        "options": [
+            "GetUpgradeTag",
+            "HasUpgradeTag",
+            "SetUpgradeTag",
+            "OnGetPerCompanyUpgradeTags"
+        ],
+        "answer": 2,
+        "explanation": "To register the tag, you call SetUpgradeTag on the OnInstallAppPerCompany and OnInstallAppPerDatabase triggers in the extension's install codeunit. HasUpgradeTag checks whether a tag exists.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-05",
+        "skill": "Install and upgrade",
+        "question": "In which table are upgrade tags stored?",
+        "options": [
+            "Upgrade Tags",
+            "Extension Deployment Status",
+            "Installed Apps",
+            "Job Queue Entry"
+        ],
+        "answer": 0,
+        "explanation": "Codeunit 9999 \"Upgrade Tag\" creates and handles upgrade tags, and table 9999 \"Upgrade Tags\" stores them. Since version 18.1, signals about upgrade tags are also sent to environment telemetry.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "perm-01",
+        "skill": "Permissions",
+        "question": "You only need to ADD permissions to an existing Microsoft permission set. Which AL object do you create?",
+        "options": [
+            "PermissionSet",
+            "PermissionSetExtension",
+            "Entitlement",
+            "ProfileExtension"
+        ],
+        "answer": 1,
+        "explanation": "If you only added permissions to an existing Microsoft permission set, create a permission set extension object. If you removed or changed permissions, create a permission set object instead. Extensions make additive changes only.",
+        "source": "Upgrading permission sets and permissions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/upgrade/upgrade-permissions"
+    },
+    {
+        "id": "perm-02",
+        "skill": "Permissions",
+        "question": "Which property must be true for an administrator to assign a permission set to users on the Permission Sets page?",
+        "options": [
+            "Assignable",
+            "Visible",
+            "Enabled",
+            "IncludedPermissionSets"
+        ],
+        "answer": 0,
+        "explanation": "The Assignable property set to true allows the permission set to be assigned to a user. The Permissions property lists the objects the set gives permissions to.",
+        "source": "Permission set object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-permissionset-object"
+    },
+    {
+        "id": "perm-03",
+        "skill": "Permissions",
+        "question": "What is the maximum length of a permissionset object's name when Assignable is true?",
+        "options": [
+            "10 characters",
+            "20 characters",
+            "30 characters",
+            "50 characters"
+        ],
+        "answer": 1,
+        "explanation": "The name of the permissionset object is limited to 20 characters when the Assignable property is set to true.",
+        "source": "Permission set object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-permissionset-object"
+    },
+    {
+        "id": "perm-04",
+        "skill": "Permissions",
+        "question": "What is a non-assignable permission set used for?",
+        "options": [
+            "It can only be used by Microsoft apps",
+            "It disables access to the objects it lists",
+            "It acts as a building block to compose functional assignable permission sets",
+            "It is applied automatically to every user"
+        ],
+        "answer": 2,
+        "explanation": "Non-assignable permission sets aren't discoverable or assignable in the UI. They can be included in other permission sets, through the IncludedPermissionSets property, as building blocks for functional assignable sets.",
+        "source": "Permission set object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-permissionset-object"
+    },
+    {
+        "id": "perm-05",
+        "skill": "Permissions",
+        "question": "What does an entitlement describe in Business Central?",
+        "options": [
+            "Which objects a customer is entitled to use, based on their license or Microsoft Entra role",
+            "Which users can sign in to which companies",
+            "Which tables are encrypted at rest",
+            "Which extensions are installed in an environment"
+        ],
+        "answer": 0,
+        "explanation": "An entitlement describes which objects a customer may use according to the license they purchased or their role in Microsoft Entra ID. It is a collection of permission sets that make up meaningful permissions for a user.",
+        "source": "Entitlement object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlement-object"
+    },
+    {
+        "id": "perm-06",
+        "skill": "Permissions",
+        "question": "Which statement about the InherentPermissions attribute is correct?",
+        "options": [
+            "It can assign permissions on any object in any installed app",
+            "It can be used only for objects within the same extension",
+            "It replaces the need for permission set objects",
+            "It applies only to Microsoft apps"
+        ],
+        "answer": 1,
+        "explanation": "InherentPermissions assigns permissions to the scope of a method, but you can use inherent permissions only for objects within the same extension. The optional scope argument defaults to Both, covering permissions and entitlements.",
+        "source": "InherentPermissions attribute",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/attributes/devenv-inherentpermissions-attribute"
+    },
+    {
+        "id": "perm-07",
+        "skill": "Permissions",
+        "type": "multi",
+        "question": "Which three AL object types define entitlements and permissions in code? (Select three)",
+        "options": [
+            "Entitlement",
+            "PermissionSet",
+            "PermissionSetExtension",
+            "Profile",
+            "Query"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Since Business Central 2021 release wave 1, system permissions and entitlements are defined in code with Entitlement, PermissionSet and PermissionSetExtension objects.",
+        "source": "Entitlements and permission sets overview",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlements-and-permissionsets-overview"
     }
 ]

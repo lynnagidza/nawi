@@ -38,5 +38,20 @@
         "title": "Interfaces in AL",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al",
         "note": "Declaring and implementing interfaces, enums, and extending interfaces."
+    },
+    "Events": {
+        "title": "Events in AL",
+        "url": "https://learn.microsoft.com/en-in/dynamics365/business-central/dev-itpro/developer/devenv-events-in-al",
+        "note": "Publishers, subscribers, event types and the EventSubscriber attribute."
+    },
+    "Install and upgrade": {
+        "title": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions",
+        "note": "Upgrade codeunits, their triggers, and upgrade tags."
+    },
+    "Permissions": {
+        "title": "Entitlements and permission sets overview",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlements-and-permissionsets-overview",
+        "note": "Entitlement, PermissionSet and PermissionSetExtension objects."
     }
 }
