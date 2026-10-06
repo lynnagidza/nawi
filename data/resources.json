@@ -23,5 +23,20 @@
         "title": "Extend and modify an existing page in Dynamics 365 Business Central",
         "url": "https://learn.microsoft.com/en-us/training/modules/extend-modify-existing-pages",
         "note": "Creating page extensions, their limits, and the Page Designer."
+    },
+    "Error handling": {
+        "title": "AL error handling",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling",
+        "note": "Try methods, ErrorInfo, collecting errors, and error telemetry."
+    },
+    "Telemetry": {
+        "title": "Monitoring and analyzing telemetry",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/telemetry-overview",
+        "note": "Application Insights, environment vs extension telemetry, and custom signals."
+    },
+    "Interfaces": {
+        "title": "Interfaces in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al",
+        "note": "Declaring and implementing interfaces, enums, and extending interfaces."
     }
 }
