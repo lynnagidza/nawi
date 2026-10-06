@@ -1175,5 +1175,314 @@
         "explanation": "Since Business Central 2021 release wave 1, system permissions and entitlements are defined in code with Entitlement, PermissionSet and PermissionSetExtension objects.",
         "source": "Entitlements and permission sets overview",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlements-and-permissionsets-overview"
+    },
+    {
+        "id": "qry-01",
+        "skill": "Queries",
+        "type": "multi",
+        "question": "Which three are aggregate methods you can set on a query column's Method property? (Select three)",
+        "options": [
+            "Sum",
+            "Median",
+            "Max",
+            "Count",
+            "Mode"
+        ],
+        "answer": [
+            0,
+            2,
+            3
+        ],
+        "explanation": "The Method property accepts Sum, Average, Min, Max and Count. Median and Mode aren't available.",
+        "source": "Aggregating data in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-totals-grouping"
+    },
+    {
+        "id": "qry-02",
+        "skill": "Queries",
+        "question": "On which field data type can you NOT use the Sum method in a query column?",
+        "options": [
+            "Decimal",
+            "Integer",
+            "Duration",
+            "Text"
+        ],
+        "answer": 3,
+        "explanation": "Except for Count, aggregate methods (Sum, Average, Min and Max) can only be used on fields with a numeric data type: Decimal, Integer, BigInteger or Duration.",
+        "source": "Aggregating data in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-totals-grouping"
+    },
+    {
+        "id": "qry-03",
+        "skill": "Queries",
+        "question": "What happens to the dataset when you set an aggregate method on a query column?",
+        "options": [
+            "It is sorted by the aggregated column",
+            "It is automatically grouped by the other columns in the query",
+            "It is limited to one row",
+            "Nothing changes until you add a group-by property"
+        ],
+        "answer": 1,
+        "explanation": "Setting an aggregate method on a column automatically groups the resulting dataset by the other columns in the query.",
+        "source": "Aggregating data in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-totals-grouping"
+    },
+    {
+        "id": "qry-04",
+        "skill": "Queries",
+        "question": "How do you define a query column that uses the Count method?",
+        "options": [
+            "column(Count; Quantity) with Method = Count",
+            "A column with only a name, no source field, and Method = Count",
+            "A column bound to the primary key with Method = Count",
+            "Count isn't available in queries"
+        ],
+        "answer": 1,
+        "explanation": "Unlike the other aggregate methods, Count isn't associated with a specific column. The column definition can't include a source table, only a name. It corresponds to COUNT(*) in SQL.",
+        "source": "Aggregating data in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-totals-grouping"
+    },
+    {
+        "id": "qry-05",
+        "skill": "Queries",
+        "question": "A filter on a query column that applies the Sum method corresponds to which SQL clause?",
+        "options": [
+            "WHERE",
+            "HAVING",
+            "GROUP BY",
+            "ORDER BY"
+        ],
+        "answer": 1,
+        "explanation": "Filters on columns that apply a totals method correspond to a HAVING clause. Filters on columns or filter rows without an aggregate method correspond to a WHERE clause.",
+        "source": "Filtering in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-filters"
+    },
+    {
+        "id": "qry-06",
+        "skill": "Queries",
+        "question": "A query has the property TopNumberOfRows = 5. Your code then calls MyQuery.TopNumberOfRows(10) before opening it. How many rows can the dataset contain?",
+        "options": [
+            "5",
+            "10",
+            "15",
+            "The call causes an error"
+        ],
+        "answer": 1,
+        "explanation": "The TopNumberOfRows method overwrites the TopNumberOfRows property setting, so the dataset is limited to 10 rows.",
+        "source": "Query.TopNumberOfRows method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/query/queryinstance-topnumberofrows-method"
+    },
+    {
+        "id": "qry-07",
+        "skill": "Queries",
+        "type": "multi",
+        "question": "Which two properties link a nested data item to its parent and set the kind of join? (Select two)",
+        "options": [
+            "DataItemLink",
+            "SqlJoinType",
+            "TableRelation",
+            "CalcFormula"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "DataItemLink defines the link between data items, for example \"Item No.\" = Item.\"No.\", and SqlJoinType sets the join, for example InnerJoin. Together they replace the SetRange filtering you'd write with record variables.",
+        "source": "Using queries instead of record variables",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-using-instead-record-variables"
+    },
+    {
+        "id": "rep-01",
+        "skill": "Reports",
+        "question": "You want one report to be replaced by another whenever users run it. Which event do you subscribe to?",
+        "options": [
+            "OnPreReport",
+            "OnAfterSubstituteReport",
+            "OnAfterGetRecord",
+            "OnOpenPage"
+        ],
+        "answer": 1,
+        "explanation": "Codeunit 44 ReportManagement publishes OnAfterSubstituteReport whenever a report is run. You subscribe to it and replace the report ID with the ID of your own report.",
+        "source": "Substituting Report using ReportManagement codeunit (community post)",
+        "url": "https://community.dynamics.com/business/b/that-nav-guy/posts/substituting-report-using-reportmanagement-codeunit"
+    },
+    {
+        "id": "rep-02",
+        "skill": "Reports",
+        "type": "multi",
+        "question": "Which three layout types can a Business Central report use? (Select three)",
+        "options": [
+            "RDLC",
+            "Word",
+            "Excel",
+            "PowerPoint"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "There are three types of report layouts: RDL (client report definition), Word and Excel. The newer rendering syntax also allows a Custom layout type.",
+        "source": "Report object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-object"
+    },
+    {
+        "id": "rep-03",
+        "skill": "Reports",
+        "question": "How does a Word report layout represent the report dataset?",
+        "options": [
+            "A linked Excel workbook",
+            "An embedded SQL query",
+            "A custom XML part in the Word document",
+            "A JSON file stored next to the document"
+        ],
+        "answer": 2,
+        "explanation": "Word layouts are created in Word and are based on a Word document that includes a custom XML part representing the report dataset.",
+        "source": "Report object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-object"
+    },
+    {
+        "id": "rep-04",
+        "skill": "Reports",
+        "question": "Which report property does Microsoft recommend for setting the default layout, together with the rendering section?",
+        "options": [
+            "DefaultRenderingLayout",
+            "DefaultLayout",
+            "WordLayout",
+            "LayoutFile"
+        ],
+        "answer": 0,
+        "explanation": "DefaultLayout, ExcelLayout, RDLCLayout and WordLayout should be avoided because they will be deprecated. Use DefaultRenderingLayout with the rendering syntax introduced in runtime version 9.0. In Visual Studio Code, the Convert to 'Rendering' code action does the conversion.",
+        "source": "RDLCLayout property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-rdlclayout-property"
+    },
+    {
+        "id": "rep-05",
+        "skill": "Reports",
+        "question": "Where must the rendering section be declared in a report object?",
+        "options": [
+            "Before the dataset section",
+            "Just after the request page section",
+            "Inside the requestpage section",
+            "After all report triggers"
+        ],
+        "answer": 1,
+        "explanation": "The rendering section, which holds the named layouts, must be declared just after the request page section in the report object. The default layout is then chosen by name with DefaultRenderingLayout.",
+        "source": "Report layout definitions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-layout-declaration"
+    },
+    {
+        "id": "rep-06",
+        "skill": "Reports",
+        "question": "Can you set DefaultRenderingLayout in a report extension object?",
+        "options": [
+            "Yes, it overrides the base report's default layout",
+            "No, it can only be set on report objects",
+            "Only for Word layouts",
+            "Only on-premises"
+        ],
+        "answer": 1,
+        "explanation": "DefaultRenderingLayout can't be set on report extension objects, only on report objects. A report extension can still add new layouts to an existing report.",
+        "source": "Defining multiple report layouts",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-multiple-report-layouts"
+    },
+    {
+        "id": "rep-07",
+        "skill": "Reports",
+        "type": "multi",
+        "question": "Which changes can you make to an existing report with a report extension? (Select all that apply)",
+        "options": [
+            "Add new columns",
+            "Add to the request page",
+            "Add a new layout",
+            "Delete an existing data item"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "A report extension lets you add new columns, add to the request page, or add a new layout without copying the original report. It doesn't let you delete existing data items.",
+        "source": "Report object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-object"
+    },
+    {
+        "id": "xml-01",
+        "skill": "XMLports",
+        "question": "Which XMLport node maps to a database table, specified in the SourceTable property?",
+        "options": [
+            "textelement",
+            "tableelement",
+            "fieldelement",
+            "textattribute"
+        ],
+        "answer": 1,
+        "explanation": "A tableelement defines an XML element that maps to a table in the database. A fieldelement maps to a field, and a textelement is for XML elements that don't map to a database item.",
+        "source": "Defining an XMLport schema",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-schema"
+    },
+    {
+        "id": "xml-02",
+        "skill": "XMLports",
+        "question": "An XMLport's Format property is set to Xml. What kind of node must the root node be?",
+        "options": [
+            "tableelement",
+            "fieldelement",
+            "textelement",
+            "fieldattribute"
+        ],
+        "answer": 2,
+        "explanation": "If the Format property is set to Xml, the root node must be a textelement, as in textelement(Customers) containing tableelement(Customer; Customer).",
+        "source": "Defining an XMLport schema",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-schema"
+    },
+    {
+        "id": "xml-03",
+        "skill": "XMLports",
+        "type": "multi",
+        "question": "Which two properties must you set when you design an XMLport? (Select two)",
+        "options": [
+            "Format",
+            "Direction",
+            "Caption",
+            "UsageCategory"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "Format says which type of file you import or export, and Direction says whether the XMLport is used for import or export.",
+        "source": "XMLport overview",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-overview"
+    },
+    {
+        "id": "xml-04",
+        "skill": "XMLports",
+        "question": "What is a textelement node used for in an XMLport?",
+        "options": [
+            "XML elements that map to a table",
+            "XML elements that don't map to a database item, or when the database doesn't need the information",
+            "Attributes of table fields",
+            "Defining the request page"
+        ],
+        "answer": 1,
+        "explanation": "A textelement is for XML elements that don't map to a database item, or when the database doesn't need the information. Elements that map to tables use tableelement and fieldelement.",
+        "source": "Defining an XMLport schema",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-schema"
+    },
+    {
+        "id": "xml-05",
+        "skill": "XMLports",
+        "question": "From which objects can you run an XMLport?",
+        "options": [
+            "Only from reports",
+            "From a page or codeunit",
+            "Only from the Job Queue",
+            "Only from a query"
+        ],
+        "answer": 1,
+        "explanation": "Once created, an XMLport can be run from a page or codeunit object, for example with Xmlport.Run. You can also give it a request page so the user can filter, sort, or choose between import and export.",
+        "source": "XMLport object",
+        "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-object"
     }
 ]

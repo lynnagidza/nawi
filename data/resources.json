@@ -53,5 +53,20 @@
         "title": "Entitlements and permission sets overview",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlements-and-permissionsets-overview",
         "note": "Entitlement, PermissionSet and PermissionSetExtension objects."
+    },
+    "Queries": {
+        "title": "Aggregating data in query objects",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-totals-grouping",
+        "note": "Query columns, aggregate methods, filters and linking data items."
+    },
+    "Reports": {
+        "title": "Report object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-object",
+        "note": "Report layouts, report extensions, request pages and datasets."
+    },
+    "XMLports": {
+        "title": "XMLport object",
+        "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-object",
+        "note": "Importing and exporting data, schema nodes and properties."
     }
 }
