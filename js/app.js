@@ -10,6 +10,7 @@ let questions = [];
 let tier = null;
 let current = 0;
 let answers = [];
+let views = [];
 let timerId = null;
 let secondsLeft = 0;
 
@@ -30,6 +31,38 @@ function shuffle(list) {
     return a;
 }
 
+function shuffledOrder(n) {
+    const base = [...Array(n).keys()];
+    let s = shuffle(base);
+    while (s.every((v, i) => v === i)) s = shuffle(base);
+    return s;
+}
+
+/* ---------- question types ---------- */
+
+function typeOf(q) {
+    return q.type || 'single';
+}
+
+function isCorrect(q, a) {
+    if (a === undefined) return false;
+    switch (typeOf(q)) {
+        case 'multi':
+            return a.length === q.answer.length && q.answer.every((x) => a.includes(x));
+        case 'order':
+            return a.every((v, i) => v === i);
+        default:
+            return a === q.answer;
+    }
+}
+
+function isChosen(i) {
+    const a = answers[current];
+    return Array.isArray(a) ? a.includes(i) : a === i;
+}
+
+/* ---------- loading and starting ---------- */
+
 async function loadQuestions() {
     const [qRes, rRes] = await Promise.all([
         fetch('data/questions.json'),
@@ -44,10 +77,13 @@ function startQuiz(tierKey) {
     questions = shuffle(bank).slice(0, tier.count);
     current = 0;
     answers = [];
+    views = [];
     show('quiz');
     startTimer(Math.round(tier.minutes * 60));
     renderQuestion();
 }
+
+/* ---------- timer ---------- */
 
 function startTimer(seconds) {
     clearInterval(timerId);
@@ -67,29 +103,7 @@ function updateTimer() {
     $('timer').classList.toggle('low', secondsLeft <= 60);
 }
 
-function renderQuestion() {
-    const q = questions[current];
-    $('progress').textContent = `${tier.label} · Question ${current + 1} of ${questions.length}`;
-    $('q-skill').textContent = q.skill;
-    $('q-text').textContent = q.question;
-    $('feedback').hidden = true;
-
-    const instant = tier.feedback === 'instant';
-    $('next').hidden = instant;
-    $('next').textContent = current === questions.length - 1 ? 'Finish' : 'Next';
-    $('prev').hidden = instant || current === 0;
-
-    const box = $('options');
-    box.innerHTML = '';
-    q.options.forEach((text, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'option';
-        if (!instant && answers[current] === i) btn.classList.add('selected');
-        btn.textContent = text;
-        btn.addEventListener('click', () => selectAnswer(i));
-        box.appendChild(btn);
-    });
-}
+/* ---------- rendering a question ---------- */
 
 function sourceLink(q) {
     const a = document.createElement('a');
@@ -100,27 +114,123 @@ function sourceLink(q) {
     return a;
 }
 
-function selectAnswer(i) {
+function renderQuestion() {
     const q = questions[current];
-    answers[current] = i;
+    const type = typeOf(q);
+    const instant = tier.feedback === 'instant';
 
-    if (tier.feedback === 'instant') {
-        [...$('options').children].forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === q.answer) btn.classList.add('correct');
-            else if (idx === i) btn.classList.add('wrong');
+    $('progress').textContent = `${tier.label} · Question ${current + 1} of ${questions.length}`;
+    $('q-skill').textContent = q.skill;
+    $('q-text').textContent = q.question;
+    $('feedback').hidden = true;
+
+    $('next').hidden = instant;
+    $('next').textContent = current === questions.length - 1 ? 'Finish' : 'Next';
+    $('prev').hidden = instant || current === 0;
+    $('check').hidden = !(instant && type !== 'single');
+
+    if (type === 'order') {
+        renderOrder(q, false);
+        return;
+    }
+
+    const box = $('options');
+    box.innerHTML = '';
+    q.options.forEach((text, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.textContent = text;
+        if (isChosen(i)) btn.classList.add('selected');
+        btn.addEventListener('click', () => (type === 'multi' ? toggleMulti(i) : selectAnswer(i)));
+        box.appendChild(btn);
+    });
+}
+
+function renderOrder(q, locked) {
+    const view = views[current] || (views[current] = shuffledOrder(q.items.length));
+    const box = $('options');
+    box.innerHTML = '';
+
+    view.forEach((orig, pos) => {
+        const row = document.createElement('div');
+        row.className = 'order-row';
+        if (locked) row.classList.add(orig === pos ? 'correct' : 'wrong');
+
+        const label = document.createElement('span');
+        label.textContent = `${pos + 1}. ${q.items[orig]}`;
+
+        const controls = document.createElement('span');
+        controls.className = 'order-controls';
+        [['↑', -1], ['↓', 1]].forEach(([symbol, delta]) => {
+            const b = document.createElement('button');
+            b.className = 'btn-move';
+            b.textContent = symbol;
+            b.setAttribute('aria-label', delta < 0 ? 'Move up' : 'Move down');
+            b.disabled = locked || pos + delta < 0 || pos + delta >= view.length;
+            b.addEventListener('click', () => moveItem(pos, delta));
+            controls.appendChild(b);
         });
-        $('fb-text').textContent = (i === q.answer ? 'Correct. ' : 'Not quite. ') + q.explanation;
-        $('fb-source').textContent = 'Source: ';
-        $('fb-source').appendChild(sourceLink(q));
-        $('feedback').hidden = false;
+
+        row.append(label, controls);
+        box.appendChild(row);
+    });
+}
+
+/* ---------- answering ---------- */
+
+function selectAnswer(i) {
+    answers[current] = i;
+    if (tier.feedback === 'instant') {
+        reveal();
+    } else {
+        [...$('options').children].forEach((btn, idx) => btn.classList.toggle('selected', idx === i));
+    }
+    $('next').hidden = false;
+}
+
+function toggleMulti(i) {
+    const cur = answers[current] || [];
+    answers[current] = cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i];
+    [...$('options').children].forEach((btn, idx) => {
+        btn.classList.toggle('selected', answers[current].includes(idx));
+    });
+}
+
+function moveItem(pos, delta) {
+    const v = views[current];
+    [v[pos], v[pos + delta]] = [v[pos + delta], v[pos]];
+    if (tier.feedback !== 'instant') answers[current] = [...v];
+    renderOrder(questions[current], false);
+}
+
+function checkAnswer() {
+    const q = questions[current];
+    if (typeOf(q) === 'order') answers[current] = [...views[current]];
+    reveal();
+    $('next').hidden = false;
+}
+
+function reveal() {
+    const q = questions[current];
+    const type = typeOf(q);
+
+    if (type === 'order') {
+        renderOrder(q, true);
     } else {
         [...$('options').children].forEach((btn, idx) => {
-            btn.classList.toggle('selected', idx === i);
+            btn.disabled = true;
+            const right = type === 'multi' ? q.answer.includes(idx) : idx === q.answer;
+            if (right) btn.classList.add('correct');
+            else if (isChosen(idx)) btn.classList.add('wrong');
         });
     }
 
-    $('next').hidden = false;
+    $('check').hidden = true;
+    const ok = isCorrect(q, answers[current]);
+    $('fb-text').textContent = (ok ? 'Correct. ' : 'Not quite. ') + q.explanation;
+    $('fb-source').textContent = 'Source: ';
+    $('fb-source').appendChild(sourceLink(q));
+    $('feedback').hidden = false;
 }
 
 function nextQuestion() {
@@ -132,6 +242,8 @@ function nextQuestion() {
     }
 }
 
+/* ---------- results ---------- */
+
 function reviewLine(text, className) {
     const p = document.createElement('p');
     if (className) p.className = className;
@@ -139,12 +251,34 @@ function reviewLine(text, className) {
     return p;
 }
 
+function answerLines(q, chosen, ok) {
+    const type = typeOf(q);
+
+    if (type === 'order') {
+        const fmt = (arr) => arr.map((o, n) => `${n + 1}. ${q.items[o]}`).join(' → ');
+        const lines = ['Your order: ' + (chosen ? fmt(chosen) : 'no answer')];
+        if (!ok) lines.push('Correct order: ' + fmt(q.items.map((_, i) => i)));
+        return lines;
+    }
+
+    if (type === 'multi') {
+        const names = (arr) => arr.map((i) => q.options[i]).join('; ');
+        const lines = ['Your answers: ' + (chosen && chosen.length ? names(chosen) : 'no answer')];
+        if (!ok) lines.push('Correct answers: ' + names(q.answer));
+        return lines;
+    }
+
+    const lines = ['Your answer: ' + (chosen === undefined ? 'no answer' : q.options[chosen])];
+    if (!ok) lines.push('Correct answer: ' + q.options[q.answer]);
+    return lines;
+}
+
 function renderBreakdown() {
     const stats = {};
     questions.forEach((q, i) => {
         if (!stats[q.skill]) stats[q.skill] = { correct: 0, total: 0 };
         stats[q.skill].total++;
-        if (answers[i] === q.answer) stats[q.skill].correct++;
+        if (isCorrect(q, answers[i])) stats[q.skill].correct++;
     });
 
     const rows = Object.entries(stats)
@@ -181,7 +315,11 @@ function renderBreakdown() {
     const weak = rows.filter((r) => r.pct < 70);
 
     if (weak.length === 0) {
-        focus.appendChild(reviewLine('No weak areas in this run. Try a longer tier to check again.'));
+        focus.appendChild(reviewLine(
+            tier === TIERS.exam
+                ? 'No weak areas in this run.'
+                : 'No weak areas in this run. Try a longer tier to check again.'
+        ));
         return;
     }
 
@@ -212,7 +350,7 @@ function finishQuiz(timedOut) {
     clearInterval(timerId);
 
     const total = questions.length;
-    const score = questions.filter((q, i) => answers[i] === q.answer).length;
+    const score = questions.filter((q, i) => isCorrect(q, answers[i])).length;
     const percent = Math.round((score / total) * 100);
     const scaled = Math.round((score / total) * 1000);
     const passed = scaled >= 700;
@@ -228,35 +366,39 @@ function finishQuiz(timedOut) {
     }
     $('summary').textContent = text;
 
+    renderBreakdown();
+
     const review = $('review');
     review.innerHTML = '';
     questions.forEach((q, i) => {
         const chosen = answers[i];
-        const ok = chosen === q.answer;
-        const status = ok ? 'Correct' : chosen === undefined ? 'Unanswered' : 'Incorrect';
+        const ok = isCorrect(q, chosen);
+        const unanswered = chosen === undefined || (typeOf(q) === 'multi' && chosen.length === 0);
+        const status = ok ? 'Correct' : unanswered ? 'Unanswered' : 'Incorrect';
 
         const item = document.createElement('article');
         item.className = 'review-item ' + (ok ? 'ok' : 'bad');
         item.appendChild(reviewLine(`${i + 1}. ${q.skill} · ${status}`, 'review-head'));
         item.appendChild(reviewLine(q.question, 'review-q'));
-        item.appendChild(reviewLine('Your answer: ' + (chosen === undefined ? 'no answer' : q.options[chosen])));
-        if (!ok) item.appendChild(reviewLine('Correct answer: ' + q.options[q.answer]));
+        answerLines(q, chosen, ok).forEach((line) => item.appendChild(reviewLine(line)));
         item.appendChild(reviewLine(q.explanation, 'review-why'));
         const src = reviewLine('Source: ', 'meta');
         src.appendChild(sourceLink(q));
         item.appendChild(src);
         review.appendChild(item);
     });
-    renderBreakdown();
+
     show('done');
     window.scrollTo(0, 0);
 }
+
+/* ---------- wiring ---------- */
 
 document.querySelectorAll('.start').forEach((btn) => {
     btn.addEventListener('click', () => startQuiz(btn.dataset.tier));
 });
 $('next').addEventListener('click', nextQuestion);
-$('restart').addEventListener('click', () => show('home'));
+$('check').addEventListener('click', checkAnswer);
 $('prev').addEventListener('click', () => {
     if (current > 0) {
         current--;
@@ -269,6 +411,7 @@ $('quit').addEventListener('click', () => {
         show('home');
     }
 });
+$('restart').addEventListener('click', () => show('home'));
 
 loadQuestions().catch(() => {
     document.querySelectorAll('.start').forEach((btn) => {

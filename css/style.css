@@ -342,7 +342,7 @@ footer {
 /* Skill breakdown */
 .skill-row {
     display: grid;
-    grid-template-columns: 170px 1fr 70px;
+    grid-template-columns: 170px 1fr 110px;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 0.6rem;
@@ -356,6 +356,7 @@ footer {
     text-align: right;
     font-variant-numeric: tabular-nums;
     color: var(--muted);
+    white-space: nowrap;
 }
 
 .bar {
@@ -399,7 +400,7 @@ footer {
 
 @media (max-width: 520px) {
     .skill-row {
-        grid-template-columns: 1fr 70px;
+        grid-template-columns: 1fr 110px;
     }
 
     .skill-row .bar {
@@ -440,4 +441,53 @@ footer {
 .btn-quit:hover:not(:disabled) {
     background: transparent;
     color: var(--crimson);
+}
+
+/* Ordering questions */
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--surface);
+    border: 2px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.6rem;
+}
+
+.order-row.correct {
+    border-color: #2F6B4F;
+    background: #E7F2EA;
+}
+
+.order-row.wrong {
+    border-color: var(--crimson);
+    background: #F8E6E6;
+}
+
+.order-controls {
+    display: flex;
+    gap: 0.4rem;
+    flex: none;
+}
+
+.btn-move {
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 2px solid var(--indigo);
+    background: transparent;
+    color: var(--indigo);
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-move:hover:not(:disabled) {
+    background: #E9EBF5;
+}
+
+.btn-move:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
