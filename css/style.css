@@ -556,3 +556,122 @@ footer {
     font: 500 0.9rem "DM Sans", sans-serif;
     color: var(--muted);
 }
+
+/* Case study panel */
+.case-panel {
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-left: 6px solid var(--indigo);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.case-panel summary {
+    cursor: pointer;
+    font: 600 1.05rem "Fraunces", Georgia, serif;
+    color: var(--indigo);
+}
+
+.case-panel p {
+    margin: 0.6rem 0 0;
+}
+
+/* Drag and drop */
+.order-row[draggable="true"] {
+    cursor: grab;
+}
+
+.order-row.dragging {
+    opacity: 0.5;
+}
+
+.match {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.match-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 3.2rem;
+    padding: 0.75rem;
+    border: 2px dashed var(--sand);
+    border-radius: 10px;
+    background: var(--surface);
+    align-items: center;
+}
+
+.match-empty {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.chip {
+    background: var(--indigo);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    font: 500 0.95rem "DM Sans", sans-serif;
+    cursor: grab;
+}
+
+.chip.picked {
+    outline: 3px solid var(--ochre);
+}
+
+.chip:disabled {
+    cursor: default;
+    opacity: 0.9;
+}
+
+.match-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    background: var(--surface);
+    border: 2px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+}
+
+.match-row.correct {
+    border-color: #2F6B4F;
+    background: #E7F2EA;
+}
+
+.match-row.wrong {
+    border-color: var(--crimson);
+    background: #F8E6E6;
+}
+
+.match-slot {
+    min-height: 2.8rem;
+    border: 2px dashed var(--sand);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+}
+
+.match-slot.over {
+    border-color: var(--ochre);
+    background: #FFF6DD;
+}
+
+.match-correct {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 520px) {
+    .match-row {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,7 +1,7 @@
 const TIERS = {
-    quick: { label: 'Quick', count: 10, minutes: 15, feedback: 'instant' },
-    standard: { label: 'Standard', count: 25, minutes: 40, feedback: 'end' },
-    exam: { label: 'Exam-like', count: 50, minutes: 100, feedback: 'end' },
+    quick: { label: 'Quick', count: 10, minutes: 15, feedback: 'instant', cases: 0 },
+    standard: { label: 'Standard', count: 25, minutes: 40, feedback: 'end', cases: 1 },
+    exam: { label: 'Exam-like', count: 50, minutes: 100, feedback: 'end', cases: 2 },
 };
 
 let bank = [];
@@ -12,6 +12,7 @@ let tier = null;
 let current = 0;
 let answers = [];
 let views = [];
+let pendingItem = null;
 let timerId = null;
 let secondsLeft = 0;
 
@@ -35,7 +36,7 @@ function shuffle(list) {
 function shuffledOrder(n) {
     const base = [...Array(n).keys()];
     let s = shuffle(base);
-    while (s.every((v, i) => v === i)) s = shuffle(base);
+    while (n > 1 && s.every((v, i) => v === i)) s = shuffle(base);
     return s;
 }
 
@@ -45,6 +46,10 @@ function typeOf(q) {
     return q.type || 'single';
 }
 
+function matchItems(q) {
+    return [...q.pairs.map((p) => p[1]), ...(q.extras || [])];
+}
+
 function isCorrect(q, a) {
     if (a === undefined) return false;
     switch (typeOf(q)) {
@@ -52,6 +57,8 @@ function isCorrect(q, a) {
             return a.length === q.answer.length && q.answer.every((x) => a.includes(x));
         case 'order':
             return a.every((v, i) => v === i);
+        case 'match':
+            return a.length === q.pairs.length && a.every((v, i) => v === i);
         default:
             return a === q.answer;
     }
@@ -75,9 +82,27 @@ async function loadQuestions() {
     domains = await dRes.json();
 }
 
+function expandCase(c) {
+    return c.questions.map((q, i) => ({
+        ...q,
+        caseId: c.id,
+        caseTitle: c.title,
+        scenario: c.scenario,
+        caseIndex: i + 1,
+        caseTotal: c.questions.length,
+    }));
+}
+
 function startQuiz(tierKey) {
     tier = TIERS[tierKey];
-    questions = shuffle(bank).slice(0, tier.count);
+
+    const singles = bank.filter((q) => q.type !== 'case');
+    const cases = shuffle(bank.filter((q) => q.type === 'case')).slice(0, tier.cases);
+    const caseQuestions = cases.flatMap(expandCase);
+    const room = Math.max(0, tier.count - caseQuestions.length);
+
+    // Case studies go at the end, like sections of the real exam
+    questions = [...shuffle(singles).slice(0, room), ...caseQuestions];
     current = 0;
     answers = [];
     views = [];
@@ -117,12 +142,32 @@ function sourceLink(q) {
     return a;
 }
 
+function renderCasePanel(q) {
+    const box = $('case');
+    if (!q.scenario) {
+        box.hidden = true;
+        return;
+    }
+    const prev = questions[current - 1];
+    const newCase = !prev || prev.caseId !== q.caseId;
+    box.hidden = false;
+    if (newCase) box.open = true;
+    $('case-title').textContent = 'Case study: ' + q.caseTitle;
+    const text = $('case-text');
+    text.innerHTML = '';
+    q.scenario.split('\n\n').forEach((para) => text.appendChild(reviewLine(para)));
+}
+
 function renderQuestion() {
     const q = questions[current];
     const type = typeOf(q);
     const instant = tier.feedback === 'instant';
+    pendingItem = null;
 
-    $('progress').textContent = `${tier.label} · Question ${current + 1} of ${questions.length}`;
+    $('progress').textContent =
+        `${tier.label} · Question ${current + 1} of ${questions.length}` +
+        (q.caseId ? ` · Case study (${q.caseIndex}/${q.caseTotal})` : '');
+    renderCasePanel(q);
     $('q-skill').textContent = q.skill;
     $('q-text').textContent = q.question;
     $('feedback').hidden = true;
@@ -134,6 +179,10 @@ function renderQuestion() {
 
     if (type === 'order') {
         renderOrder(q, false);
+        return;
+    }
+    if (type === 'match') {
+        renderMatch(q, false);
         return;
     }
 
@@ -158,6 +207,23 @@ function renderOrder(q, locked) {
         const row = document.createElement('div');
         row.className = 'order-row';
         if (locked) row.classList.add(orig === pos ? 'correct' : 'wrong');
+        row.draggable = !locked;
+
+        row.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', String(pos));
+            e.dataTransfer.effectAllowed = 'move';
+            row.classList.add('dragging');
+        });
+        row.addEventListener('dragend', () => row.classList.remove('dragging'));
+        row.addEventListener('dragover', (e) => {
+            if (!locked) e.preventDefault();
+        });
+        row.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (locked) return;
+            const from = Number(e.dataTransfer.getData('text/plain'));
+            if (!Number.isNaN(from) && from < view.length) moveTo(from, pos);
+        });
 
         const label = document.createElement('span');
         label.textContent = `${pos + 1}. ${q.items[orig]}`;
@@ -170,13 +236,131 @@ function renderOrder(q, locked) {
             b.textContent = symbol;
             b.setAttribute('aria-label', delta < 0 ? 'Move up' : 'Move down');
             b.disabled = locked || pos + delta < 0 || pos + delta >= view.length;
-            b.addEventListener('click', () => moveItem(pos, delta));
+            b.addEventListener('click', () => moveTo(pos, pos + delta));
             controls.appendChild(b);
         });
 
         row.append(label, controls);
         box.appendChild(row);
     });
+}
+
+/* ---------- matching (drag and drop) ---------- */
+
+function placeItem(itemIdx, targetIdx) {
+    const placed = answers[current];
+    const from = placed.indexOf(itemIdx);
+    const displaced = placed[targetIdx];
+    if (from !== -1) placed[from] = displaced; // swap back into the source slot
+    placed[targetIdx] = itemIdx;
+    pendingItem = null;
+    renderMatch(questions[current], false);
+}
+
+function unplaceItem(itemIdx) {
+    const placed = answers[current];
+    const from = placed.indexOf(itemIdx);
+    if (from !== -1) placed[from] = -1;
+    pendingItem = null;
+    renderMatch(questions[current], false);
+}
+
+function renderMatch(q, locked) {
+    const items = matchItems(q);
+    if (!views[current]) views[current] = shuffledOrder(items.length);
+    if (!answers[current]) answers[current] = new Array(q.pairs.length).fill(-1);
+    const placed = answers[current];
+
+    const makeChip = (idx) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip' + (pendingItem === idx ? ' picked' : '');
+        chip.textContent = items[idx];
+        chip.disabled = locked;
+        chip.draggable = !locked;
+        chip.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', String(idx));
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const slotOfThis = placed.indexOf(idx);
+            if (pendingItem !== null && pendingItem !== idx && slotOfThis !== -1) {
+                placeItem(pendingItem, slotOfThis); // tap-to-swap
+                return;
+            }
+            pendingItem = pendingItem === idx ? null : idx;
+            renderMatch(q, false);
+        });
+        return chip;
+    };
+
+    const wrap = document.createElement('div');
+    wrap.className = 'match';
+
+    const pool = document.createElement('div');
+    pool.className = 'match-pool';
+    const free = views[current].filter((idx) => !placed.includes(idx));
+    free.forEach((idx) => pool.appendChild(makeChip(idx)));
+    if (free.length === 0 && !locked) {
+        const note = document.createElement('span');
+        note.className = 'match-empty';
+        note.textContent = 'All items placed';
+        pool.appendChild(note);
+    }
+    if (!locked) {
+        pool.addEventListener('dragover', (e) => e.preventDefault());
+        pool.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const idx = Number(e.dataTransfer.getData('text/plain'));
+            if (!Number.isNaN(idx) && idx < items.length) unplaceItem(idx);
+        });
+        pool.addEventListener('click', () => {
+            if (pendingItem !== null && placed.includes(pendingItem)) unplaceItem(pendingItem);
+        });
+    }
+    wrap.appendChild(pool);
+
+    q.pairs.forEach(([label], t) => {
+        const row = document.createElement('div');
+        row.className = 'match-row';
+        if (locked) row.classList.add(placed[t] === t ? 'correct' : 'wrong');
+
+        const text = document.createElement('span');
+        text.textContent = label;
+
+        const slot = document.createElement('div');
+        slot.className = 'match-slot';
+        if (placed[t] !== -1) slot.appendChild(makeChip(placed[t]));
+        if (locked && placed[t] !== t) {
+            const hint = document.createElement('span');
+            hint.className = 'match-correct';
+            hint.textContent = 'Correct: ' + q.pairs[t][1];
+            slot.appendChild(hint);
+        }
+        if (!locked) {
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                slot.classList.add('over');
+            });
+            slot.addEventListener('dragleave', () => slot.classList.remove('over'));
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const idx = Number(e.dataTransfer.getData('text/plain'));
+                if (!Number.isNaN(idx) && idx < items.length) placeItem(idx, t);
+            });
+            slot.addEventListener('click', () => {
+                if (pendingItem !== null) placeItem(pendingItem, t);
+            });
+        }
+
+        row.append(text, slot);
+        wrap.appendChild(row);
+    });
+
+    const box = $('options');
+    box.innerHTML = '';
+    box.appendChild(wrap);
 }
 
 /* ---------- answering ---------- */
@@ -199,9 +383,9 @@ function toggleMulti(i) {
     });
 }
 
-function moveItem(pos, delta) {
+function moveTo(from, to) {
     const v = views[current];
-    [v[pos], v[pos + delta]] = [v[pos + delta], v[pos]];
+    v.splice(to, 0, v.splice(from, 1)[0]);
     if (tier.feedback !== 'instant') answers[current] = [...v];
     renderOrder(questions[current], false);
 }
@@ -219,6 +403,8 @@ function reveal() {
 
     if (type === 'order') {
         renderOrder(q, true);
+    } else if (type === 'match') {
+        renderMatch(q, true);
     } else {
         [...$('options').children].forEach((btn, idx) => {
             btn.disabled = true;
@@ -261,6 +447,16 @@ function answerLines(q, chosen, ok) {
         const fmt = (arr) => arr.map((o, n) => `${n + 1}. ${q.items[o]}`).join(' → ');
         const lines = ['Your order: ' + (chosen ? fmt(chosen) : 'no answer')];
         if (!ok) lines.push('Correct order: ' + fmt(q.items.map((_, i) => i)));
+        return lines;
+    }
+
+    if (type === 'match') {
+        const items = matchItems(q);
+        const mine = q.pairs
+            .map(([label], t) => `${label} → ${chosen && chosen[t] !== -1 ? items[chosen[t]] : '(empty)'}`)
+            .join('; ');
+        const lines = ['Your matches: ' + (chosen ? mine : 'no answer')];
+        if (!ok) lines.push('Correct matches: ' + q.pairs.map((p) => `${p[0]} → ${p[1]}`).join('; '));
         return lines;
     }
 
@@ -416,12 +612,19 @@ function finishQuiz(timedOut) {
     questions.forEach((q, i) => {
         const chosen = answers[i];
         const ok = isCorrect(q, chosen);
-        const unanswered = chosen === undefined || (typeOf(q) === 'multi' && chosen.length === 0);
+        const type = typeOf(q);
+        const unanswered =
+            chosen === undefined ||
+            (type === 'multi' && chosen.length === 0) ||
+            (type === 'match' && chosen.every((v) => v === -1));
         const status = ok ? 'Correct' : unanswered ? 'Unanswered' : 'Incorrect';
 
         const item = document.createElement('article');
         item.className = 'review-item ' + (ok ? 'ok' : 'bad');
-        item.appendChild(reviewLine(`${i + 1}. ${q.skill} · ${status}`, 'review-head'));
+        item.appendChild(reviewLine(
+            `${i + 1}. ${q.skill} · ${status}` + (q.caseTitle ? ` · Case: ${q.caseTitle}` : ''),
+            'review-head'
+        ));
         item.appendChild(reviewLine(q.question, 'review-q'));
         answerLines(q, chosen, ok).forEach((line) => item.appendChild(reviewLine(line)));
         item.appendChild(reviewLine(q.explanation, 'review-why'));

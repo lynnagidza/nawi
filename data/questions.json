@@ -2128,5 +2128,144 @@
         "explanation": "When calling an API page or API query, the property value can be overwritten by specifying the Data-Access-Intent HTTP request header.",
         "source": "DataAccessIntent property",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "case-01",
+        "type": "case",
+        "title": "Contoso Loyalty",
+        "scenario": "Contoso Retail runs Business Central online. A partner is building a per-tenant extension, Contoso Loyalty, that stores loyalty points for customers.\n\nRequirements: (1) A nightly service hosted in Azure, with no signed-in user, must read and update loyalty points. (2) Before points are posted, the extension validates many customer fields, and users should see all the problems at once. (3) Custom telemetry events must reach both Contoso's own Application Insights resource, configured in the extension, and the environment's resource. (4) The team wants automated tests that start from a clean database state after every test method.",
+        "questions": [
+            {
+                "id": "case-01-q1",
+                "skill": "Web services",
+                "question": "Which authentication flow should the nightly service use?",
+                "options": [
+                    "Basic authentication with a web service access key",
+                    "Authorization Code Flow",
+                    "Client Credentials Flow",
+                    "Windows authentication"
+                ],
+                "answer": 2,
+                "explanation": "Basic authentication isn't supported for Business Central SaaS. Authorization Code Flow needs a signed-in user, so a service with no user interface uses Client Credentials Flow with application permissions.",
+                "source": "Web service authentication",
+                "url": "https://learn.microsoft.com/en-us/training/modules/work-with-web-services/3-authentication"
+            },
+            {
+                "id": "case-01-q2",
+                "skill": "API pages",
+                "question": "The service needs an entity it can read and update over REST. Which approach fits best?",
+                "options": [
+                    "An OData page that is published on the Web Services page",
+                    "An API page (PageType = API). Deploying the extension makes it available",
+                    "A codeunit with the ServiceEnabled attribute only",
+                    "An XMLport exposed as a web service"
+                ],
+                "answer": 1,
+                "explanation": "REST API web services are the recommended way to integrate. An API page is part of your extension and, unlike OData web services, doesn't need to be published. You deploy the extension and the page is available.",
+                "source": "Create new APIs",
+                "url": "https://learn.microsoft.com/en-us/training/modules/work-with-api/5-create-new"
+            },
+            {
+                "id": "case-01-q3",
+                "skill": "Error handling",
+                "question": "How should the extension meet requirement 2, showing all validation problems at once?",
+                "options": [
+                    "Wrap each check in its own try method",
+                    "Call Error in each check so users see each message in turn",
+                    "Collect the errors and present them together",
+                    "Use Message instead of Error"
+                ],
+                "answer": 2,
+                "explanation": "Microsoft's error handling overview maps bulk validation without a dialog for each error to collecting errors.",
+                "source": "AL error handling",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling"
+            },
+            {
+                "id": "case-01-q4",
+                "skill": "Telemetry",
+                "question": "Which TelemetryScope value on the custom events meets requirement 3?",
+                "options": [
+                    "ExtensionPublisher",
+                    "All",
+                    "Environment",
+                    "Both"
+                ],
+                "answer": 1,
+                "explanation": "ExtensionPublisher sends the event only to the Application Insights resource in the extension's app.json. All sends it to that resource and to the environment's resource.",
+                "source": "Creating custom telemetry events for Azure Application Insights",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-instrument-application-for-telemetry-app-insights"
+            },
+            {
+                "id": "case-01-q5",
+                "skill": "Test automation",
+                "question": "Which TestIsolation value on the test runner meets requirement 4?",
+                "options": [
+                    "Codeunit",
+                    "Disabled",
+                    "AutoRollback",
+                    "Function"
+                ],
+                "answer": 3,
+                "explanation": "Function rolls back all database changes after each test method. Codeunit only rolls back after each test codeunit, and Disabled (the default) doesn't isolate tests at all.",
+                "source": "Test applications in Business Central",
+                "url": "https://learn.microsoft.com/en-us/training/modules/introduction-test-automation/2-test-applications"
+            }
+        ]
+    },
+    {
+        "id": "match-01",
+        "skill": "Page types",
+        "type": "match",
+        "question": "Match each purpose to the page type designed for it. One item won't be used.",
+        "pairs": [
+            [
+                "Master, reference and setup data management",
+                "Card"
+            ],
+            [
+                "Transactions with a header and lines",
+                "Document"
+            ],
+            [
+                "Line-based data entry such as journals",
+                "Worksheet"
+            ],
+            [
+                "Start page for a specific user profile",
+                "RoleCenter"
+            ]
+        ],
+        "extras": [
+            "HeadlinePart"
+        ],
+        "explanation": "Card pages hold master, reference and setup data. Document pages manage transactions with lines, Worksheet pages are for line-based entry such as journals, and a RoleCenter is the start page for a profile. HeadlinePart is embedded in a RoleCenter to show insights, so it fits none of these four.",
+        "source": "PageType property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-pagetype-property"
+    },
+    {
+        "id": "match-02",
+        "skill": "Install and upgrade",
+        "type": "match",
+        "question": "Match each description to the trigger it belongs to. One item won't be used.",
+        "pairs": [
+            [
+                "Does the actual per-company upgrade work",
+                "OnUpgradePerCompany"
+            ],
+            [
+                "Checks that the upgrade was successful. An error cancels the upgrade",
+                "OnValidateUpgradePerCompany"
+            ],
+            [
+                "Where you call SetUpgradeTag to register upgrade tags",
+                "OnInstallAppPerCompany"
+            ]
+        ],
+        "extras": [
+            "OnRun"
+        ],
+        "explanation": "OnUpgradePerCompany does the upgrade, OnValidateUpgradePerCompany validates it and cancels the upgrade on error, and you register upgrade tags by calling SetUpgradeTag in the install codeunit's OnInstallAppPerCompany trigger.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
     }
 ]
