@@ -6,6 +6,7 @@ const TIERS = {
 
 let bank = [];
 let resources = {};
+let domains = [];
 let questions = [];
 let tier = null;
 let current = 0;
@@ -64,12 +65,14 @@ function isChosen(i) {
 /* ---------- loading and starting ---------- */
 
 async function loadQuestions() {
-    const [qRes, rRes] = await Promise.all([
+    const [qRes, rRes, dRes] = await Promise.all([
         fetch('data/questions.json'),
         fetch('data/resources.json'),
+        fetch('data/domains.json'),
     ]);
     bank = await qRes.json();
     resources = await rRes.json();
+    domains = await dRes.json();
 }
 
 function startQuiz(tierKey) {
@@ -281,38 +284,78 @@ function renderBreakdown() {
         if (isCorrect(q, answers[i])) stats[q.skill].correct++;
     });
 
-    const rows = Object.entries(stats)
-        .map(([skill, s]) => ({ skill, ...s, pct: Math.round((s.correct / s.total) * 100) }))
+    // Group skills under their exam domain; anything unmapped goes under "Other"
+    const groups = domains.map((d) => ({ name: d.name, weight: d.weight, skills: d.skills }));
+    const mapped = new Set(domains.flatMap((d) => d.skills));
+    const unmapped = Object.keys(stats).filter((s) => !mapped.has(s));
+    if (unmapped.length) groups.push({ name: 'Other', weight: '', skills: unmapped });
+
+    const domainRows = groups
+        .map((g) => {
+            const skillRows = g.skills
+                .filter((s) => stats[s])
+                .map((s) => ({
+                    skill: s,
+                    ...stats[s],
+                    pct: Math.round((stats[s].correct / stats[s].total) * 100),
+                }))
+                .sort((a, b) => a.pct - b.pct);
+            const correct = skillRows.reduce((n, r) => n + r.correct, 0);
+            const total = skillRows.reduce((n, r) => n + r.total, 0);
+            return { ...g, skillRows, correct, total, pct: total ? Math.round((correct / total) * 100) : 0 };
+        })
+        .filter((g) => g.total > 0)
         .sort((a, b) => a.pct - b.pct);
 
     const breakdown = $('breakdown');
     breakdown.innerHTML = '';
-    rows.forEach((r) => {
-        const row = document.createElement('div');
-        row.className = 'skill-row';
+    const allSkillRows = [];
 
-        const name = document.createElement('span');
-        name.className = 'skill-name';
-        name.textContent = r.skill;
+    domainRows.forEach((g) => {
+        const block = document.createElement('div');
+        block.className = 'domain-block';
 
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        const fill = document.createElement('div');
-        fill.className = 'bar-fill' + (r.pct < 70 ? ' weak' : '');
-        fill.style.width = r.pct + '%';
-        bar.appendChild(fill);
+        const head = document.createElement('div');
+        head.className = 'domain-head';
+        const title = document.createElement('span');
+        title.textContent = g.name;
+        const meta = document.createElement('span');
+        meta.className = 'domain-meta';
+        meta.textContent = `${g.weight ? g.weight + ' of exam · ' : ''}${g.correct}/${g.total} · ${g.pct}%`;
+        head.append(title, meta);
+        block.appendChild(head);
 
-        const score = document.createElement('span');
-        score.className = 'skill-score';
-        score.textContent = `${r.correct}/${r.total} · ${r.pct}%`;
+        g.skillRows.forEach((r) => {
+            allSkillRows.push(r);
 
-        row.append(name, bar, score);
-        breakdown.appendChild(row);
+            const row = document.createElement('div');
+            row.className = 'skill-row';
+
+            const name = document.createElement('span');
+            name.className = 'skill-name';
+            name.textContent = r.skill;
+
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            const fill = document.createElement('div');
+            fill.className = 'bar-fill' + (r.pct < 70 ? ' weak' : '');
+            fill.style.width = r.pct + '%';
+            bar.appendChild(fill);
+
+            const score = document.createElement('span');
+            score.className = 'skill-score';
+            score.textContent = `${r.correct}/${r.total} · ${r.pct}%`;
+
+            row.append(name, bar, score);
+            block.appendChild(row);
+        });
+
+        breakdown.appendChild(block);
     });
 
     const focus = $('focus');
     focus.innerHTML = '';
-    const weak = rows.filter((r) => r.pct < 70);
+    const weak = allSkillRows.filter((r) => r.pct < 70).sort((a, b) => a.pct - b.pct);
 
     if (weak.length === 0) {
         focus.appendChild(reviewLine(

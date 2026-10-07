@@ -55,7 +55,10 @@
             <p id="q-skill" class="skill"></p>
             <div class="quiz-top">
                 <p id="progress" class="meta"></p>
-                <p id="timer" class="timer"></p>
+                <div class="quiz-side">
+                    <button id="quit" class="btn btn-quit">Quit</button>
+                    <p id="timer" class="timer"></p>
+                </div>
             </div>
             <h2 id="q-text"></h2>
             <div id="options"></div>
@@ -65,9 +68,10 @@
             </div>
             <div class="quiz-nav">
                 <button id="prev" class="btn btn-secondary" hidden>Previous</button>
-                <button id="check" class="btn" hidden>Check answer</button>
-                <button id="next" class="btn" hidden>Next</button>
-                <button id="quit" class="btn btn-quit">Quit</button>
+                <div class="nav-right">
+                    <button id="check" class="btn" hidden>Check answer</button>
+                    <button id="next" class="btn" hidden>Next</button>
+                </div>
             </div>
         </section>
 

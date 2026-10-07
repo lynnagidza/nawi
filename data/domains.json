@@ -1,0 +1,59 @@
+[
+    {
+        "name": "Describe Business Central",
+        "weight": "10-15%",
+        "skills": [
+            "Application types"
+        ]
+    },
+    {
+        "name": "Install, develop, and deploy",
+        "weight": "10-15%",
+        "skills": []
+    },
+    {
+        "name": "Develop by using AL objects",
+        "weight": "35-40%",
+        "skills": [
+            "Page extensions",
+            "Interfaces",
+            "Events",
+            "Install and upgrade",
+            "Permissions",
+            "Queries",
+            "Reports",
+            "XMLports",
+            "Enums",
+            "Page types",
+            "Table types"
+        ]
+    },
+    {
+        "name": "Develop by using AL",
+        "weight": "15-20%",
+        "skills": [
+            "File management",
+            "Error handling"
+        ]
+    },
+    {
+        "name": "Work with development tools",
+        "weight": "10-15%",
+        "skills": [
+            "Test automation",
+            "Telemetry"
+        ]
+    },
+    {
+        "name": "Integrate Business Central",
+        "weight": "10-15%",
+        "skills": [
+            "Web services",
+            "HttpClient",
+            "JSON",
+            "API pages",
+            "Bound actions",
+            "Read Scale-Out"
+        ]
+    }
+]

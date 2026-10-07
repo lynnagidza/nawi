@@ -7,6 +7,8 @@
     --ochre: #D9A441;
     --ink: #2A2724;
     --muted: #6E665B;
+    --sky: #3F6CAD;
+    --sky-dark: #335889;
 }
 
 * {
@@ -129,6 +131,7 @@ main {
 /* Buttons */
 .btn {
     background: var(--crimson);
+    /* background: var(--sky); */
     color: #fff;
     border: 0;
     border-radius: 8px;
@@ -139,6 +142,7 @@ main {
 
 .btn:hover:not(:disabled) {
     background: #8A1B24;
+    /* background: var(--sky-dark); */
 }
 
 .btn:disabled {
@@ -414,12 +418,12 @@ footer {
     font-weight: 500;
 }
 
-.quiz-nav {
+/* .quiz-nav {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
-}
+} */
 
 .btn-secondary {
     background: transparent;
@@ -431,7 +435,7 @@ footer {
     background: #E9EBF5;
 }
 
-.btn-quit {
+/* .btn-quit {
     margin-left: auto;
     background: transparent;
     color: var(--muted);
@@ -441,7 +445,7 @@ footer {
 .btn-quit:hover:not(:disabled) {
     background: transparent;
     color: var(--crimson);
-}
+} */
 
 /* Ordering questions */
 .order-row {
@@ -490,4 +494,65 @@ footer {
 .btn-move:disabled {
     opacity: 0.3;
     cursor: not-allowed;
+}
+
+/* Quiz layout */
+.quiz-top {
+    align-items: flex-start;
+}
+
+.quiz-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+}
+
+.quiz-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.nav-right {
+    display: flex;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.btn-quit {
+    background: transparent;
+    color: var(--muted);
+    text-decoration: underline;
+    padding: 0.2rem 0;
+    font-size: 0.9rem;
+}
+
+.btn-quit:hover:not(:disabled) {
+    background: transparent;
+    color: var(--crimson);
+}
+
+/* Domain grouping in results */
+.domain-block {
+    margin-bottom: 1.75rem;
+}
+
+.domain-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    border-bottom: 2px solid var(--sand);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.75rem;
+    font: 600 1.1rem "Fraunces", Georgia, serif;
+    color: var(--indigo);
+}
+
+.domain-meta {
+    font: 500 0.9rem "DM Sans", sans-serif;
+    color: var(--muted);
 }

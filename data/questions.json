@@ -1772,5 +1772,361 @@
         "explanation": "When you post documents from the document tables, they go through a journal table and then end up in a document history table. Posting also creates ledger entries.",
         "source": "Identify the different table types",
         "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types"
+    },
+    {
+        "id": "http-01",
+        "skill": "HttpClient",
+        "question": "How do you send an HTTP PATCH request with the HttpClient data type?",
+        "options": [
+            "Call HttpClient.Patch",
+            "Use HttpClient.Send with an HttpRequestMessage whose method is set to PATCH",
+            "Call HttpClient.Put with a PATCH header",
+            "PATCH isn't supported from AL"
+        ],
+        "answer": 1,
+        "explanation": "No specific AL method exists for PATCH. You set the method on an HttpRequestMessage and call HttpClient.Send. Get, Post, Put and Delete have their own methods.",
+        "source": "HttpClient.Get method",
+        "url": "https://learn.microsoft.com/en-US/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/httpclient/httpclient-get-method"
+    },
+    {
+        "id": "http-02",
+        "skill": "HttpClient",
+        "question": "For which HTTP status codes does HttpResponseMessage.IsSuccessStatusCode() return true?",
+        "options": [
+            "200 only",
+            "200 to 299",
+            "200 to 399",
+            "Any code that comes with a response body"
+        ],
+        "answer": 1,
+        "explanation": "IsSuccessStatusCode returns true if the status code is in the range 200-299, and false otherwise. The service call itself might not succeed, so you should always check the status code.",
+        "source": "HttpResponseMessage.IsSuccessStatusCode method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/httpresponsemessage/httpresponsemessage-issuccessstatuscode-method"
+    },
+    {
+        "id": "http-03",
+        "skill": "HttpClient",
+        "question": "HttpClient.Send returns false. What happens if your code then accesses the Content of the HttpResponseMessage?",
+        "options": [
+            "It returns empty content",
+            "An error occurs",
+            "It returns the last successful response",
+            "It returns the error text"
+        ],
+        "answer": 1,
+        "explanation": "When the request fails, accessing the HttpContent property of the HttpResponseMessage results in an error. Check the return value of Send (and the status code) before reading the content.",
+        "source": "HttpClient.Send method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/httpclient/httpclient-send-method"
+    },
+    {
+        "id": "http-04",
+        "skill": "HttpClient",
+        "question": "Where do you enable outbound HTTP calls for an extension?",
+        "options": [
+            "In launch.json",
+            "On the Permission Sets page",
+            "On the Extension Management page, by choosing Configure",
+            "On the Job Queue Entries page"
+        ],
+        "answer": 2,
+        "explanation": "To enable outbound HTTP calls, go to the Extension Management page in Business Central and choose Configure for the extension.",
+        "source": "HttpClient.Get method",
+        "url": "https://learn.microsoft.com/en-US/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/httpclient/httpclient-get-method"
+    },
+    {
+        "id": "http-05",
+        "skill": "HttpClient",
+        "question": "How are the HTTP, JSON, TextBuilder and XML data types treated in AL?",
+        "options": [
+            "As value types that copy their data on assignment",
+            "As records stored in a temporary table",
+            "As option types",
+            "As reference types that hold a pointer to the data"
+        ],
+        "answer": 3,
+        "explanation": "For performance reasons all HTTP, JSON, TextBuilder and XML types are reference types. They hold a pointer to the data elsewhere in memory, whereas value types store their own data.",
+        "source": "HttpResponseMessage data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/httpresponsemessage/httpresponsemessage-data-type"
+    },
+    {
+        "id": "http-06",
+        "skill": "HttpClient",
+        "type": "order",
+        "question": "Put the steps in the right order to call an external service and read a JSON response.",
+        "items": [
+            "Call Client.Get with the URL",
+            "Check IsSuccessStatusCode on the response",
+            "Read the response body into a Text variable with Content().ReadAs",
+            "Parse the text into a JsonObject with ReadFrom"
+        ],
+        "explanation": "You make the call, check that the response was successful, read the body as text, and then parse the text with the JSON data type's ReadFrom method.",
+        "source": "Call external services with the HttpClient data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-httpclient"
+    },
+    {
+        "id": "json-01",
+        "skill": "JSON",
+        "question": "Which JSON data type is the base class for JsonArray, JsonValue and JsonObject?",
+        "options": [
+            "JsonBase",
+            "JsonElement",
+            "JsonToken",
+            "JsonNode"
+        ],
+        "answer": 2,
+        "explanation": "JsonToken is a container for any well-formed JSON data and is the base class for JsonArray, JsonValue and JsonObject. A default JsonToken contains the JSON value NULL.",
+        "source": "Use and read JSON in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/access-rest-services/4-use-read-json"
+    },
+    {
+        "id": "json-02",
+        "skill": "JSON",
+        "question": "Can you use a JSON data type, such as JsonObject, as the data type of a table field?",
+        "options": [
+            "Yes, for any table",
+            "No. You can only create variables with the JSON data types",
+            "Yes, but only in temporary tables",
+            "Yes, but only for JsonValue"
+        ],
+        "answer": 1,
+        "explanation": "You can't use the JSON data types as a data type for fields in a table, but you can create variables with them.",
+        "source": "Use and read JSON in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/access-rest-services/4-use-read-json"
+    },
+    {
+        "id": "json-03",
+        "skill": "JSON",
+        "question": "Which method selects a value from JSON data by using a JPath expression?",
+        "options": [
+            "Get",
+            "SelectToken",
+            "ReadFrom",
+            "Replace"
+        ],
+        "answer": 1,
+        "explanation": "SelectToken(Text, var JsonToken) selects a JsonToken by using a JPath expression. Get retrieves a property by its key, and ReadFrom parses JSON text or a stream.",
+        "source": "JsonToken data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsontoken/jsontoken-data-type"
+    },
+    {
+        "id": "json-04",
+        "skill": "JSON",
+        "question": "A JsonToken holds a JSON array. Which method converts it to a JsonArray?",
+        "options": [
+            "AsObject",
+            "AsValue",
+            "AsArray",
+            "AsToken"
+        ],
+        "answer": 2,
+        "explanation": "JsonToken has AsArray, AsObject and AsValue to convert the token to the matching data type. You can check which one applies first with IsArray, IsObject and IsValue.",
+        "source": "JsonToken data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsontoken/jsontoken-data-type"
+    },
+    {
+        "id": "api-01",
+        "skill": "API pages",
+        "question": "Do you have to publish an API page on the Web Services page, as you do with regular OData web services?",
+        "options": [
+            "Yes, publishing is required",
+            "No. You deploy the extension and the API page is available",
+            "Yes, but only in a sandbox",
+            "Only for read-write API pages"
+        ],
+        "answer": 1,
+        "explanation": "You don't need to publish an API page like you do with regular OData web services. You only need to create an API page that is part of your extension. Deploy the extension, and the API page is available.",
+        "source": "Create new APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-api/5-create-new"
+    },
+    {
+        "id": "api-02",
+        "skill": "API pages",
+        "question": "Which field does Microsoft recommend using as ODataKeyFields on an API page?",
+        "options": [
+            "No.",
+            "SystemId",
+            "The primary key of the source table",
+            "Entry No."
+        ],
+        "answer": 1,
+        "explanation": "SystemId is the recommended key for API pages. It is a unique, immutable identifier that never changes for a record.",
+        "source": "Create new APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-api/5-create-new"
+    },
+    {
+        "id": "api-03",
+        "skill": "API pages",
+        "question": "What pattern does the APIVersion property follow?",
+        "options": [
+            "vX.Y or beta",
+            "X.Y.Z (semantic versioning)",
+            "Any text",
+            "A date such as 2025-01-01"
+        ],
+        "answer": 0,
+        "explanation": "APIVersion follows the pattern vX.Y or beta, for example v1.0. A page can expose several versions with a list, such as 'v2.0', 'v1.0'.",
+        "source": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype"
+    },
+    {
+        "id": "api-04",
+        "skill": "API pages",
+        "question": "Which property setting turns a query object into an API?",
+        "options": [
+            "PageType = API",
+            "UsageCategory = API",
+            "APIQuery = true",
+            "QueryType = API"
+        ],
+        "answer": 3,
+        "explanation": "To create an API you can use a page or a query object. Set PageType to API on a page, or QueryType to API on a query.",
+        "source": "Create new APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-api/5-create-new"
+    },
+    {
+        "id": "api-05",
+        "skill": "API pages",
+        "type": "order",
+        "question": "Put the segments of a custom API's URL in the right order.",
+        "items": [
+            "/api",
+            "APIPublisher",
+            "APIGroup",
+            "APIVersion",
+            "EntitySetName"
+        ],
+        "explanation": "The URL is based on the APIPublisher, APIGroup, APIVersion and EntitySetName properties, in the form /api/<apipublisher>/<apigroup>/<apiversion>/<entitysetname>.",
+        "source": "Create new APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-api/5-create-new"
+    },
+    {
+        "id": "act-01",
+        "skill": "Bound actions",
+        "question": "Which attribute exposes an AL procedure as an OData bound action?",
+        "options": [
+            "[WebAction]",
+            "[ServiceEnabled]",
+            "[EventSubscriber]",
+            "[TryFunction]"
+        ],
+        "answer": 1,
+        "explanation": "You expose the procedure with the [ServiceEnabled] attribute on a page that is published as a web service.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-02",
+        "skill": "Bound actions",
+        "type": "multi",
+        "question": "Which two AL types do you use in a bound action procedure to set the result of the function? (Select two)",
+        "options": [
+            "WebServiceActionContext",
+            "WebServiceActionResultCode",
+            "HttpResponseMessage",
+            "ErrorInfo"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "The procedure takes a WebServiceActionContext parameter and uses the WebServiceActionResultCode enum to say what happened, for example Created.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-03",
+        "skill": "Bound actions",
+        "question": "Can you add a bound action by extending an existing page that is already exposed as a web service?",
+        "options": [
+            "Yes, with a page extension",
+            "No. Bound actions can't be added by extending an existing page",
+            "Yes, but only for API pages",
+            "Only on-premises"
+        ],
+        "answer": 1,
+        "explanation": "Bound actions can't be added by extending an existing page that has been exposed as a web service. You declare them on a page you own.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-04",
+        "skill": "Bound actions",
+        "question": "Inside a bound action, which call tells the caller that a record was created?",
+        "options": [
+            "Message('Created')",
+            "actionContext.SetObjectType(ObjectType::Page)",
+            "actionContext.SetResultCode(WebServiceActionResultCode::Created)",
+            "Error('Created')"
+        ],
+        "answer": 2,
+        "explanation": "SetResultCode sets the web service action result status code, for example WebServiceActionResultCode::Created to inform the caller that an item was created.",
+        "source": "WebServiceActionContext.SetResultCode method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/webserviceactioncontext/webserviceactioncontext-setresultcode-method"
+    },
+    {
+        "id": "rso-01",
+        "skill": "Read Scale-Out",
+        "question": "Which property controls whether a report, API page or API query can run against a read-only database replica?",
+        "options": [
+            "ReadScaleOut",
+            "Editable",
+            "DataAccessIntent",
+            "ApplicationIntent"
+        ],
+        "answer": 2,
+        "explanation": "DataAccessIntent takes the values ReadOnly or ReadWrite. ReadOnly tells the server that only read access is needed, so it can route the work to a read-only replica.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-02",
+        "skill": "Read Scale-Out",
+        "type": "multi",
+        "question": "Which three object types can use read-only replicas through DataAccessIntent? (Select three)",
+        "options": [
+            "Reports",
+            "API pages",
+            "API queries",
+            "Codeunits",
+            "XMLports"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "For reports, API pages and API queries, the Business Central server can use read-only database replicas on Azure SQL Database and SQL Server.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-03",
+        "skill": "Read Scale-Out",
+        "question": "Does setting DataAccessIntent = ReadOnly guarantee that the work runs on the secondary replica?",
+        "options": [
+            "Yes, always",
+            "No. It is a hint, and a replica is used only if one is available",
+            "Yes, but only for reports",
+            "No. It only applies on-premises"
+        ],
+        "answer": 1,
+        "explanation": "ReadOnly works as a hint for the server to route the connection to a secondary replica if one is available. It states that the code only needs read access, so a read-only connection can be used.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-04",
+        "skill": "Read Scale-Out",
+        "question": "How can a caller override the DataAccessIntent of an API page or API query for a single request?",
+        "options": [
+            "With the Data-Access-Intent HTTP request header",
+            "With a $dataAccess query option in the URL",
+            "By changing the company in the URL",
+            "It can't be overridden"
+        ],
+        "answer": 0,
+        "explanation": "When calling an API page or API query, the property value can be overwritten by specifying the Data-Access-Intent HTTP request header.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
     }
 ]

@@ -83,5 +83,30 @@
         "title": "Identify the different table types",
         "url": "https://learn.microsoft.com/en-us/training/modules/work-with-tables/3-types",
         "note": "Master, setup, journal, ledger, register and document tables."
+    },
+    "HttpClient": {
+        "title": "Call external services with the HttpClient data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-httpclient",
+        "note": "HTTP requests and responses, status codes, and enabling outbound calls."
+    },
+    "JSON": {
+        "title": "JsonToken data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsontoken/jsontoken-data-type",
+        "note": "JsonToken, JsonObject, JsonArray, JsonValue and JPath."
+    },
+    "API pages": {
+        "title": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype",
+        "note": "Custom API pages and queries, their properties, and the endpoint URL."
+    },
+    "Bound actions": {
+        "title": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action",
+        "note": "ServiceEnabled procedures and web service action results."
+    },
+    "Read Scale-Out": {
+        "title": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property",
+        "note": "Running reports, API pages and API queries on a read-only replica."
     }
 }
