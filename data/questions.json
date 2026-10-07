@@ -2267,5 +2267,402 @@
         "explanation": "OnUpgradePerCompany does the upgrade, OnValidateUpgradePerCompany validates it and cancels the upgrade on error, and you register upgrade tags by calling SetUpgradeTag in the install codeunit's OnInstallAppPerCompany trigger.",
         "source": "Upgrading extensions",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "acc-01",
+        "skill": "Access modifiers",
+        "question": "You don't set the Access property on a table. What is the default accessibility?",
+        "options": [
+            "Internal",
+            "Protected",
+            "Public",
+            "Local"
+        ],
+        "answer": 2,
+        "explanation": "If the Access property isn't specified, the default is Public. The object can then be used by code in the same module and in other modules that reference it.",
+        "source": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers"
+    },
+    {
+        "id": "acc-02",
+        "skill": "Access modifiers",
+        "question": "Which access level lets a table field be used only by code in the table or table extension where the field is defined?",
+        "options": [
+            "Protected",
+            "Internal",
+            "Public",
+            "Local"
+        ],
+        "answer": 3,
+        "explanation": "Local fields can only be accessed by code in the same table or table extension where the field is defined. Local applies to table fields only.",
+        "source": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers"
+    },
+    {
+        "id": "acc-03",
+        "skill": "Access modifiers",
+        "question": "Which access level lets a field be used by code in its own table and in table extensions of that table, but by no other code?",
+        "options": [
+            "Protected",
+            "Local",
+            "Internal",
+            "Public"
+        ],
+        "answer": 0,
+        "explanation": "Protected fields can be accessed only by code in the same table or in table extensions of that table.",
+        "source": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers"
+    },
+    {
+        "id": "acc-04",
+        "skill": "Access modifiers",
+        "question": "Which app.json setting controls which other modules can see your Internal objects?",
+        "options": [
+            "dependencies",
+            "internalsVisibleTo",
+            "exposeInternals",
+            "target"
+        ],
+        "answer": 1,
+        "explanation": "Internal accessibility is linked to the internalsVisibleTo setting in app.json. Without it, Internal objects can only be used by code in the same module.",
+        "source": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers"
+    },
+    {
+        "id": "acc-05",
+        "skill": "Access modifiers",
+        "question": "Why can't Access = Internal be used as a security boundary?",
+        "options": [
+            "Internal objects are visible to every user in the UI",
+            "Access modifiers are only checked at compile time, and RecordRef, TransferFields or Codeunit.Run can still reach the object at runtime",
+            "Internal only applies to pages",
+            "The server ignores the Access property on-premises"
+        ],
+        "answer": 1,
+        "explanation": "Access modifiers are only taken into consideration at compile time. At runtime any module can reach a table with Access = Internal through reflection-based mechanisms such as RecordRef or TransferFields, and the OnRun trigger of an internal codeunit can run through Codeunit.Run. They are for designing APIs, not for security.",
+        "source": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers"
+    },
+    {
+        "id": "acc-06",
+        "skill": "Access modifiers",
+        "question": "Which table fields can you add to a page?",
+        "options": [
+            "Only fields with Access = Public",
+            "Any field of the source table",
+            "Fields with Access = Local or Protected",
+            "Only fields declared in the same table extension"
+        ],
+        "answer": 0,
+        "explanation": "Only table fields which have their accessibility set to Public can be added to a page.",
+        "source": "Access property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-access-property"
+    },
+    {
+        "id": "acc-07",
+        "skill": "Access modifiers",
+        "type": "match",
+        "question": "Match each description to the access level it describes.",
+        "pairs": [
+            [
+                "Accessible only by code in the same module",
+                "Internal"
+            ],
+            [
+                "Accessible only within the table or table extension that defines the field",
+                "Local"
+            ],
+            [
+                "Accessible by the table and table extensions of that table",
+                "Protected"
+            ],
+            [
+                "Accessible by other modules that reference it",
+                "Public"
+            ]
+        ],
+        "explanation": "Internal limits access to the same module. Local limits a field to the table or table extension that defines it. Protected also allows table extensions of that table. Public lets any code that references the module use it.",
+        "source": "Access property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-access-property"
+    },
+    {
+        "id": "prof-01",
+        "skill": "Profiles and views",
+        "type": "multi",
+        "question": "Which three object types are involved in creating profiles in AL? (Select three)",
+        "options": [
+            "profile",
+            "profileextension",
+            "pagecustomization",
+            "pageextension",
+            "permissionset"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Creating profiles in AL involves three object types: the profile object, the profile extension object and the page customization object.",
+        "source": "Designing profiles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-design-profiles"
+    },
+    {
+        "id": "prof-02",
+        "skill": "Profiles and views",
+        "question": "Which of these can you NOT add to a page customization object?",
+        "options": [
+            "Actions",
+            "Fields",
+            "Procedures",
+            "Groups"
+        ],
+        "answer": 2,
+        "explanation": "A page customization has more restrictions than a page extension. You can add actions, fields and groups, but you can't add variables, procedures or triggers.",
+        "source": "Page customization object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-customization-object"
+    },
+    {
+        "id": "prof-03",
+        "skill": "Profiles and views",
+        "question": "What must exist for a page customization object to have any effect?",
+        "options": [
+            "A profile object that references it in its Customizations property",
+            "A web service that publishes it",
+            "A permission set that includes it",
+            "Nothing. It applies to all users automatically"
+        ],
+        "answer": 0,
+        "explanation": "A profile doesn't have to use any page customizations, but a page customization has no effect without being associated with a profile object. Its changes are seen by all users of that profile.",
+        "source": "Designing profiles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-design-profiles"
+    },
+    {
+        "id": "prof-04",
+        "skill": "Profiles and views",
+        "question": "Page customizations apply only to the Role Center they're specified for. Where does a user switch Role Center to see one?",
+        "options": [
+            "Assisted Setup",
+            "Extension Management",
+            "My Settings, then Role Center",
+            "Permission Sets"
+        ],
+        "answer": 2,
+        "explanation": "In Business Central, under My Settings, choose Role Center and change to the specific Role Center that the page customization is defined for.",
+        "source": "Profile object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-profile-object"
+    },
+    {
+        "id": "prof-05",
+        "skill": "Profiles and views",
+        "question": "Which object lets your extension change the caption or Role Center of a profile defined in another extension?",
+        "options": [
+            "pagecustomization",
+            "pageextension",
+            "profile",
+            "profileextension"
+        ],
+        "answer": 3,
+        "explanation": "A profile extension object overrides properties of a profile defined in another extension, such as its caption or Role Center page, and can add page customizations to that profile.",
+        "source": "Designing profiles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-design-profiles"
+    },
+    {
+        "id": "prof-06",
+        "skill": "Profiles and views",
+        "question": "Where must the view section be placed in a page, page extension or page customization?",
+        "options": [
+            "Before the layout section",
+            "After the layout and actions sections",
+            "Inside the layout section",
+            "Anywhere in the object"
+        ],
+        "answer": 1,
+        "explanation": "The view section must come after any definition of layout and actions, otherwise you get compiler error AL0577. Views define a different view of the data on a list page.",
+        "source": "Views",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-views"
+    },
+    {
+        "id": "prof-07",
+        "skill": "Profiles and views",
+        "type": "match",
+        "question": "Match each purpose to the profile property that sets it. One item won't be used.",
+        "pairs": [
+            [
+                "A comment that only the developer sees",
+                "Description"
+            ],
+            [
+                "The user-friendly name shown in the client",
+                "Caption"
+            ],
+            [
+                "A detailed description of who the profile is for",
+                "ProfileDescription"
+            ],
+            [
+                "The start page for the profile",
+                "RoleCenter"
+            ]
+        ],
+        "extras": [
+            "Customizations"
+        ],
+        "explanation": "Description is an internal comment for developers, Caption is the user-friendly name, ProfileDescription explains who the profile is for and how to use it, and RoleCenter is the start page. Customizations lists the page customizations applied to the profile, so it fits none of these four.",
+        "source": "Profile object",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-profile-object"
+    },
+    {
+        "id": "onb-01",
+        "skill": "User assistance",
+        "type": "multi",
+        "question": "Which two properties define a teaching tip in AL? (Select two)",
+        "options": [
+            "AboutTitle",
+            "AboutText",
+            "ToolTip",
+            "Caption"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "Teaching tips are defined with the AboutTitle and AboutText properties, or their multi-language versions. You must set both for the teaching tip to appear.",
+        "source": "AboutTitle property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-abouttitle-property"
+    },
+    {
+        "id": "onb-02",
+        "skill": "User assistance",
+        "question": "What is a tour in Business Central onboarding?",
+        "options": [
+            "A wizard built on a NavigatePage",
+            "A list of checklist tasks",
+            "A sequence of teaching tips",
+            "A page with PageType = Tour"
+        ],
+        "answer": 2,
+        "explanation": "A tour is a sequence of teaching tips. Teaching tips can be defined at page level, the page teaching tip, followed by teaching tips at control level.",
+        "source": "Teaching tips and in-app tours for onboarding users",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/onboarding-teaching-tips-tours"
+    },
+    {
+        "id": "onb-03",
+        "skill": "User assistance",
+        "question": "On which page type is a page teaching tip NOT displayed?",
+        "options": [
+            "Card",
+            "List",
+            "RoleCenter",
+            "Document"
+        ],
+        "answer": 2,
+        "explanation": "The page teaching tip isn't displayed if the page's PageType is RoleCenter, NavigatePage, ConfirmationDialog, StandardDialog or HeadlinePart. You can enable UICop rule AW0012 to catch this at compile time.",
+        "source": "AboutTitle property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-abouttitle-property"
+    },
+    {
+        "id": "onb-04",
+        "skill": "User assistance",
+        "question": "A base page has a teaching tip, and your page extension should hide it. What do you do?",
+        "options": [
+            "Set Visible = false on the page",
+            "Delete the tip with a modify trigger",
+            "Add a permission set that blocks it",
+            "Set both About properties to an empty string"
+        ],
+        "answer": 3,
+        "explanation": "Page extension and page customization objects can modify teaching tips from the source object. To hide a tip for a page or control, set the About properties to an empty string. To change a tip, set the AboutText property.",
+        "source": "AboutText property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-abouttext-property"
+    },
+    {
+        "id": "onb-05",
+        "skill": "User assistance",
+        "question": "Which page type do you use to build an assisted setup guide?",
+        "options": [
+            "StandardDialog",
+            "NavigatePage",
+            "Wizard",
+            "ConfirmationDialog"
+        ],
+        "answer": 1,
+        "explanation": "In Business Central you use the NavigatePage page type to create an assisted setup guide.",
+        "source": "Designing assisted setup guides",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-designing-navigate-pages"
+    },
+    {
+        "id": "onb-06",
+        "skill": "User assistance",
+        "question": "How do you make your assisted setup guide show up on the Assisted Setup page?",
+        "options": [
+            "Add the page to a permission set",
+            "Call InsertAssistedSetup in the Guided Experience codeunit",
+            "Set the page's PageType to Wizard",
+            "Create a profile for the wizard"
+        ],
+        "answer": 1,
+        "explanation": "Codeunit 1990 Guided Experience registers your guide in the Guided Experience Item table and runs it from the Assisted Setup page. You register it with InsertAssistedSetup.",
+        "source": "Designing assisted setup guides",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-designing-navigate-pages"
+    },
+    {
+        "id": "onb-07",
+        "skill": "User assistance",
+        "question": "Which table is the source of the Assisted Setup page, and holds the records that onboarding checklist items are based on?",
+        "options": [
+            "Guided Experience Item",
+            "Assisted Setup Group",
+            "Job Queue Entry",
+            "Extension Management"
+        ],
+        "answer": 0,
+        "explanation": "Since Business Central 2021 release wave 1, the records in Manual Setup and Assisted Setup are migrated to the Guided Experience Item table. Checklist items are based on records in that table.",
+        "source": "Onboarding checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/onboarding-checklist"
+    },
+    {
+        "id": "onb-08",
+        "skill": "User assistance",
+        "question": "What must you do before a task can be surfaced on the onboarding checklist?",
+        "options": [
+            "Create a profile object for it",
+            "Publish it as an API page",
+            "Add it to the Guided Experience Item table, using the Guided Experience codeunit",
+            "Enable Read Scale-Out for it"
+        ],
+        "answer": 2,
+        "explanation": "Checklist items can be based on records in the Guided Experience Item table, so before you surface a task on the checklist you must first add it there, using the façade functions in the Guided Experience codeunit.",
+        "source": "Onboarding checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/onboarding-checklist"
+    },
+    {
+        "id": "onb-09",
+        "skill": "User assistance",
+        "type": "match",
+        "question": "Match each purpose to the AL feature behind it. One item won't be used.",
+        "pairs": [
+            [
+                "The body text of a teaching tip",
+                "AboutText"
+            ],
+            [
+                "The large-font title of a teaching tip",
+                "AboutTitle"
+            ],
+            [
+                "The page type for an assisted setup guide",
+                "NavigatePage"
+            ],
+            [
+                "Registers a guide on the Assisted Setup page",
+                "InsertAssistedSetup"
+            ]
+        ],
+        "extras": [
+            "ToolTip"
+        ],
+        "explanation": "AboutTitle and AboutText define teaching tips, NavigatePage is the page type for assisted setup guides, and InsertAssistedSetup in the Guided Experience codeunit registers a guide. ToolTip describes fields and actions. Teaching tips supplement tooltips, they don't replace them.",
+        "source": "User assistance model",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/user-assistance"
     }
 ]

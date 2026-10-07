@@ -24,8 +24,7 @@
             "Reports",
             "XMLports",
             "Enums",
-            "Page types",
-            "Table types"
+            "Page types"
         ]
     },
     {
@@ -33,7 +32,11 @@
         "weight": "15-20%",
         "skills": [
             "File management",
-            "Error handling"
+            "Error handling",
+            "Table types",
+            "Access modifiers",
+            "Profiles and views",
+            "User assistance"
         ]
     },
     {

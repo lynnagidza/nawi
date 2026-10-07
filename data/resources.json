@@ -108,5 +108,20 @@
         "title": "DataAccessIntent property",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property",
         "note": "Running reports, API pages and API queries on a read-only replica."
+    },
+    "Access modifiers": {
+        "title": "Using access modifiers in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers",
+        "note": "Public, Internal, Protected and Local, and what they don't protect."
+    },
+    "Profiles and views": {
+        "title": "Designing profiles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-design-profiles",
+        "note": "Profile, profile extension and page customization objects, plus views."
+    },
+    "User assistance": {
+        "title": "User assistance model",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/user-assistance",
+        "note": "Teaching tips, tours, assisted setup and the onboarding checklist."
     }
 }
