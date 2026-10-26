@@ -3173,5 +3173,480 @@
         "explanation": "You publish the .app to the server, synchronize the tenant database schema, and then install the extension on one or more tenants.",
         "source": "Publishing and installing an extension",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-how-publish-and-install-an-extension-v2"
+    },
+    {
+        "id": "rec-01",
+        "skill": "Record operations",
+        "question": "Which method is optimized for getting a single record by its primary key values?",
+        "options": [
+            "Find",
+            "Get",
+            "FindSet",
+            "Count"
+        ],
+        "answer": 1,
+        "explanation": "Record.Get is optimized for getting a single record based on primary key values. Record.Find also takes any filter or range into account.",
+        "source": "AL database methods and performance on SQL Server",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/optimize-sql-al-database-methods-and-performance-on-server"
+    },
+    {
+        "id": "rec-02",
+        "skill": "Record operations",
+        "question": "What is the difference between Find and FindSet?",
+        "options": [
+            "FindSet can only return one record",
+            "Find uses paging and requests N rows first, while FindSet requests all rows at once",
+            "FindSet only works on temporary tables",
+            "Find always locks the table"
+        ],
+        "answer": 1,
+        "explanation": "Find uses paging: it requests only N rows in the first request and submits a new SQL request if you need more. FindSet requests all rows at once.",
+        "source": "Record.FindSet method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/record/record-findset-boolean-method"
+    },
+    {
+        "id": "rec-03",
+        "skill": "Record operations",
+        "question": "What does FindSet(true) do differently from FindSet(false)?",
+        "options": [
+            "It reads the records in descending order",
+            "It reads the records with UpdLock, which helps when you plan to update all the rows",
+            "It ignores the filters on the record",
+            "It runs the OnModify trigger for each record"
+        ],
+        "answer": 1,
+        "explanation": "With ForUpdate set to true, FindSet reads the records using IsolationLevel::UpdLock (SQL UPDLOCK). That's an advantage if you plan to update all the rows you find.",
+        "source": "Record.FindSet method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/record/record-findset-boolean-method"
+    },
+    {
+        "id": "rec-04",
+        "skill": "Record operations",
+        "question": "You call Customer.Modify() with no arguments. What happens to the code in the OnModify trigger?",
+        "options": [
+            "It always runs",
+            "It doesn't run, because RunTrigger defaults to false",
+            "It runs only for temporary records",
+            "It runs once per changed field"
+        ],
+        "answer": 1,
+        "explanation": "The RunTrigger parameter is optional. If it's true, the OnModify trigger code runs. If it's false, which is the default, it isn't executed.",
+        "source": "Record.Modify method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/record/record-modify-method"
+    },
+    {
+        "id": "rec-05",
+        "skill": "Record operations",
+        "question": "You call SetRange on a field that already has a filter. What happens to the earlier filter on that field?",
+        "options": [
+            "It is combined with the new range using AND",
+            "It is replaced by the new range",
+            "It causes an error",
+            "It is kept, and the new range is ignored"
+        ],
+        "answer": 1,
+        "explanation": "SetRange removes any filters that were set previously and replaces them with the From-Value and To-Value you specify. Called without values, it removes the filter on that field.",
+        "source": "Filtering records with SetRange, SetFilter, GetRangeMin and GetRangeMax",
+        "url": "https://learn.microsoft.com/en-gb/dynamics365/business-central/dev-itpro/developer/devenv-setcurrentkey-setrange-setfilter-getrangemin-and-getrangemax-methods"
+    },
+    {
+        "id": "rec-06",
+        "skill": "Record operations",
+        "type": "multi",
+        "question": "Which two statements about ModifyAll are correct? (Select two)",
+        "options": [
+            "It uses the current filters",
+            "It causes no error if the set of records to change is empty",
+            "It always runs the OnModify trigger",
+            "It returns the number of modified records"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "ModifyAll performs a bulk update using the current filters. It returns no value and doesn't cause an error when the set of records is empty. The optional RunTrigger parameter decides whether triggers run.",
+        "source": "Insert, Modify, ModifyAll, Delete, DeleteAll, and Truncate methods",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-insert-modify-modifyall-delete-and-deleteall-methods"
+    },
+    {
+        "id": "rec-07",
+        "skill": "Record operations",
+        "question": "Which call selects customers whose No. is greater than Value1 and not equal to Value2?",
+        "options": [
+            "Customer.SetRange(\"No.\", Value1, Value2)",
+            "Customer.SetFilter(\"No.\", '>%1|<>%2', Value1, Value2)",
+            "Customer.SetFilter(\"No.\", '>%1&<>%2', Value1, Value2)",
+            "Customer.SetRange(\"No.\", '>%1&<>%2')"
+        ],
+        "answer": 2,
+        "explanation": "SetFilter takes a filter expression with placeholders such as %1 and %2 that are replaced by the values you pass. The & operator means AND, while | means OR. SetRange only sets a simple from-to range.",
+        "source": "Filtering records with SetRange, SetFilter, GetRangeMin and GetRangeMax",
+        "url": "https://learn.microsoft.com/en-gb/dynamics365/business-central/dev-itpro/developer/devenv-setcurrentkey-setrange-setfilter-getrangemin-and-getrangemax-methods"
+    },
+    {
+        "id": "rec-08",
+        "skill": "Record operations",
+        "question": "Which statement about the AL Option data type is correct?",
+        "options": [
+            "It is a zero-based enumerator, and you can convert option values to integers",
+            "It is one-based and can't be converted to integers",
+            "It stores free text",
+            "It can only be used on table fields, not on variables"
+        ],
+        "answer": 0,
+        "explanation": "The Option type is a zero-based enumerator type, so its values are assigned sequential numbers starting with 0. You can convert option data types to integers.",
+        "source": "Option data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/option/option-data-type"
+    },
+    {
+        "id": "bas-01",
+        "skill": "AL basics",
+        "question": "You declare a procedure without the local keyword. What is its scope?",
+        "options": [
+            "Local to the object",
+            "Global",
+            "Internal to the module only",
+            "Private to its table"
+        ],
+        "answer": 1,
+        "explanation": "A method can be local or global. If you don't use the local keyword, the method is declared as a global method.",
+        "source": "Working with AL methods",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-methods"
+    },
+    {
+        "id": "bas-02",
+        "skill": "AL basics",
+        "question": "How do you pass a parameter to a procedure by reference?",
+        "options": [
+            "Prefix the parameter with var",
+            "Prefix the parameter with ref",
+            "Declare the procedure as local",
+            "Declare the parameter as a Variant"
+        ],
+        "answer": 0,
+        "explanation": "In procedure MyMethod(MyCustomer : Record Customer; var MyDimension : List of [Boolean]), MyCustomer is passed by value (a copy of the variable) and MyDimension is passed by reference (a reference to the variable).",
+        "source": "Working with AL methods",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-methods"
+    },
+    {
+        "id": "bas-03",
+        "skill": "AL basics",
+        "question": "According to Microsoft's AL best practices, how should temporary record variables be named?",
+        "options": [
+            "With a Temp prefix",
+            "In lowercase only",
+            "With a Tmp suffix",
+            "Like any other variable"
+        ],
+        "answer": 0,
+        "explanation": "Variables must have the Temp prefix if they're temporary variables, for example TempCustomer: Record Customer temporary. Methods and variables use PascalCase.",
+        "source": "Best practices for AL code",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/compliance/apptest-bestpracticesforalcode"
+    },
+    {
+        "id": "bas-04",
+        "skill": "AL basics",
+        "question": "What range does the AL Date data type denote?",
+        "options": [
+            "January 1, 1900 to December 31, 2999",
+            "January 1, 1970 to December 31, 2038",
+            "January 1, 1753 to December 31, 9999",
+            "January 1, 0001 to December 31, 9999"
+        ],
+        "answer": 2,
+        "explanation": "The Date data type denotes a date ranging from January 1, 1753 to December 31, 9999.",
+        "source": "Data types and methods in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/library"
+    },
+    {
+        "id": "bas-05",
+        "skill": "AL basics",
+        "question": "What can an AL Variant variable hold?",
+        "options": [
+            "Only text",
+            "Many different AL data types",
+            "Only records",
+            "Only numbers"
+        ],
+        "answer": 1,
+        "explanation": "The Variant data type represents an AL variable object and can contain many AL data types.",
+        "source": "Data types and methods in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/library"
+    },
+    {
+        "id": "bas-06",
+        "skill": "AL basics",
+        "type": "match",
+        "question": "Match each description to the AL data type. One item won't be used.",
+        "pairs": [
+            [
+                "Handles large text documents",
+                "BigText"
+            ],
+            [
+                "Represents an HTTP response message, including the status code and data",
+                "HttpResponseMessage"
+            ],
+            [
+                "Sends non-intrusive information to the UI in the web client",
+                "Notification"
+            ],
+            [
+                "Contains many other AL data types in one variable",
+                "Variant"
+            ]
+        ],
+        "extras": [
+            "Blob"
+        ],
+        "explanation": "BigText handles large text documents, HttpResponseMessage carries an HTTP response, Notification is the programmatic way to send non-intrusive information to the web client, and Variant can contain many AL data types. Blob is a complex data type for binary data.",
+        "source": "Data types and methods in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/library"
+    },
+    {
+        "id": "std-01",
+        "skill": "Development standards",
+        "type": "multi",
+        "question": "Which three patterns does Microsoft's master data module teach you to implement? (Select three)",
+        "options": [
+            "Singleton Design Pattern",
+            "No. Series Pattern",
+            "Blocked Entity Design Pattern",
+            "Observer Design Pattern"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "The module covers setup tables with the Singleton Design Pattern, the No. Series Pattern, and the Blocked field with the Blocked Entity Design Pattern, plus master tables and formatting properties.",
+        "source": "Work with master data in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-master-data-business-central/"
+    },
+    {
+        "id": "std-02",
+        "skill": "Development standards",
+        "question": "Which design pattern is used for setup tables?",
+        "options": [
+            "Blocked Entity Design Pattern",
+            "No. Series Pattern",
+            "Singleton Design Pattern",
+            "Posting Pattern"
+        ],
+        "answer": 2,
+        "explanation": "Setup tables follow the Singleton Design Pattern, which is why the module teaches setting up the setup table and pages together with it.",
+        "source": "Work with master data in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-master-data-business-central/"
+    },
+    {
+        "id": "std-03",
+        "skill": "Development standards",
+        "question": "What does the InitRecord function on a document page do?",
+        "options": [
+            "It posts the document",
+            "It initializes fields and sets number series",
+            "It deletes the document lines",
+            "It creates the document's report layout"
+        ],
+        "answer": 1,
+        "explanation": "A document page contains a function called InitRecord that initializes fields and sets number series. You can create your own InitRecord function.",
+        "source": "Use document standards in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-document-standards-business-central/1-introduction"
+    },
+    {
+        "id": "std-04",
+        "skill": "Development standards",
+        "type": "match",
+        "question": "Match each need to the pattern that addresses it. One item won't be used.",
+        "pairs": [
+            [
+                "A setup table with exactly one record",
+                "Singleton Design Pattern"
+            ],
+            [
+                "Assigning numbers to new master and document records",
+                "No. Series Pattern"
+            ],
+            [
+                "A Blocked field on master data",
+                "Blocked Entity Design Pattern"
+            ]
+        ],
+        "extras": [
+            "Observer Design Pattern"
+        ],
+        "explanation": "The Singleton Design Pattern is used for setup tables, the No. Series Pattern assigns numbers, and the Blocked field goes with the Blocked Entity Design Pattern. The Observer pattern isn't one of the Business Central standards.",
+        "source": "Work with master data in Dynamics 365 Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/work-with-master-data-business-central/"
+    },
+    {
+        "id": "case-02",
+        "type": "case",
+        "title": "Fabrikam Field Service",
+        "scenario": "Fabrikam builds a per-tenant extension for a field service company that runs Business Central online.\n\nRequirements: (1) The extension must send job updates to an external scheduling service with HTTP PATCH requests. (2) A reporting service reads large amounts of job data through an API page and shouldn't slow down the primary database. (3) Field technicians need a different Customer List layout from office staff, and must get it automatically through their role. (4) Technicians need extra permissions on top of an existing Microsoft permission set. (5) The next major Business Central update arrives in April.",
+        "questions": [
+            {
+                "id": "case-02-q1",
+                "skill": "HttpClient",
+                "question": "How does the extension send an HTTP PATCH request to the scheduling service?",
+                "options": [
+                    "Call HttpClient.Patch",
+                    "Use HttpClient.Send with an HttpRequestMessage whose method is set to PATCH",
+                    "Call HttpClient.Put with a PATCH header",
+                    "PATCH isn't supported from AL"
+                ],
+                "answer": 1,
+                "explanation": "No specific AL method exists for PATCH. You set the method on an HttpRequestMessage and call HttpClient.Send. Remember that outbound HTTP calls also have to be enabled for the extension on the Extension Management page.",
+                "source": "HttpClient.Get method",
+                "url": "https://learn.microsoft.com/en-US/dynamics365/Business-Central/dev-ITPro/developer/methods-auto/httpclient/httpclient-get-method"
+            },
+            {
+                "id": "case-02-q2",
+                "skill": "Read Scale-Out",
+                "question": "What should you set on the API page so the reporting service's reads can use a read-only replica?",
+                "options": [
+                    "DataAccessIntent = ReadOnly, with Editable set to false",
+                    "Access = Internal",
+                    "ODataKeyFields = SystemId",
+                    "QueryType = API"
+                ],
+                "answer": 0,
+                "explanation": "DataAccessIntent = ReadOnly hints that only read access is needed, so the server can route work to a read-only replica when one is available. On pages it applies to API pages, and Editable must be false. It's a hint, not a guarantee.",
+                "source": "DataAccessIntent property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+            },
+            {
+                "id": "case-02-q3",
+                "skill": "Profiles and views",
+                "question": "How do you deliver a different Customer List layout to field technicians through their role?",
+                "options": [
+                    "A profile object that references a page customization of the Customer List",
+                    "A page extension with a view on the Customer List",
+                    "A permission set that hides fields",
+                    "A web service that publishes the page"
+                ],
+                "answer": 0,
+                "explanation": "A page customization modifies layout and actions for a profile, and all users of that profile see it. It has no effect without being associated with a profile object.",
+                "source": "Designing profiles",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-design-profiles"
+            },
+            {
+                "id": "case-02-q4",
+                "skill": "Permissions",
+                "question": "Which AL object adds permissions to an existing Microsoft permission set?",
+                "options": [
+                    "PermissionSet",
+                    "PermissionSetExtension",
+                    "Entitlement",
+                    "ProfileExtension"
+                ],
+                "answer": 1,
+                "explanation": "If you only add permissions to an existing Microsoft permission set, create a permission set extension object. Extensions make additive changes only.",
+                "source": "Upgrading permission sets and permissions",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/upgrade/upgrade-permissions"
+            },
+            {
+                "id": "case-02-q5",
+                "skill": "Update lifecycle",
+                "question": "Who must make sure the extension keeps working with April's major update, and how long is the update period?",
+                "options": [
+                    "Microsoft, within one month",
+                    "The partner, within the five-month update period",
+                    "The customer, within three months",
+                    "Nobody, because extensions are never affected"
+                ],
+                "answer": 1,
+                "explanation": "Keeping apps and per-tenant extensions up to date is the partner's responsibility. The update period starts when the new major version is generally available, typically the first workday of April and October, and lasts five months.",
+                "source": "Maintain Marketplace apps and per-tenant extensions",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/app-maintain"
+            }
+        ]
+    },
+    {
+        "id": "case-03",
+        "type": "case",
+        "title": "Northwind Document Archiver",
+        "scenario": "Northwind Software is preparing an app, Document Archiver, for AppSource. Customers in several countries will use it.\n\nRequirements: (1) The UI must be available in German and French. (2) Users must be able to download several archived files at once from the web client. (3) The app must pass AppSource technical validation. (4) Version 2 changes stored data, so the app needs upgrade code. (5) A bulk import validates many fields and should report all problems together.",
+        "questions": [
+            {
+                "id": "case-03-q1",
+                "skill": "Multilanguage",
+                "question": "How should Northwind provide the German and French UI text?",
+                "options": [
+                    "Put CaptionML entries in a separate app for each language",
+                    "Generate XLIFF files by adding TranslationFile to the features setting, then add a target element for each label",
+                    "Store the translations in a table and read them at runtime",
+                    "Machine-translate the .app file after compiling"
+                ],
+                "answer": 1,
+                "explanation": "To submit an app to AppSource, you must use XLIFF translation files. You enable generation with \"features\": [ \"TranslationFile\" ] in app.json, then add the target language and a target element per label in the .xlf file.",
+                "source": "Working with translation files",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files"
+            },
+            {
+                "id": "case-03-q2",
+                "skill": "File management",
+                "question": "Browsers handle only one file per request. How should the app let users download several files at once?",
+                "options": [
+                    "Call DownloadFromStream repeatedly in one loop",
+                    "Bundle the files in a .zip archive and download that",
+                    "Convert every file to a BLOB field first",
+                    "Raise the browser request limit in the server settings"
+                ],
+                "answer": 1,
+                "explanation": "Internet browsers can only handle one file per request, so when designing for the web client you bundle the files in an archive file (.zip).",
+                "source": "File.DownloadFromStream method",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-downloadfromstream-method"
+            },
+            {
+                "id": "case-03-q3",
+                "skill": "AppSource",
+                "type": "multi",
+                "question": "Which two of these does AppSource technical validation require? (Select two)",
+                "options": [
+                    "The .app file is digitally signed",
+                    "An ID range is registered for the publisher name and used",
+                    "The extension is submitted as a runtime package",
+                    "The test package is included with the extension"
+                ],
+                "answer": [
+                    0,
+                    1
+                ],
+                "explanation": "The checklist requires a digitally signed .app file and a registered ID range. The submitted extension must not be a runtime package, and you aren't required to include a test package.",
+                "source": "Technical validation checklist",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+            },
+            {
+                "id": "case-03-q4",
+                "skill": "Install and upgrade",
+                "question": "Where should the app register its upgrade tags so a fresh install records them?",
+                "options": [
+                    "In OnInstallAppPerCompany of the install codeunit, by calling SetUpgradeTag",
+                    "In the OnValidateUpgradePerCompany trigger of the upgrade codeunit",
+                    "In the app.json file",
+                    "In a permission set"
+                ],
+                "answer": 0,
+                "explanation": "To register the tag, you call SetUpgradeTag on the OnInstallAppPerCompany and OnInstallAppPerDatabase triggers in the extension's install codeunit. OnUpgradePerCompany does the upgrade work, and OnValidateUpgradePerCompany checks it.",
+                "source": "Upgrading extensions",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+            },
+            {
+                "id": "case-03-q5",
+                "skill": "Error handling",
+                "question": "How should the bulk import report all validation problems together?",
+                "options": [
+                    "Wrap each check in its own try method",
+                    "Call Error in each check so users see every message in turn",
+                    "Collect the errors and present them together",
+                    "Replace Error with Message"
+                ],
+                "answer": 2,
+                "explanation": "Microsoft's error handling overview maps bulk validation, without an error dialog for each problem, to collecting errors. Collectible errors use the ErrorBehavior attribute.",
+                "source": "AL error handling",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling"
+            }
+        ]
     }
 ]

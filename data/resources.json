@@ -158,5 +158,20 @@
         "title": "Publishing and installing an extension",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-how-publish-and-install-an-extension-v2",
         "note": "Publish, sync and install with the Administration Shell."
+    },
+    "Record operations": {
+        "title": "Manipulate data by using code in Business Central",
+        "url": "https://learn.microsoft.com/en-us/training/modules/manipulate-data-via-code/",
+        "note": "Retrieving, filtering, sorting, inserting, modifying and deleting records in AL."
+    },
+    "AL basics": {
+        "title": "Working with AL methods",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-methods",
+        "note": "Procedures, scope, parameters passed by value or by reference, and return values."
+    },
+    "Development standards": {
+        "title": "Work with essential development standards",
+        "url": "https://learn.microsoft.com/en-us/training/paths/essential-development-standards/",
+        "note": "Data process model, master data patterns and document standards."
     }
 }
