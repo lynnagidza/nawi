@@ -12,6 +12,7 @@ let tier = null;
 let current = 0;
 let answers = [];
 let views = [];
+let flags = [];
 let pendingItem = null;
 let timerId = null;
 let secondsLeft = 0;
@@ -19,7 +20,7 @@ let secondsLeft = 0;
 const $ = (id) => document.getElementById(id);
 
 function show(view) {
-    for (const id of ['home', 'quiz', 'done']) {
+    for (const id of ['home', 'quiz', 'overview', 'done']) {
         $(id).hidden = id !== view;
     }
 }
@@ -195,6 +196,7 @@ function startBundle(skill) {
     current = 0;
     answers = [];
     views = [];
+    flags = [];
     show('quiz');
     clearInterval(timerId);
     $('timer').hidden = true;
@@ -228,6 +230,7 @@ function startQuiz(tierKey) {
     current = 0;
     answers = [];
     views = [];
+    flags = [];
     show('quiz');
     $('timer').hidden = false;
     startTimer(Math.round(tier.minutes * 60));
@@ -296,7 +299,11 @@ function renderQuestion() {
     $('feedback').hidden = true;
 
     $('next').hidden = instant;
-    $('next').textContent = current === questions.length - 1 ? 'Finish' : 'Next';
+    $('next').textContent =
+        current === questions.length - 1 ? (instant ? 'Finish' : 'Review') : 'Next';
+    $('flag').hidden = instant;
+    $('flag').textContent = flags[current] ? 'Unflag' : 'Flag for review';
+    $('open-review').hidden = instant;
     $('prev').hidden = instant || current === 0;
     $('check').hidden = !(instant && type !== 'single');
 
@@ -547,11 +554,72 @@ function reveal() {
 
 function nextQuestion() {
     if (current === questions.length - 1) {
-        finishQuiz(false);
+        if (tier.feedback === 'end') openOverview();
+        else finishQuiz(false);
     } else {
         current++;
         renderQuestion();
     }
+}
+
+function isAnswered(i) {
+    const a = answers[i];
+    if (a === undefined) return false;
+    const t = typeOf(questions[i]);
+    if (t === 'multi') return a.length > 0;
+    if (t === 'match') return a.some((v) => v !== -1);
+    return true;
+}
+
+function toggleFlag() {
+    flags[current] = !flags[current];
+    $('flag').textContent = flags[current] ? 'Unflag' : 'Flag for review';
+}
+
+function openOverview() {
+    const list = $('overview-list');
+    list.innerHTML = '';
+    let unanswered = 0;
+    let flagged = 0;
+
+    questions.forEach((q, i) => {
+        const answered = isAnswered(i);
+        if (!answered) unanswered++;
+        if (flags[i]) flagged++;
+
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'overview-row' + (answered ? '' : ' unanswered') + (flags[i] ? ' flagged' : '');
+        row.textContent = `${i + 1}. ${q.caseTitle ? `${q.skill} · Case: ${q.caseTitle}` : q.skill}`;
+
+        const state = document.createElement('small');
+        state.textContent = [answered ? 'Answered' : 'Unanswered', flags[i] ? 'Flagged' : '']
+            .filter(Boolean)
+            .join(' · ');
+        row.appendChild(state);
+
+        row.addEventListener('click', () => {
+            current = i;
+            show('quiz');
+            renderQuestion();
+        });
+        list.appendChild(row);
+    });
+
+    $('overview-summary').textContent =
+        `${unanswered} unanswered · ${flagged} flagged. Time keeps running while you review.`;
+    show('overview');
+}
+
+function finishFromOverview() {
+    const unanswered = questions.filter((_, i) => !isAnswered(i)).length;
+    if (
+        unanswered > 0 &&
+        !confirm(`${unanswered} question(s) are unanswered and will score zero. Finish anyway?`)
+    ) {
+        return;
+    }
+    finishQuiz(false);
 }
 
 /* ---------- results ---------- */
@@ -782,6 +850,13 @@ $('quit').addEventListener('click', () => {
     }
 });
 $('restart').addEventListener('click', () => show('home'));
+$('flag').addEventListener('click', toggleFlag);
+$('open-review').addEventListener('click', openOverview);
+$('overview-back').addEventListener('click', () => {
+    show('quiz');
+    renderQuestion();
+});
+$('overview-finish').addEventListener('click', finishFromOverview);
 
 loadQuestions()
     .then(renderBundles)

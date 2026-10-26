@@ -67,6 +67,7 @@
                 <p id="progress" class="meta"></p>
                 <div class="quiz-side">
                     <button id="quit" class="btn btn-quit">Quit</button>
+                    <button id="open-review" class="btn btn-quit" hidden>Review</button>
                     <p id="timer" class="timer"></p>
                 </div>
             </div>
@@ -79,9 +80,20 @@
             <div class="quiz-nav">
                 <button id="prev" class="btn btn-secondary" hidden>Previous</button>
                 <div class="nav-right">
+                    <button id="flag" class="btn btn-secondary" hidden>Flag for review</button>
                     <button id="check" class="btn" hidden>Check answer</button>
                     <button id="next" class="btn" hidden>Next</button>
                 </div>
+            </div>
+        </section>
+
+        <section id="overview" hidden>
+            <h2>Review your answers</h2>
+            <p id="overview-summary" class="meta"></p>
+            <div id="overview-list"></div>
+            <div class="quiz-nav">
+                <button id="overview-back" class="btn btn-secondary">Back to exam</button>
+                <div class="nav-right"><button id="overview-finish" class="btn">Finish exam</button></div>
             </div>
         </section>
 

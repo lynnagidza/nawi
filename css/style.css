@@ -727,3 +727,37 @@ footer {
     margin-left: 0.4rem;
     color: var(--muted);
 }
+
+/* Review screen */
+.overview-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    text-align: left;
+    background: var(--surface);
+    color: var(--ink);
+    border: 2px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.5rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.overview-row:hover {
+    border-color: var(--ochre);
+}
+
+.overview-row small {
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.overview-row.unanswered {
+    border-color: var(--crimson);
+}
+
+.overview-row.flagged {
+    border-left: 6px solid var(--ochre);
+}
