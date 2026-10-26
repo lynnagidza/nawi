@@ -1,7 +1,7 @@
 const TIERS = {
     quick: { label: 'Quick', count: 10, minutes: 15, feedback: 'instant', cases: 0 },
     standard: { label: 'Standard', count: 25, minutes: 40, feedback: 'end', cases: 1 },
-    exam: { label: 'Exam-like', count: 50, minutes: 100, feedback: 'end', cases: 2 },
+    exam: { label: 'Exam-like', count: 50, minutes: 100, feedback: 'end', cases: 2, weighted: true },
 };
 
 let bank = [];
@@ -82,6 +82,65 @@ async function loadQuestions() {
     domains = await dRes.json();
 }
 
+function weightOf(domain) {
+    const nums = domain.weight.match(/\d+/g).map(Number);
+    return nums.reduce((a, b) => a + b, 0) / nums.length;
+}
+
+function domainQuotas(total) {
+    const weights = domains.map(weightOf);
+    const sum = weights.reduce((a, b) => a + b, 0);
+    const raw = weights.map((w) => (w / sum) * total);
+    const quotas = raw.map(Math.floor);
+    let rest = total - quotas.reduce((a, b) => a + b, 0);
+    raw
+        .map((r, i) => [r - quotas[i], i])
+        .sort((a, b) => b[0] - a[0])
+        .forEach(([, i]) => {
+            if (rest > 0) {
+                quotas[i]++;
+                rest--;
+            }
+        });
+    return quotas;
+}
+
+function domainIndex(skill) {
+    return domains.findIndex((d) => d.skills.includes(skill));
+}
+
+function drawWeighted(singles, caseQuestions, total, room) {
+    const quotas = domainQuotas(total);
+
+    // Case study questions use up part of their own domain's share
+    caseQuestions.forEach((cq) => {
+        const i = domainIndex(cq.skill);
+        if (i >= 0 && quotas[i] > 0) quotas[i]--;
+    });
+
+    const pools = domains.map(() => []);
+    const unmapped = [];
+    shuffle(singles).forEach((s) => {
+        const i = domainIndex(s.skill);
+        (i >= 0 ? pools[i] : unmapped).push(s);
+    });
+
+    const picked = [];
+    let shortfall = 0;
+    pools.forEach((pool, i) => {
+        const take = Math.min(quotas[i], pool.length);
+        picked.push(...pool.slice(0, take));
+        shortfall += quotas[i] - take;
+        pools[i] = pool.slice(take);
+    });
+
+    // If a domain has too few questions, fill the gap from what's left
+    const leftovers = shuffle([...pools.flat(), ...unmapped]);
+    picked.push(...leftovers.slice(0, shortfall));
+
+    return shuffle(picked).slice(0, room);
+}
+
 function expandCase(c) {
     return c.questions.map((q, i) => ({
         ...q,
@@ -102,7 +161,10 @@ function startQuiz(tierKey) {
     const room = Math.max(0, tier.count - caseQuestions.length);
 
     // Case studies go at the end, like sections of the real exam
-    questions = [...shuffle(singles).slice(0, room), ...caseQuestions];
+    const picked = tier.weighted
+        ? drawWeighted(singles, caseQuestions, tier.count, room)
+        : shuffle(singles).slice(0, room);
+    questions = [...picked, ...caseQuestions];
     current = 0;
     answers = [];
     views = [];
@@ -600,6 +662,7 @@ function finishQuiz(timedOut) {
 
     let text = timedOut ? 'Time is up. ' : '';
     text += `${score} of ${total} correct (${percent}%). Unanswered questions count as wrong.`;
+    if (tier.weighted) text += ' Questions were drawn in the official exam proportions.';
     if (total < tier.count) {
         text += ` Your bank only has ${total} questions so far, so this ${tier.label} run was shorter than usual.`;
     }
