@@ -141,6 +141,66 @@ function drawWeighted(singles, caseQuestions, total, room) {
     return shuffle(picked).slice(0, room);
 }
 
+function renderBundles() {
+    const counts = {};
+    bank
+        .filter((q) => q.type !== 'case')
+        .forEach((q) => {
+            counts[q.skill] = (counts[q.skill] || 0) + 1;
+        });
+
+    const groups = domains.map((d) => ({ name: d.name, weight: d.weight, skills: d.skills }));
+    const mapped = new Set(domains.flatMap((d) => d.skills));
+    const other = Object.keys(counts).filter((s) => !mapped.has(s));
+    if (other.length) groups.push({ name: 'Other', weight: '', skills: other });
+
+    const list = $('bundle-list');
+    list.innerHTML = '';
+
+    groups.forEach((g) => {
+        const skills = g.skills.filter((s) => counts[s]);
+        if (!skills.length) return;
+
+        const head = document.createElement('h3');
+        head.className = 'bundle-domain';
+        head.textContent = g.name;
+        if (g.weight) {
+            const w = document.createElement('span');
+            w.textContent = g.weight + ' of exam';
+            head.appendChild(w);
+        }
+        list.appendChild(head);
+
+        const grid = document.createElement('div');
+        grid.className = 'bundle-grid';
+        skills.forEach((s) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'bundle-btn';
+            btn.textContent = s;
+            const n = document.createElement('small');
+            n.textContent = counts[s];
+            btn.appendChild(n);
+            btn.addEventListener('click', () => startBundle(s));
+            grid.appendChild(btn);
+        });
+        list.appendChild(grid);
+    });
+}
+
+function startBundle(skill) {
+    const pool = shuffle(bank.filter((q) => q.type !== 'case' && q.skill === skill));
+    tier = { label: skill, count: pool.length, minutes: 0, feedback: 'instant', cases: 0 };
+    questions = pool;
+    current = 0;
+    answers = [];
+    views = [];
+    show('quiz');
+    clearInterval(timerId);
+    $('timer').hidden = true;
+    renderQuestion();
+}
+
 function expandCase(c) {
     return c.questions.map((q, i) => ({
         ...q,
@@ -169,6 +229,7 @@ function startQuiz(tierKey) {
     answers = [];
     views = [];
     show('quiz');
+    $('timer').hidden = false;
     startTimer(Math.round(tier.minutes * 60));
     renderQuestion();
 }
@@ -722,9 +783,11 @@ $('quit').addEventListener('click', () => {
 });
 $('restart').addEventListener('click', () => show('home'));
 
-loadQuestions().catch(() => {
-    document.querySelectorAll('.start').forEach((btn) => {
-        btn.disabled = true;
-        btn.textContent = 'Could not load questions';
+loadQuestions()
+    .then(renderBundles)
+    .catch(() => {
+        document.querySelectorAll('.start').forEach((btn) => {
+            btn.disabled = true;
+            btn.textContent = 'Could not load questions';
+        });
     });
-});
