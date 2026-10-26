@@ -123,5 +123,40 @@
         "title": "User assistance model",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/user-assistance",
         "note": "Teaching tips, tours, assisted setup and the onboarding checklist."
+    },
+    "Architecture": {
+        "title": "Extensibility overview",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensibility-overview",
+        "note": "The System Application and Base Application layers, and how extensions fit on top."
+    },
+    "Update lifecycle": {
+        "title": "Update cycles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/update-rollout-timeline",
+        "note": "Major and minor updates, preview periods, and keeping extensions current."
+    },
+    "AppSource": {
+        "title": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission",
+        "note": "What an app must meet before it can be submitted to AppSource."
+    },
+    "Development environment": {
+        "title": "Launch JSON file",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-json-launch-file",
+        "note": "launch.json configurations for publishing, attaching and snapshot debugging."
+    },
+    "Debugging": {
+        "title": "Debugging in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-debugging",
+        "note": "Breakpoints, attach debugging, snapshot debugging and SQL insights."
+    },
+    "Multilanguage": {
+        "title": "Working with translation files",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files",
+        "note": "XLIFF files, labels, and translating your own and other extensions."
+    },
+    "Deployment": {
+        "title": "Publishing and installing an extension",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-how-publish-and-install-an-extension-v2",
+        "note": "Publish, sync and install with the Administration Shell."
     }
 }

@@ -3,13 +3,21 @@
         "name": "Describe Business Central",
         "weight": "10-15%",
         "skills": [
-            "Application types"
+            "Application types",
+            "Architecture",
+            "Update lifecycle",
+            "AppSource"
         ]
     },
     {
         "name": "Install, develop, and deploy",
         "weight": "10-15%",
-        "skills": []
+        "skills": [
+            "Development environment",
+            "Debugging",
+            "Multilanguage",
+            "Deployment"
+        ]
     },
     {
         "name": "Develop by using AL objects",

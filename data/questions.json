@@ -2664,5 +2664,514 @@
         "explanation": "AboutTitle and AboutText define teaching tips, NavigatePage is the page type for assisted setup guides, and InsertAssistedSetup in the Guided Experience codeunit registers a guide. ToolTip describes fields and actions. Teaching tips supplement tooltips, they don't replace them.",
         "source": "User assistance model",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/user-assistance"
+    },
+    {
+        "id": "desc-01",
+        "skill": "Architecture",
+        "question": "Which layer of the Business Central application contains the business logic?",
+        "options": [
+            "System Application",
+            "Base Application",
+            "The server platform",
+            "A per-tenant extension"
+        ],
+        "answer": 1,
+        "explanation": "The Base Application is the business logic for the functionality in Business Central. The System Application sits beneath it and supports that logic.",
+        "source": "Differentiate the base app and the system app",
+        "url": "https://learn.microsoft.com/en-us/training/modules/intro-development-environment/differentiate-apps"
+    },
+    {
+        "id": "desc-02",
+        "skill": "Architecture",
+        "question": "What is the System Application?",
+        "options": [
+            "The business logic for sales, purchasing and inventory",
+            "A per-tenant extension that partners create",
+            "A set of open-source modules that interact with the platform and online ecosystem to support the Base Application",
+            "The server that hosts the tenant databases"
+        ],
+        "answer": 2,
+        "explanation": "The System Application is a set of open-source modules that make it easier to build, maintain and upgrade on-premises and online apps. It contains functionality that isn't directly business logic.",
+        "source": "Extensibility overview",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensibility-overview"
+    },
+    {
+        "id": "desc-03",
+        "skill": "Architecture",
+        "question": "Modules in layers above the System Application must set which value in app.json?",
+        "options": [
+            "Target set to Cloud",
+            "Target set to OnPrem",
+            "Target set to Internal",
+            "No target value is allowed"
+        ],
+        "answer": 0,
+        "explanation": "Modules in layers above the System Application must have Target set to Cloud in the app.json file.",
+        "source": "Differentiate the base app and the system app",
+        "url": "https://learn.microsoft.com/en-us/training/modules/intro-development-environment/differentiate-apps"
+    },
+    {
+        "id": "desc-04",
+        "skill": "Architecture",
+        "type": "multi",
+        "question": "Which two things does a compiled .app package contain? (Select two)",
+        "options": [
+            "The artifacts that deliver the new functionality",
+            "A manifest with the name, publisher, version and other attributes",
+            "A copy of the tenant database",
+            "The Business Central server binaries"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "You compile extensions as .app package files. A .app package contains the artifacts that deliver the new functionality, and a manifest that specifies the name, publisher, version and other attributes of the extension.",
+        "source": "Developing extensions in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-dev-overview"
+    },
+    {
+        "id": "desc-05",
+        "skill": "Architecture",
+        "question": "What must an AppSource app specify about the base application?",
+        "options": [
+            "A dependency on a specific base application version",
+            "Nothing, because the base application is always included",
+            "A copy of the base application's source code",
+            "Only the platform version"
+        ],
+        "answer": 0,
+        "explanation": "AppSource apps must specify the dependency of a specific base application in the settings for their app. Microsoft recommends that partners move towards a model where code customization of the base application isn't used.",
+        "source": "Components and capabilities",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/deployment/app-components"
+    },
+    {
+        "id": "life-01",
+        "skill": "Update lifecycle",
+        "question": "When do major Business Central updates typically become generally available?",
+        "options": [
+            "The first workday of every January and July",
+            "The first workday of every April and October",
+            "Every month",
+            "Only when a partner requests one"
+        ],
+        "answer": 1,
+        "explanation": "A new major version typically becomes generally available on the first workday of April and October, which also starts the update period for apps and extensions.",
+        "source": "Maintain Marketplace apps and per-tenant extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/app-maintain"
+    },
+    {
+        "id": "life-02",
+        "skill": "Update lifecycle",
+        "question": "How long does the update period last after a new major version is generally available?",
+        "options": [
+            "One month",
+            "Three months",
+            "Five months",
+            "Twelve months"
+        ],
+        "answer": 2,
+        "explanation": "The update period starts when a new major version is generally available and lasts for five months.",
+        "source": "Maintain Marketplace apps and per-tenant extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/app-maintain"
+    },
+    {
+        "id": "life-03",
+        "skill": "Update lifecycle",
+        "question": "Minor updates are released every month except which two?",
+        "options": [
+            "January and July",
+            "March and September",
+            "December and June",
+            "April and October"
+        ],
+        "answer": 3,
+        "explanation": "Minor updates are released every month in which there's no major update, that is, every month except April and October. March and September are when the preview period for a major version starts.",
+        "source": "Update cycles",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/update-rollout-timeline"
+    },
+    {
+        "id": "life-04",
+        "skill": "Update lifecycle",
+        "question": "Who is responsible for keeping apps and per-tenant extensions up to date as Business Central online gets updated?",
+        "options": [
+            "Microsoft updates them automatically",
+            "The partner",
+            "The customer's Microsoft 365 administrator",
+            "Nobody. They are never affected by updates"
+        ],
+        "answer": 1,
+        "explanation": "Keeping apps and per-tenant extensions up to date is the partner's responsibility. During an enforced update period, extensions that cause a major update to fail may be uninstalled automatically so the update can succeed.",
+        "source": "Maintain Marketplace apps and per-tenant extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/app-maintain"
+    },
+    {
+        "id": "life-05",
+        "skill": "Update lifecycle",
+        "question": "Which statement is true for Business Central on-premises?",
+        "options": [
+            "You can't upload per-tenant extensions or install Marketplace apps through the Extension Management page",
+            "You can install Marketplace apps in Docker-based deployments",
+            "Marketplace apps install automatically",
+            "Per-tenant extensions aren't supported at all"
+        ],
+        "answer": 0,
+        "explanation": "For on-premises, you can't upload per-tenant extensions or install Marketplace apps through the Extension Management page, and you can't install Marketplace apps on-premises at all, including in Docker-based deployments.",
+        "source": "Customizing Business Central online using apps",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/ui-extensions"
+    },
+    {
+        "id": "as-01",
+        "skill": "AppSource",
+        "type": "multi",
+        "question": "Which of these must be true before you submit an extension to AppSource? (Select all that apply)",
+        "options": [
+            "The .app file is digitally signed",
+            "DataClassification is set on the fields of all tables and table extensions",
+            "An ID range is registered for your publisher name and used in the extension",
+            "The extension is submitted as a runtime package"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "The technical validation checklist requires a signed .app file, DataClassification on all table and table extension fields, and a registered ID range. The submitted extension must not be a runtime package.",
+        "source": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+    },
+    {
+        "id": "as-02",
+        "skill": "AppSource",
+        "question": "Mandatory app.json properties are missing when you submit an app. What happens?",
+        "options": [
+            "The submission is accepted with a warning",
+            "The submission is rejected",
+            "Microsoft fills in defaults",
+            "A manual reviewer adds them"
+        ],
+        "answer": 1,
+        "explanation": "The technical validation is fully automated. If any mandatory properties or required property values are missing, the submission is rejected.",
+        "source": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+    },
+    {
+        "id": "as-03",
+        "skill": "AppSource",
+        "question": "How is the minimum Business Central release that your submission is validated against computed?",
+        "options": [
+            "From the application property in app.json",
+            "From the platform property only",
+            "From the date of submission",
+            "From your publisher's ID range"
+        ],
+        "answer": 0,
+        "explanation": "The minimum release for your submission is computed based on the application property specified in the app.json of your extension.",
+        "source": "Technical validation checklist",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-checklist-submission"
+    },
+    {
+        "id": "as-04",
+        "skill": "AppSource",
+        "type": "multi",
+        "question": "Which three app.json properties are required for AppSource submission, even though they're optional otherwise? (Select three)",
+        "options": [
+            "privacyStatement",
+            "EULA",
+            "help",
+            "target"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "privacyStatement, EULA and help (along with brief, description, url and logo) are required for AppSource submission. target is always optional, and defaults to Cloud.",
+        "source": "JSON files",
+        "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-json-files"
+    },
+    {
+        "id": "env-01",
+        "skill": "Development environment",
+        "type": "match",
+        "question": "Match each description to the AL project file. One item won't be used.",
+        "pairs": [
+            [
+                "The manifest: the extension's name, publisher, version and dependencies",
+                "app.json"
+            ],
+            [
+                "The server to launch on and how to connect, including debug configurations",
+                "launch.json"
+            ]
+        ],
+        "extras": [
+            "tasks.json"
+        ],
+        "explanation": "The app.json file is the extension's manifest. The launch.json file contains information about the server the extension launches on, with configurations for publishing, snapshot debugging and attach debugging.",
+        "source": "Launch JSON file",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-json-launch-file"
+    },
+    {
+        "id": "env-02",
+        "skill": "Development environment",
+        "question": "What do AL symbol packages contain?",
+        "options": [
+            "Compiled .app packages ready to deploy",
+            "Type information for objects defined in other extensions and in the base application",
+            "Translation files for the UI",
+            "Test data for the sandbox"
+        ],
+        "answer": 1,
+        "explanation": "Symbol packages contain the type information for objects defined in other extensions and in the Business Central base application. You download them with the AL: Download Symbols command so your code can compile against them.",
+        "source": "Download AL symbol packages",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/al-agent-tools/al-tool-download-symbols"
+    },
+    {
+        "id": "env-03",
+        "skill": "Development environment",
+        "type": "multi",
+        "question": "Which three authentication methods can a launch.json configuration use? (Select three)",
+        "options": [
+            "AAD (Microsoft Entra ID)",
+            "Windows",
+            "UserPassword",
+            "Kerberos delegation"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "The authentication setting takes AAD, Windows or UserPassword.",
+        "source": "Download AL symbol packages",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/al-agent-tools/al-tool-download-symbols"
+    },
+    {
+        "id": "dbg-01",
+        "skill": "Debugging",
+        "type": "match",
+        "question": "Match each purpose to the request value in a launch.json configuration. One item won't be used.",
+        "pairs": [
+            [
+                "Publish the extension and start a debugging session",
+                "launch"
+            ],
+            [
+                "Attach to a running session, or to the next session",
+                "attach"
+            ],
+            [
+                "Record AL code on the server for offline debugging",
+                "snapshotInitialize"
+            ]
+        ],
+        "extras": [
+            "debugNext"
+        ],
+        "explanation": "launch publishes to a server, attach attaches the debugger to an existing or next session, and snapshotInitialize starts a snapshot debugging session. debugNext isn't a request type.",
+        "source": "Launch JSON file",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-json-launch-file"
+    },
+    {
+        "id": "dbg-02",
+        "skill": "Debugging",
+        "type": "multi",
+        "question": "Snapshot debugging records AL code as it runs on the server. Where does it collect variable information? (Select two)",
+        "options": [
+            "At snappoints",
+            "At AL exceptions",
+            "On every executed line",
+            "At breakpoints set in other users' sessions"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "Snapshot debugging records the AL code as it runs, but only collects variable information on snappoints and AL exceptions.",
+        "source": "Snapshot debugging",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-snapshot-debugging"
+    },
+    {
+        "id": "dbg-03",
+        "skill": "Debugging",
+        "question": "Once a configuration is defined, which shortcut initializes a snapshot debugging session?",
+        "options": [
+            "F5",
+            "F6",
+            "F7",
+            "F9"
+        ],
+        "answer": 2,
+        "explanation": "You can choose AL: Initialize Snapshot Debugging from the command palette, or press F7. F5 publishes and debugs, and F6 starts the Page Designer.",
+        "source": "Snapshot debugging",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-snapshot-debugging"
+    },
+    {
+        "id": "dbg-04",
+        "skill": "Debugging",
+        "type": "multi",
+        "question": "Which two launch configuration properties let you attach to an ongoing session or debug on behalf of another user? (Select two)",
+        "options": [
+            "sessionId",
+            "userId",
+            "tenantId",
+            "breakOnNext"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "Business Central 2023 release wave 1 added sessionId and userId to the attach configuration. breakOnNext, by contrast, picks the next client to break on and allows only one option.",
+        "source": "Attach and debug next",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-attach-debug-next"
+    },
+    {
+        "id": "dbg-05",
+        "skill": "Debugging",
+        "type": "order",
+        "question": "Put the steps in the right order to run an attach debugging session.",
+        "items": [
+            "Choose to attach to a cloud sandbox or a local server, which populates launch.json",
+            "Set breakpoints in the code",
+            "Press F5 to start the attach session",
+            "Select Detach to stop the session"
+        ],
+        "explanation": "You pick the attach configuration, set breakpoints (you can add more while debugging), start with F5, and stop by choosing Detach on the Visual Studio Code toolbar.",
+        "source": "Use attach and debug with attach configurations",
+        "url": "https://learn.microsoft.com/en-us/training/modules/debug-deploy-extension/3-attach"
+    },
+    {
+        "id": "ml-01",
+        "skill": "Multilanguage",
+        "question": "Which file format does Business Central use for UI translations?",
+        "options": [
+            "RESX (.resx)",
+            "XLIFF (.xlf)",
+            "Gettext PO (.po)",
+            "JSON (.json)"
+        ],
+        "answer": 1,
+        "explanation": "Business Central uses XLIFF, a standardized format for computer-based translations, with the file extension .xlf. To submit an app to AppSource, you must use XLIFF translation files.",
+        "source": "Working with translation files",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files"
+    },
+    {
+        "id": "ml-02",
+        "skill": "Multilanguage",
+        "question": "How do you make the AL compiler generate an XLIFF translation file for your extension?",
+        "options": [
+            "Create an empty Translations folder",
+            "Set Locked = false on every caption",
+            "Add TranslationFile to the features setting in app.json",
+            "Run AL: Download Symbols"
+        ],
+        "answer": 2,
+        "explanation": "You enable the feature with \"features\": [ \"TranslationFile\" ] in app.json. The generated .xlf file then contains the strings from properties such as Caption, CaptionML and ToolTip.",
+        "source": "Working with translation files",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files"
+    },
+    {
+        "id": "ml-03",
+        "skill": "Multilanguage",
+        "question": "What effect does Locked = true on a label have on the generated translation file?",
+        "options": [
+            "The text is encrypted",
+            "The label can't be used in code",
+            "The text is left out of the generated file, unless GenerateLockedTranslations is set",
+            "The text is translated automatically"
+        ],
+        "answer": 2,
+        "explanation": "Locked labels aren't translatable, so their text isn't included in the generated translation file. Setting GenerateLockedTranslations in app.json generates trans-unit elements for locked labels as well.",
+        "source": "Working with translation files",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files"
+    },
+    {
+        "id": "ml-04",
+        "skill": "Multilanguage",
+        "question": "You want to translate the captions of an extension you depend on. What do you do?",
+        "options": [
+            "Edit the other extension's .xlf file",
+            "Put the translated .xlf file in a Translations folder in your extension's root, using the trans-unit id of the original property",
+            "Override CaptionML in a page extension for each object",
+            "Ask Microsoft to translate it"
+        ],
+        "answer": 1,
+        "explanation": "When the dependencies are set, you can add xliff files that translate the object captions of the referenced extension. Place them in a Translations directory in the root of your extension, and use the trans-unit id of the original property, not one from an extension object that might have modified it.",
+        "source": "Working with translation files",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-work-with-translation-files"
+    },
+    {
+        "id": "ml-05",
+        "skill": "Multilanguage",
+        "question": "CaptionML has no entry for the language the client is using. Which caption is used first?",
+        "options": [
+            "The ENU entry, if there is one",
+            "The first entry in the list",
+            "The object's Name property, always",
+            "An empty caption"
+        ],
+        "answer": 0,
+        "explanation": "When CaptionML has no entry for the client's language, the ENU entry's caption string is used if there is one. If there are no language entries at all, the caption defaults to the element's Name.",
+        "source": "CaptionML property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-captionml-property"
+    },
+    {
+        "id": "dep-01",
+        "skill": "Deployment",
+        "question": "What does Ctrl+F5 do in the AL Language extension?",
+        "options": [
+            "Publishes and starts a debugging session",
+            "Publishes the extension without starting a debugging session",
+            "Starts debugging without publishing",
+            "Downloads the symbol packages"
+        ],
+        "answer": 1,
+        "explanation": "Ctrl+F5 (Run Without Debugging) publishes the extension and runs it without a debug session. F5 publishes with debugging.",
+        "source": "Developing extensions in AL",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-dev-overview"
+    },
+    {
+        "id": "dep-02",
+        "skill": "Deployment",
+        "question": "What does publishing an extension with Publish-NAVApp -Scope Tenant do?",
+        "options": [
+            "It publishes the extension for all tenants on the server",
+            "It publishes the extension into the per-tenant scope, and it must also be published to a tenant before that tenant can use it",
+            "It installs the extension for every user",
+            "It replaces the base application"
+        ],
+        "answer": 1,
+        "explanation": "Global scope publishes the extension for all tenants on the server. Tenant scope publishes it into the per-tenant scope, and to be usable by a tenant it must also be published to that tenant.",
+        "source": "Publish-NAVApp",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/Microsoft.BusinessCentral.Apps.Management/Publish-NAVApp?view=businesscentral-ps-26"
+    },
+    {
+        "id": "dep-03",
+        "skill": "Deployment",
+        "question": "What does the Sync-NAVApp cmdlet do?",
+        "options": [
+            "Copies the extension to other servers",
+            "Updates the tenant database schema with the schema defined by the extension's objects",
+            "Installs the extension for all users",
+            "Signs the .app package"
+        ],
+        "answer": 1,
+        "explanation": "Synchronizing an extension updates the tenant database schema with the schema defined by the extension objects. If a table or table extension is included, the respective full or companion table is created in the tenant database.",
+        "source": "Publishing and installing an extension",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-how-publish-and-install-an-extension-v2"
+    },
+    {
+        "id": "dep-04",
+        "skill": "Deployment",
+        "type": "order",
+        "question": "Put the cmdlets in the right order to deploy an extension with the Administration Shell.",
+        "items": [
+            "Publish-NAVApp",
+            "Sync-NAVApp",
+            "Install-NAVApp"
+        ],
+        "explanation": "You publish the .app to the server, synchronize the tenant database schema, and then install the extension on one or more tenants.",
+        "source": "Publishing and installing an extension",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-how-publish-and-install-an-extension-v2"
     }
 ]
