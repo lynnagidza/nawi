@@ -761,3 +761,8 @@ footer {
 .overview-row.flagged {
     border-left: 6px solid var(--ochre);
 }
+
+.overview-row.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

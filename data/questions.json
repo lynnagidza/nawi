@@ -3646,6 +3646,307 @@
                 "explanation": "Microsoft's error handling overview maps bulk validation, without an error dialog for each problem, to collecting errors. Collectible errors use the ErrorBehavior attribute.",
                 "source": "AL error handling",
                 "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling"
+            },
+            {
+                "id": "page-06",
+                "skill": "Page extensions",
+                "question": "Which property must be true for a page to be extended by a page extension?",
+                "options": [
+                    "Editable",
+                    "SourceTableTemporary",
+                    "ApplicationArea",
+                    "Extensible"
+                ],
+                "answer": 3,
+                "explanation": "Only pages with the Extensible property set to true can be extended.",
+                "source": "Page object",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-object"
+            },
+            {
+                "id": "page-07",
+                "skill": "Page extensions",
+                "question": "In a page extension, what can the anchor of addlast(Anchor) be?",
+                "options": [
+                    "Only fields",
+                    "Only actions",
+                    "Areas and groups",
+                    "Only the page itself"
+                ],
+                "answer": 2,
+                "explanation": "For addlast, the anchor can be an area or a group, as in addlast(General) on the Customer Card. For modify, the target can be controls, actions and groups.",
+                "source": "Page extension object",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-ext-object"
+            },
+            {
+                "id": "page-08",
+                "skill": "Page extensions",
+                "type": "multi",
+                "question": "Which three can be the target of modify in a page extension? (Select three)",
+                "options": [
+                    "Controls",
+                    "Actions",
+                    "Groups",
+                    "Procedures"
+                ],
+                "answer": [
+                    0,
+                    1,
+                    2
+                ],
+                "explanation": "modify(Target) changes existing controls, actions and groups. Procedures aren't page controls, so they can't be modified this way.",
+                "source": "Page extension object",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-ext-object"
+            },
+            {
+                "id": "page-09",
+                "skill": "Page extensions",
+                "question": "What are the three sections of a page's structure?",
+                "options": [
+                    "Header, lines and footer",
+                    "Page properties (metadata), layout and actions",
+                    "Fields, keys and triggers",
+                    "Request page, dataset and layout"
+                ],
+                "answer": 1,
+                "explanation": "The structure of a page is hierarchical. The first block holds metadata, such as the page type and source table. The layout describes the visual parts, and the last section details the actions published on the page.",
+                "source": "Page object",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-object"
+            },
+            {
+                "id": "page-10",
+                "skill": "Page extensions",
+                "question": "Can a single page customization be used with more than one profile?",
+                "options": [
+                    "No, each profile needs its own page customization",
+                    "Yes, but only within the same extension",
+                    "Yes, across any extensions",
+                    "Only for Role Center pages"
+                ],
+                "answer": 1,
+                "explanation": "A single page customization can be used with multiple profiles within the same extension.",
+                "source": "Page customization object",
+                "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-page-customization-object"
+            },
+            {
+                "id": "page-11",
+                "skill": "Page extensions",
+                "type": "match",
+                "question": "Match each description to the AL object. One item won't be used.",
+                "pairs": [
+                    [
+                        "Extends an existing page, adding or overriding functionality",
+                        "pageextension"
+                    ],
+                    [
+                        "Changes layout and actions for a profile, and can't have variables, procedures or triggers",
+                        "pagecustomization"
+                    ],
+                    [
+                        "Defines a new page",
+                        "page"
+                    ]
+                ],
+                "extras": [
+                    "tableextension"
+                ],
+                "explanation": "A page extension extends a page and can carry code. A page customization is more restricted: it changes layout and actions for a profile, with no variables, procedures or triggers. A page object defines a new page, and a table extension extends tables, not pages.",
+                "source": "Page customization object",
+                "url": "https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-page-customization-object"
+            },
+            {
+                "id": "xml-06",
+                "skill": "XMLports",
+                "question": "What is the default value of an XMLport's Direction property?",
+                "options": [
+                    "Import",
+                    "Export",
+                    "Both",
+                    "Auto"
+                ],
+                "answer": 2,
+                "explanation": "Direction can be Import, Export or Both. Both, the default, lets the XMLport import and export data.",
+                "source": "Direction property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-direction-property"
+            },
+            {
+                "id": "xml-07",
+                "skill": "XMLports",
+                "question": "An XMLport has Direction = Both and uses a request page. What does the user see?",
+                "options": [
+                    "Nothing. It always exports",
+                    "A prompt to pick the file format",
+                    "An option on the request page to choose between importing and exporting",
+                    "An error"
+                ],
+                "answer": 2,
+                "explanation": "With Direction = Both and a request page, an option appears on the request page that lets the user choose to import or export data.",
+                "source": "Direction property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-direction-property"
+            },
+            {
+                "id": "xml-08",
+                "skill": "XMLports",
+                "question": "An XMLport uses Format = FixedText. Which property must you set on each node?",
+                "options": [
+                    "MaxLength",
+                    "Width",
+                    "FieldDelimiter",
+                    "FieldSeparator"
+                ],
+                "answer": 1,
+                "explanation": "When you configure an XMLport for the FixedText format, you must set the Width property for every node.",
+                "source": "Create an XMLport by using snippets in Visual Studio Code",
+                "url": "https://learn.microsoft.com/en-us/training/modules/work-with-xmlports/6-create"
+            },
+            {
+                "id": "xml-09",
+                "skill": "XMLports",
+                "question": "With Format = VariableText, which property specifies the string that separates fields?",
+                "options": [
+                    "TableSeparator",
+                    "RecordSeparator",
+                    "FieldDelimiter",
+                    "FieldSeparator"
+                ],
+                "answer": 3,
+                "explanation": "FieldSeparator specifies the string used to separate fields. RecordSeparator says what happens at the end of a record, FieldDelimiter wraps field values (for example in quotes), and TableSeparator separates sets of nodes from different tables.",
+                "source": "Create an XMLport by using snippets in Visual Studio Code",
+                "url": "https://learn.microsoft.com/en-us/training/modules/work-with-xmlports/6-create"
+            },
+            {
+                "id": "xml-10",
+                "skill": "XMLports",
+                "type": "match",
+                "question": "Match each purpose to the XMLport property. One item won't be used.",
+                "pairs": [
+                    [
+                        "The string that separates fields",
+                        "FieldSeparator"
+                    ],
+                    [
+                        "What is written at the end of a record",
+                        "RecordSeparator"
+                    ],
+                    [
+                        "A character wrapped around each field value, such as a double quote",
+                        "FieldDelimiter"
+                    ],
+                    [
+                        "Separates sets of nodes from different tables",
+                        "TableSeparator"
+                    ]
+                ],
+                "extras": [
+                    "Width"
+                ],
+                "explanation": "These four properties shape VariableText output. Width belongs to FixedText, where every node needs one.",
+                "source": "Create an XMLport by using snippets in Visual Studio Code",
+                "url": "https://learn.microsoft.com/en-us/training/modules/work-with-xmlports/6-create"
+            },
+            {
+                "id": "xml-11",
+                "skill": "XMLports",
+                "question": "An XMLport doesn't use a request page, and you run it without specifying the Import parameter. Which direction does it use?",
+                "options": [
+                    "Export",
+                    "Both",
+                    "Import",
+                    "The run fails"
+                ],
+                "answer": 2,
+                "explanation": "Request pages show only when the XMLport is run from an action on a page or the Run method. If the XMLport doesn't use a request page, it defaults to Import unless you specify the direction with the Import parameter of the Run method.",
+                "source": "Direction property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-direction-property"
+            },
+            {
+                "id": "enum-06",
+                "skill": "Enums",
+                "question": "What does the UnknownValueImplementation property do?",
+                "options": [
+                    "It makes the enum extensible",
+                    "It hides unused enum values in the UI",
+                    "It specifies the implementers used for ordinal values that aren't in the defined list of enum values",
+                    "It converts option fields to enums"
+                ],
+                "answer": 2,
+                "explanation": "UnknownValueImplementation, available from runtime version 7.0, specifies the implementers for ordinal values that aren't in the defined list of enum values. It applies to enums.",
+                "source": "UnknownValueImplementation property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-unknownvalueimplementation-property"
+            },
+            {
+                "id": "enum-07",
+                "skill": "Enums",
+                "question": "A partner uninstalls an enum extension, but records still hold one of its values. Which enum property gives user-friendly handling instead of a technical error?",
+                "options": [
+                    "DefaultImplementation",
+                    "UnknownValueImplementation",
+                    "Extensible",
+                    "AssignmentCompatibility"
+                ],
+                "answer": 1,
+                "explanation": "Uninstalling enum extensions can leave persisted values pointing to an unknown value. UnknownValueImplementation provides generic error handling in that case and avoids a technical error message in the UI.",
+                "source": "UnknownValueImplementation property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-unknownvalueimplementation-property"
+            },
+            {
+                "id": "enum-08",
+                "skill": "Enums",
+                "question": "Which property provides a fallback implementation when no enum value is provided?",
+                "options": [
+                    "UnknownValueImplementation",
+                    "Extensible",
+                    "DefaultImplementation",
+                    "Implementation"
+                ],
+                "answer": 2,
+                "explanation": "DefaultImplementation is used for fallback to a default value when no enum value is provided. It's related to UnknownValueImplementation, which covers ordinal values that aren't defined.",
+                "source": "UnknownValueImplementation property",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-unknownvalueimplementation-property"
+            },
+            {
+                "id": "enum-09",
+                "skill": "Enums",
+                "question": "An enum YesNo has value(0; Yes) and value(10; No). What does Enum::YesNo.FromInteger(10) return?",
+                "options": [
+                    "Yes",
+                    "No",
+                    "An error, because 10 isn't a position in the list",
+                    "The value at position 10"
+                ],
+                "answer": 1,
+                "explanation": "FromInteger takes the ordinal value, not the position in the list. Ordinal 10 is the value No.",
+                "source": "Enum.FromInteger method",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/enum/enum-frominteger-method"
+            },
+            {
+                "id": "enum-10",
+                "skill": "Enums",
+                "type": "match",
+                "question": "Match each purpose to the enum property. One item won't be used.",
+                "pairs": [
+                    [
+                        "Implementers for ordinal values that aren't in the defined list",
+                        "UnknownValueImplementation"
+                    ],
+                    [
+                        "Fallback implementation when no enum value is provided",
+                        "DefaultImplementation"
+                    ],
+                    [
+                        "Maps one enum value to an implementing codeunit",
+                        "Implementation"
+                    ],
+                    [
+                        "Lets other apps add values",
+                        "Extensible"
+                    ]
+                ],
+                "extras": [
+                    "Access"
+                ],
+                "explanation": "UnknownValueImplementation and DefaultImplementation cover unknown and missing values, Implementation on an enum value maps it to a codeunit, and Extensible lets other apps add values through enum extensions. Access sets accessibility, not any of these.",
+                "source": "Interfaces in AL",
+                "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al"
             }
         ]
     }

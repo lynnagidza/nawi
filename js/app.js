@@ -13,6 +13,7 @@ let current = 0;
 let answers = [];
 let views = [];
 let flags = [];
+let locked = new Set();
 let pendingItem = null;
 let timerId = null;
 let secondsLeft = 0;
@@ -197,6 +198,7 @@ function startBundle(skill) {
     answers = [];
     views = [];
     flags = [];
+    locked = new Set();
     show('quiz');
     clearInterval(timerId);
     $('timer').hidden = true;
@@ -231,6 +233,7 @@ function startQuiz(tierKey) {
     answers = [];
     views = [];
     flags = [];
+    locked = new Set();
     show('quiz');
     $('timer').hidden = false;
     startTimer(Math.round(tier.minutes * 60));
@@ -304,7 +307,9 @@ function renderQuestion() {
     $('flag').hidden = instant;
     $('flag').textContent = flags[current] ? 'Unflag' : 'Flag for review';
     $('open-review').hidden = instant;
-    $('prev').hidden = instant || current === 0;
+    const before = questions[current - 1];
+    $('prev').hidden =
+        instant || current === 0 || !!(before && before.caseId && before.caseId !== q.caseId);
     $('check').hidden = !(instant && type !== 'single');
 
     if (type === 'order') {
@@ -556,10 +561,18 @@ function nextQuestion() {
     if (current === questions.length - 1) {
         if (tier.feedback === 'end') openOverview();
         else finishQuiz(false);
-    } else {
-        current++;
-        renderQuestion();
+        return;
     }
+    const here = questions[current];
+    const there = questions[current + 1];
+    if (tier.feedback === 'end' && here.caseId && there.caseId !== here.caseId) {
+        if (!confirm("Once you leave this case study you can't return to its questions. Continue?")) {
+            return;
+        }
+        locked.add(here.caseId);
+    }
+    current++;
+    renderQuestion();
 }
 
 function isAnswered(i) {
@@ -584,25 +597,37 @@ function openOverview() {
 
     questions.forEach((q, i) => {
         const answered = isAnswered(i);
+        const isLocked = !!(q.caseId && locked.has(q.caseId));
         if (!answered) unanswered++;
         if (flags[i]) flagged++;
 
         const row = document.createElement('button');
         row.type = 'button';
-        row.className = 'overview-row' + (answered ? '' : ' unanswered') + (flags[i] ? ' flagged' : '');
+        row.className =
+            'overview-row' +
+            (answered ? '' : ' unanswered') +
+            (flags[i] ? ' flagged' : '') +
+            (isLocked ? ' locked' : '');
+        row.disabled = isLocked;
         row.textContent = `${i + 1}. ${q.caseTitle ? `${q.skill} · Case: ${q.caseTitle}` : q.skill}`;
 
         const state = document.createElement('small');
-        state.textContent = [answered ? 'Answered' : 'Unanswered', flags[i] ? 'Flagged' : '']
+        state.textContent = [
+            isLocked ? 'Locked' : '',
+            answered ? 'Answered' : 'Unanswered',
+            flags[i] ? 'Flagged' : '',
+        ]
             .filter(Boolean)
             .join(' · ');
         row.appendChild(state);
 
-        row.addEventListener('click', () => {
-            current = i;
-            show('quiz');
-            renderQuestion();
-        });
+        if (!isLocked) {
+            row.addEventListener('click', () => {
+                current = i;
+                show('quiz');
+                renderQuestion();
+            });
+        }
         list.appendChild(row);
     });
 
