@@ -143,6 +143,81 @@ function drawWeighted(singles, caseQuestions, total, room) {
     return shuffle(picked).slice(0, room);
 }
 
+const MISSED_KEY = 'nawi-missed';
+const HISTORY_KEY = 'nawi-history';
+
+function loadList(key) {
+    try {
+        return JSON.parse(localStorage.getItem(key)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveList(key, list) {
+    try {
+        localStorage.setItem(key, JSON.stringify(list));
+    } catch {
+        /* storage blocked: the site still works, progress just isn't kept */
+    }
+}
+
+function recordResults(scaled) {
+    const missed = new Set(loadList(MISSED_KEY));
+    questions.forEach((q, i) => {
+        if (q.caseId) return;
+        if (isCorrect(q, answers[i])) missed.delete(q.id);
+        else if (isAnswered(i)) missed.add(q.id);
+    });
+    saveList(MISSED_KEY, [...missed]);
+
+    const history = loadList(HISTORY_KEY);
+    history.unshift({
+        when: new Date().toISOString(),
+        label: tier.label,
+        scaled,
+        total: questions.length,
+    });
+    saveList(HISTORY_KEY, history.slice(0, 20));
+}
+
+function renderMissed() {
+    const ids = new Set(loadList(MISSED_KEY));
+    const pool = bank.filter((q) => q.type !== 'case' && ids.has(q.id));
+    const box = $('missed-box');
+    box.innerHTML = '';
+    if (!pool.length) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn';
+    btn.textContent = `Practice my missed questions (${pool.length})`;
+    btn.addEventListener('click', () => startPractice('Missed questions', pool));
+    box.appendChild(btn);
+    box.appendChild(
+        reviewLine('Questions you got wrong in earlier runs. Answer one correctly and it leaves this list.', 'hint')
+    );
+}
+
+function renderHistory() {
+    const history = loadList(HISTORY_KEY).slice(0, 5);
+    const list = $('history-list');
+    list.innerHTML = '';
+    list.parentElement.hidden = history.length === 0;
+
+    history.forEach((h) => {
+        const row = document.createElement('div');
+        row.className = 'history-row';
+        const left = document.createElement('span');
+        const day = new Date(h.when).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+        left.textContent = `${day} · ${h.label}`;
+        const right = document.createElement('small');
+        right.textContent = `${h.scaled}/1000 · ${h.total} questions`;
+        row.append(left, right);
+        list.appendChild(row);
+    });
+}
+
 function renderBundles() {
     const counts = {};
     bank
@@ -190,10 +265,9 @@ function renderBundles() {
     });
 }
 
-function startBundle(skill) {
-    const pool = shuffle(bank.filter((q) => q.type !== 'case' && q.skill === skill));
-    tier = { label: skill, count: pool.length, minutes: 0, feedback: 'instant', cases: 0 };
-    questions = pool;
+function startPractice(label, pool) {
+    tier = { label, count: pool.length, minutes: 0, feedback: 'instant', cases: 0 };
+    questions = shuffle(pool);
     current = 0;
     answers = [];
     views = [];
@@ -203,6 +277,10 @@ function startBundle(skill) {
     clearInterval(timerId);
     $('timer').hidden = true;
     renderQuestion();
+}
+
+function startBundle(skill) {
+    startPractice(skill, bank.filter((q) => q.type !== 'case' && q.skill === skill));
 }
 
 function expandCase(c) {
@@ -823,6 +901,7 @@ function finishQuiz(timedOut) {
     $('summary').textContent = text;
 
     renderBreakdown();
+    recordResults(scaled);
 
     const review = $('review');
     review.innerHTML = '';
@@ -874,7 +953,11 @@ $('quit').addEventListener('click', () => {
         show('home');
     }
 });
-$('restart').addEventListener('click', () => show('home'));
+$('restart').addEventListener('click', () => {
+    show('home');
+    renderMissed();
+    renderHistory();
+});
 $('flag').addEventListener('click', toggleFlag);
 $('open-review').addEventListener('click', openOverview);
 $('overview-back').addEventListener('click', () => {
@@ -884,7 +967,11 @@ $('overview-back').addEventListener('click', () => {
 $('overview-finish').addEventListener('click', finishFromOverview);
 
 loadQuestions()
-    .then(renderBundles)
+    .then(() => {
+        renderBundles();
+        renderMissed();
+        renderHistory();
+    })
     .catch(() => {
         document.querySelectorAll('.start').forEach((btn) => {
             btn.disabled = true;

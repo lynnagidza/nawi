@@ -766,3 +766,35 @@ footer {
     opacity: 0.55;
     cursor: not-allowed;
 }
+
+/* Missed questions and history */
+.missed-box {
+    margin: 1rem 0;
+}
+
+.missed-box .hint {
+    margin: 0.5rem 0 0;
+}
+
+.history {
+    margin-top: 2.5rem;
+}
+
+.history h2 {
+    color: var(--indigo);
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.4rem;
+}
+
+.history-row small {
+    color: var(--muted);
+}
