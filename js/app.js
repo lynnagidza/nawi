@@ -218,6 +218,62 @@ function renderHistory() {
     });
 }
 
+const NOTES_KEY = 'nawi-notes';
+const MIN_READ_SECONDS = 30;
+let pendingRead = null;
+
+function loadNotes() {
+    try {
+        return JSON.parse(localStorage.getItem(NOTES_KEY)) || {};
+    } catch {
+        return {};
+    }
+}
+
+function saveNotes(notes) {
+    try {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    } catch {
+
+    }
+}
+
+function saveNote(skill, title, text, statusEl) {
+    const notes = loadNotes();
+    const clean = text.trim();
+    if (clean) notes[skill] = { text: clean, title, updated: new Date().toISOString() };
+    else delete notes[skill];
+    saveNotes(notes);
+    statusEl.textContent = 'Saved on this device';
+}
+
+function renderNotes() {
+    const notes = loadNotes();
+    const skills = Object.keys(notes);
+    const list = $('notes-list');
+    list.innerHTML = '';
+    list.parentElement.hidden = skills.length === 0;
+
+    skills.forEach((skill) => {
+        const n = notes[skill];
+        const item = document.createElement('div');
+        item.className = 'note-item';
+        item.appendChild(reviewLine(`${skill} · ${n.title}`, 'review-head'));
+        item.appendChild(reviewLine(n.text));
+        list.appendChild(item);
+    });
+}
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible' || !pendingRead) return;
+    const awaySeconds = (Date.now() - pendingRead.openedAt) / 1000;
+    if (awaySeconds >= MIN_READ_SECONDS) {
+        pendingRead.box.hidden = false;
+        pendingRead.box.querySelector('textarea').focus();
+    }
+    pendingRead = null;
+});
+
 function renderBundles() {
     const counts = {};
     bank
@@ -862,19 +918,49 @@ function renderBreakdown() {
         item.appendChild(reviewLine(`${r.skill} · ${r.pct}%`, 'review-head'));
 
         const res = resources[r.skill];
-        if (res) {
-            const p = document.createElement('p');
-            const a = document.createElement('a');
-            a.href = res.url;
-            a.target = '_blank';
-            a.rel = 'noopener';
-            a.textContent = res.title;
-            p.appendChild(a);
-            item.appendChild(p);
-            item.appendChild(reviewLine(res.note, 'meta'));
-        } else {
+        if (!res) {
             item.appendChild(reviewLine('No resource linked yet for this skill.', 'meta'));
+            focus.appendChild(item);
+            return;
         }
+
+        const p = document.createElement('p');
+        const a = document.createElement('a');
+        a.href = res.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = res.title;
+        p.appendChild(a);
+        item.appendChild(p);
+        item.appendChild(reviewLine(res.note, 'meta'));
+
+        const existing = loadNotes()[r.skill];
+        const box = document.createElement('div');
+        box.className = 'note-box';
+        box.hidden = !existing;
+
+        const label = reviewLine(
+            existing ? 'Your note for this page' : 'Welcome back. What did you learn from this page?',
+            'review-head'
+        );
+        const ta = document.createElement('textarea');
+        ta.rows = 3;
+        ta.placeholder = 'Write it in your own words...';
+        ta.value = existing ? existing.text : '';
+        const status = reviewLine('', 'meta');
+        let timer = null;
+        ta.addEventListener('input', () => {
+            status.textContent = 'Saving…';
+            clearTimeout(timer);
+            timer = setTimeout(() => saveNote(r.skill, res.title, ta.value, status), 500);
+        });
+        box.append(label, ta, status);
+        item.appendChild(box);
+
+        a.addEventListener('click', () => {
+            pendingRead = { openedAt: Date.now(), box };
+        });
+
         focus.appendChild(item);
     });
 }
@@ -957,6 +1043,7 @@ $('restart').addEventListener('click', () => {
     show('home');
     renderMissed();
     renderHistory();
+    renderNotes();
 });
 $('flag').addEventListener('click', toggleFlag);
 $('open-review').addEventListener('click', openOverview);

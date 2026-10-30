@@ -798,3 +798,53 @@ footer {
 .history-row small {
     color: var(--muted);
 }
+
+/* Notes after reading */
+.note-box {
+    margin-top: 0.75rem;
+}
+
+.note-box textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    padding: 0.75rem;
+    border: 2px solid var(--sand);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--ink);
+    resize: vertical;
+}
+
+.note-box textarea:focus {
+    outline: none;
+    border-color: var(--ochre);
+}
+
+.notes {
+    margin-top: 2.5rem;
+}
+
+.notes h2 {
+    color: var(--indigo);
+    margin-bottom: 0.25rem;
+}
+
+.notes .hint {
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+}
+
+.note-item {
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-left: 6px solid var(--ochre);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.6rem;
+}
+
+.note-item p {
+    margin: 0.3rem 0 0;
+    white-space: pre-wrap;
+}
