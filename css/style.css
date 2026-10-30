@@ -872,3 +872,31 @@ footer {
     display: inline-block;
     cursor: pointer;
 }
+
+/* Level filter */
+.level-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0 0 1.25rem;
+}
+
+.level-filter label {
+    font-weight: 700;
+    color: var(--indigo);
+}
+
+.level-filter select {
+    font: inherit;
+    padding: 0.4rem 0.7rem;
+    border: 2px solid var(--sand);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+}
+
+.level-filter .hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+}

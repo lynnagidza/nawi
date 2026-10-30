@@ -7,6 +7,8 @@ const TIERS = {
 let bank = [];
 let resources = {};
 let domains = [];
+let levels = {};
+const LEVEL_NAMES = { b: 'Beginner', i: 'Intermediate', a: 'Advanced' };
 let questions = [];
 let tier = null;
 let current = 0;
@@ -74,14 +76,25 @@ function isChosen(i) {
 /* ---------- loading and starting ---------- */
 
 async function loadQuestions() {
-    const [qRes, rRes, dRes] = await Promise.all([
+    const [qRes, rRes, dRes, lRes] = await Promise.all([
         fetch('data/questions.json'),
         fetch('data/resources.json'),
         fetch('data/domains.json'),
+        fetch('data/levels.json'),
     ]);
     bank = await qRes.json();
     resources = await rRes.json();
     domains = await dRes.json();
+    levels = lRes.ok ? await lRes.json() : {};
+}
+
+function levelOf(q) {
+    return levels[q.id] || 'i';
+}
+
+function inLevel(q) {
+    const selected = $('level-filter').value;
+    return selected === 'all' || levelOf(q) === selected;
 }
 
 function weightOf(domain) {
@@ -330,7 +343,7 @@ function importData(file) {
 function renderBundles() {
     const counts = {};
     bank
-        .filter((q) => q.type !== 'case')
+        .filter((q) => q.type !== 'case' && inLevel(q))
         .forEach((q) => {
             counts[q.skill] = (counts[q.skill] || 0) + 1;
         });
@@ -389,7 +402,7 @@ function startPractice(label, pool) {
 }
 
 function startBundle(skill) {
-    startPractice(skill, bank.filter((q) => q.type !== 'case' && q.skill === skill));
+    startPractice(skill, bank.filter((q) => q.type !== 'case' && q.skill === skill && inLevel(q)));
 }
 
 function expandCase(c) {
@@ -406,7 +419,7 @@ function expandCase(c) {
 function startQuiz(tierKey) {
     tier = TIERS[tierKey];
 
-    const singles = bank.filter((q) => q.type !== 'case');
+    const singles = bank.filter((q) => q.type !== 'case' && (tier.weighted || inLevel(q)));
     const cases = shuffle(bank.filter((q) => q.type === 'case')).slice(0, tier.cases);
     const caseQuestions = cases.flatMap(expandCase);
     const room = Math.max(0, tier.count - caseQuestions.length);
@@ -484,7 +497,7 @@ function renderQuestion() {
         `${tier.label} · Question ${current + 1} of ${questions.length}` +
         (q.caseId ? ` · Case study (${q.caseIndex}/${q.caseTotal})` : '');
     renderCasePanel(q);
-    $('q-skill').textContent = q.skill;
+    $('q-skill').textContent = `${q.skill} · ${LEVEL_NAMES[levelOf(q)]}`;
     $('q-text').textContent = q.question;
     $('feedback').hidden = true;
 
@@ -1111,6 +1124,7 @@ $('import-data').addEventListener('change', (e) => {
     if (file) importData(file);
     e.target.value = '';
 });
+$('level-filter').addEventListener('change', renderBundles);
 
 loadQuestions()
     .then(() => {
