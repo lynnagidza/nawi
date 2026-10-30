@@ -3949,5 +3949,351 @@
                 "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al"
             }
         ]
+    },
+    {
+        "id": "act-05",
+        "skill": "Bound actions",
+        "question": "How does a bound action procedure receive the WebServiceActionContext?",
+        "options": [
+            "As a global variable of the page",
+            "By value, as a Record parameter",
+            "As a var parameter",
+            "As an interface implementation"
+        ],
+        "answer": 2,
+        "explanation": "The documented example is [ServiceEnabled] procedure Copy(var actionContext: WebServiceActionContext). The context is passed by reference, so the procedure can set the object, key and result code for the caller.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-06",
+        "skill": "Bound actions",
+        "question": "Where do you publish a page so its bound actions become available as an OData web service?",
+        "options": [
+            "In launch.json",
+            "On the Web Services page, by adding it as a Page and selecting Published",
+            "On the Permission Sets page",
+            "On the Extension Management page"
+        ],
+        "answer": 1,
+        "explanation": "On the Web Services page, choose New, set the Object Type to Page, and select the Published check box. The OData URL and SOAP URL fields then show the generated URLs.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-07",
+        "skill": "Bound actions",
+        "type": "multi",
+        "question": "Which calls does the documented bound action example make on the action context? (Select all that apply)",
+        "options": [
+            "SetObjectType",
+            "SetObjectId",
+            "AddEntityKey",
+            "SetResultCode",
+            "SetHttpMethod"
+        ],
+        "answer": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "The example sets the object type and ID, adds the entity key of the created record, and sets the result code to tell the caller what happened. There's no SetHttpMethod on the context.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "act-08",
+        "skill": "Bound actions",
+        "type": "order",
+        "question": "Put the steps in the right order to declare and publish an OData bound action.",
+        "items": [
+            "Add a procedure with a WebServiceActionContext parameter to the page",
+            "Expose the procedure with the ServiceEnabled attribute",
+            "Use WebServiceActionContext and WebServiceActionResultCode to set the result",
+            "Publish the page on the Web Services page"
+        ],
+        "explanation": "You add the procedure, expose it with [ServiceEnabled], and set the result with the two AL types. Then you register and publish the page as a web service, which generates the OData and SOAP URLs.",
+        "source": "Creating and interacting with an OData V4 bound action",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-creating-and-interacting-with-odatav4-bound-action"
+    },
+    {
+        "id": "api-06",
+        "skill": "API pages",
+        "type": "multi",
+        "question": "Which three properties let you disallow creating, updating and deleting on an API page? (Select three)",
+        "options": [
+            "InsertAllowed",
+            "ModifyAllowed",
+            "DeleteAllowed",
+            "ODataKeyFields"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "API pages support create, read, update and delete operations by default. To disallow them, use InsertAllowed, ModifyAllowed and DeleteAllowed.",
+        "source": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype"
+    },
+    {
+        "id": "api-07",
+        "skill": "API pages",
+        "question": "Which naming convention applies to APIPublisher, APIGroup, EntityName and EntitySetName?",
+        "options": [
+            "PascalCase",
+            "camelCase",
+            "snake_case",
+            "UPPER_CASE"
+        ],
+        "answer": 1,
+        "explanation": "For the API page type, camelCase is used for naming attributes, tables, and the APIPublisher, APIGroup, EntityName and EntitySetName properties.",
+        "source": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype"
+    },
+    {
+        "id": "api-08",
+        "skill": "API pages",
+        "question": "You need extra fields on an existing API page or API query. What can you do?",
+        "options": [
+            "Extend it with a page or query extension",
+            "Create a new API page or query",
+            "Extend it with a profile extension",
+            "Nothing is ever possible"
+        ],
+        "answer": 1,
+        "explanation": "Extending API pages and queries isn't currently possible. Instead of a page extension, you create a new API by adding a page object, or a new query for an API query.",
+        "source": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype"
+    },
+    {
+        "id": "api-09",
+        "skill": "API pages",
+        "question": "An API page must support two versions. How do you declare that?",
+        "options": [
+            "Set APIVersions in app.json",
+            "APIVersion = 2;",
+            "Create two pages with the same name",
+            "APIVersion = 'v2.0', 'v1.0';"
+        ],
+        "answer": 3,
+        "explanation": "The APIVersion can be specified as one version, or as a list of versions if the API is supported through multiple versions, for example APIVersion = 'v2.0', 'v1.0';.",
+        "source": "API page type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-api-pagetype"
+    },
+    {
+        "id": "api-10",
+        "skill": "API pages",
+        "type": "multi",
+        "question": "Which two settings does Microsoft's custom API guidance show on an API page? (Select two)",
+        "options": [
+            "ODataKeyFields = SystemId",
+            "DelayedInsert = true",
+            "Editable = false",
+            "UsageCategory = Lists"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "The guidance says to specify APIVersion, APIPublisher, APIGroup, EntityName and EntitySetName, set ODataKeyFields to SystemId, and use DelayedInsert = true in the examples.",
+        "source": "Developing a custom API",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-develop-custom-api"
+    },
+    {
+        "id": "api-11",
+        "skill": "API pages",
+        "type": "match",
+        "question": "Match each purpose to the API page property. One item won't be used.",
+        "pairs": [
+            [
+                "Sets the group of the API endpoint the page is exposed in",
+                "APIGroup"
+            ],
+            [
+                "Sets the singular name of the API endpoint",
+                "EntityName"
+            ],
+            [
+                "Sets the plural name of the API endpoint",
+                "EntitySetName"
+            ],
+            [
+                "Specifies the field to select when using OData",
+                "ODataKeyFields"
+            ]
+        ],
+        "extras": [
+            "Caption"
+        ],
+        "explanation": "APIGroup, EntityName and EntitySetName shape the endpoint, and ODataKeyFields picks the identifying field. Caption names the API endpoint but doesn't change the URL.",
+        "source": "Developing a custom API",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-develop-custom-api"
+    },
+    {
+        "id": "json-05",
+        "skill": "JSON",
+        "question": "You parsed a response into a JsonObject. Which sequence reads the text value of its name property?",
+        "options": [
+            "Keys().Get('name').AsText()",
+            "Get('name', Token), then Token.AsValue().AsText()",
+            "ReadFrom('name'), then AsObject()",
+            "Add('name'), then AsText()"
+        ],
+        "answer": 1,
+        "explanation": "JsonObject.Get(key, var JsonToken) retrieves the property as a JsonToken. You convert it to a JsonValue with AsValue and then to text with AsText.",
+        "source": "Get JSON data from external REST services",
+        "url": "https://learn.microsoft.com/en-us/training/modules/access-rest-services/5-get-json-data"
+    },
+    {
+        "id": "json-06",
+        "skill": "JSON",
+        "question": "Which JsonObject method verifies that a property with a given key exists?",
+        "options": [
+            "IndexOf",
+            "IsNull",
+            "Contains",
+            "Count"
+        ],
+        "answer": 2,
+        "explanation": "Contains(Text) verifies whether a JsonObject contains a property with a given key. IndexOf and Count are JsonArray methods, and IsNull is a JsonValue method.",
+        "source": "JsonObject data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsonobject/jsonobject-data-type"
+    },
+    {
+        "id": "json-07",
+        "skill": "JSON",
+        "question": "Which method serializes a JsonObject into text or a stream?",
+        "options": [
+            "ReadFrom",
+            "WriteTo",
+            "Add",
+            "SetValue"
+        ],
+        "answer": 1,
+        "explanation": "WriteTo serializes and writes the JSON data to a Text or OutStream. ReadFrom does the opposite, parsing text or a stream into the variable.",
+        "source": "Get JSON data from external REST services",
+        "url": "https://learn.microsoft.com/en-us/training/modules/access-rest-services/5-get-json-data"
+    },
+    {
+        "id": "json-08",
+        "skill": "JSON",
+        "question": "What does a default (unassigned) JsonArray variable contain?",
+        "options": [
+            "NULL",
+            "An array with one empty element",
+            "A runtime error until you initialize it",
+            "An empty JSON array"
+        ],
+        "answer": 3,
+        "explanation": "A default JsonArray contains an empty JSON array, and a default JsonObject contains an empty JSON object. A default JsonToken, by contrast, contains the JSON value NULL.",
+        "source": "JsonArray data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsonarray/jsonarray-data-type"
+    },
+    {
+        "id": "json-09",
+        "skill": "JSON",
+        "type": "match",
+        "question": "Match each description to the JSON method. One item won't be used.",
+        "pairs": [
+            [
+                "Adds a new property to a JsonObject",
+                "Add"
+            ],
+            [
+                "Retrieves the value at an index in a JsonArray",
+                "Get"
+            ],
+            [
+                "Gets the number of elements in a JsonArray",
+                "Count"
+            ],
+            [
+                "Indicates whether a JsonValue holds the JSON value NULL",
+                "IsNull"
+            ]
+        ],
+        "extras": [
+            "IndexOf"
+        ],
+        "explanation": "Add, Get and Count work on objects and arrays as described, and IsNull belongs to JsonValue. IndexOf determines the position of a value in a JsonArray, so it fits none of these four.",
+        "source": "JsonArray data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/jsonarray/jsonarray-data-type"
+    },
+    {
+        "id": "rso-05",
+        "skill": "Read Scale-Out",
+        "question": "From the client, which page lets you override an object's DataAccessIntent?",
+        "options": [
+            "Extension Management",
+            "Database Access Intent List",
+            "Web Services",
+            "Job Queue Entries"
+        ],
+        "answer": 1,
+        "explanation": "From the client, the property value can be overwritten by using page 9880, the Database Access Intent List page. For API pages and API queries a caller can also use the Data-Access-Intent HTTP request header.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-06",
+        "skill": "Read Scale-Out",
+        "question": "A report has DataAccessIntent = ReadOnly. Where are records read before and after the dataset is generated?",
+        "options": [
+            "From the read-only replica",
+            "From the primary database",
+            "From a cache on the client",
+            "They can't be read at all"
+        ],
+        "answer": 1,
+        "explanation": "For reports, the database calls needed while iterating through data items use the read-only replica if it's set. Records read before and after the generation of the dataset are read from the primary database.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-07",
+        "skill": "Read Scale-Out",
+        "question": "A query runs in the middle of a transaction in AL code. Does DataAccessIntent = ReadOnly make it use the replica?",
+        "options": [
+            "Yes, always",
+            "No. The server doesn't switch to ReadOnly mid-transaction, so for queries it fully applies when they're exposed as an API/OData feed",
+            "Yes, but only for reports",
+            "Only on-premises"
+        ],
+        "answer": 1,
+        "explanation": "The property doesn't apply to queries running at arbitrary times during normal AL execution, because the server doesn't change to ReadOnly mode in the middle of a transaction. For queries, it only fully applies when they're exposed as an API/OData feed.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "rso-08",
+        "skill": "Read Scale-Out",
+        "question": "You want an OData endpoint for Power BI that only reads data. What does Microsoft suggest?",
+        "options": [
+            "A codeunit published as a web service",
+            "An XMLport with Direction = Export",
+            "An API page with DelayedInsert = false",
+            "An API query with DataAccessIntent = ReadOnly"
+        ],
+        "answer": 3,
+        "explanation": "If you want OData endpoints that work as data readers, such as for Power BI, Microsoft's performance guidance is to use API queries and set DataAccessIntent = ReadOnly.",
+        "source": "Performance articles for AL developers",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/performance/performance-developer"
+    },
+    {
+        "id": "rso-09",
+        "skill": "Read Scale-Out",
+        "question": "An API page has DataAccessIntent = ReadOnly. Which database calls use the read-only replica?",
+        "options": [
+            "All calls, including those in the OpenCompany triggers",
+            "Only the call that fetches the data. Setup calls such as those in OpenCompany triggers use the primary database",
+            "Only calls made by the client",
+            "None, because it only applies to queries"
+        ],
+        "answer": 1,
+        "explanation": "When an OData call fetches data from the page, only the call to fetch the data uses the read-only replica. Database calls needed to set up the API page are performed against the primary database.",
+        "source": "DataAccessIntent property",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
     }
 ]
