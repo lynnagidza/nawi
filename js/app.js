@@ -274,6 +274,59 @@ document.addEventListener('visibilitychange', () => {
     pendingRead = null;
 });
 
+function exportData() {
+    const data = {
+        app: 'nawi',
+        version: 1,
+        exported: new Date().toISOString(),
+        missed: loadList(MISSED_KEY),
+        history: loadList(HISTORY_KEY),
+        notes: loadNotes(),
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nawi-progress-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    $('data-status').textContent = 'Exported. Keep the file somewhere safe.';
+}
+
+function importData(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        try {
+            const data = JSON.parse(reader.result);
+            if (data.app !== 'nawi') throw new Error('Not a Nawi file');
+
+            const missed = new Set([...loadList(MISSED_KEY), ...(data.missed || [])]);
+            saveList(MISSED_KEY, [...missed]);
+
+            const seen = new Set();
+            const history = [...loadList(HISTORY_KEY), ...(data.history || [])]
+                .filter((h) => !seen.has(h.when) && seen.add(h.when))
+                .sort((a, b) => b.when.localeCompare(a.when))
+                .slice(0, 20);
+            saveList(HISTORY_KEY, history);
+
+            const notes = loadNotes();
+            Object.entries(data.notes || {}).forEach(([skill, n]) => {
+                if (!notes[skill] || (n.updated || '') > (notes[skill].updated || '')) notes[skill] = n;
+            });
+            saveNotes(notes);
+
+            renderMissed();
+            renderHistory();
+            renderNotes();
+            $('data-status').textContent = 'Imported and merged with what is on this device.';
+        } catch {
+            $('data-status').textContent = 'That file could not be imported. Use a file exported from Nawi.';
+        }
+    };
+    reader.readAsText(file);
+}
+
 function renderBundles() {
     const counts = {};
     bank
@@ -1052,6 +1105,12 @@ $('overview-back').addEventListener('click', () => {
     renderQuestion();
 });
 $('overview-finish').addEventListener('click', finishFromOverview);
+$('export-data').addEventListener('click', exportData);
+$('import-data').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) importData(file);
+    e.target.value = '';
+});
 
 loadQuestions()
     .then(() => {

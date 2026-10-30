@@ -848,3 +848,27 @@ footer {
     margin: 0.3rem 0 0;
     white-space: pre-wrap;
 }
+
+/* My data */
+.data-tools {
+    margin-top: 2.5rem;
+}
+
+.data-tools h2 {
+    color: var(--indigo);
+    margin-bottom: 0.25rem;
+}
+
+.data-tools .hint {
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+}
+
+.data-tools .btn {
+    margin-right: 0.6rem;
+}
+
+.import-label {
+    display: inline-block;
+    cursor: pointer;
+}

@@ -67,6 +67,16 @@
                 <p class="hint">What you wrote after reading the docs, by skill.</p>
                 <div id="notes-list"></div>
             </section>
+
+            <section class="data-tools">
+                <h2>My data</h2>
+                <p class="hint">Move your missed questions, history and notes to another browser or device.</p>
+                <button id="export-data" class="btn btn-secondary" type="button">Export</button>
+                <label class="btn btn-secondary import-label">Import
+                    <input id="import-data" type="file" accept="application/json" hidden>
+                </label>
+                <p id="data-status" class="meta"></p>
+            </section>
         </div>
 
         <section id="quiz" hidden>
