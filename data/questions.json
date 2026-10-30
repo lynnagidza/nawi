@@ -4295,5 +4295,223 @@
         "explanation": "When an OData call fetches data from the page, only the call to fetch the data uses the read-only replica. Database calls needed to set up the API page are performed against the primary database.",
         "source": "DataAccessIntent property",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-dataaccessintent-property"
+    },
+    {
+        "id": "up-06",
+        "skill": "Install and upgrade",
+        "question": "Which triggers check that certain requirements are met before an upgrade can run?",
+        "options": [
+            "OnUpgradePerCompany and OnUpgradePerDatabase",
+            "OnValidateUpgradePerCompany and OnValidateUpgradePerDatabase",
+            "OnCheckPreconditionsPerCompany and OnCheckPreconditionsPerDatabase",
+            "OnInstallAppPerCompany and OnInstallAppPerDatabase"
+        ],
+        "answer": 2,
+        "explanation": "The OnCheckPreconditions triggers check that requirements are met before the upgrade runs. The OnUpgrade triggers do the actual upgrade, and the OnValidateUpgrade triggers check that it was successful.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-07",
+        "skill": "Install and upgrade",
+        "question": "In upgrade code, what does the AppVersion property represent?",
+        "options": [
+            "The version you're upgrading from",
+            "The version of the extension you're upgrading to, the newer version",
+            "The version of the base application",
+            "The version of the platform"
+        ],
+        "answer": 1,
+        "explanation": "In upgrade code, AppVersion is the version of the extension you're upgrading to, in other words the newer version. In installation code, it's the version of the extension you're trying to install.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-08",
+        "skill": "Install and upgrade",
+        "question": "Which methods give you access to the AppVersion and DataVersion properties?",
+        "options": [
+            "System.AppVersion() and System.DataVersion()",
+            "NAVApp.GetCurrentModuleInfo() and NAVApp.GetModuleInfo()",
+            "Session.GetModuleInfo()",
+            "Database.GetVersion()"
+        ],
+        "answer": 1,
+        "explanation": "You access these properties through the NAVApp.GetCurrentModuleInfo() and NAVApp.GetModuleInfo() methods, which fill a ModuleInfo variable.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-09",
+        "skill": "Install and upgrade",
+        "question": "In the documented upgrade example, which method restores archived data for a table?",
+        "options": [
+            "Database.RestoreArchive",
+            "Record.RestoreAll",
+            "NavApp.RestoreArchiveData",
+            "NavApp.RestoreData"
+        ],
+        "answer": 2,
+        "explanation": "The example checks the DataVersion from NavApp.GetCurrentModuleInfo, and then calls NavApp.RestoreArchiveData(Database::\"TableName\") to restore the archived data.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-10",
+        "skill": "Install and upgrade",
+        "question": "When does Microsoft recommend upgrading an extension that needs extensive upgrade logic?",
+        "options": [
+            "During peak hours, so problems show up quickly",
+            "Outside business hours, because the upgrade might affect users",
+            "Only on the first day of the month",
+            "It makes no difference"
+        ],
+        "answer": 1,
+        "explanation": "It's recommended to upgrade extensions that require extensive code logic upgrades outside of business hours, because the upgrade might affect users working with the business logic.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-11",
+        "skill": "Install and upgrade",
+        "type": "multi",
+        "question": "Which three triggers can an upgrade codeunit use per company? (Select three)",
+        "options": [
+            "OnCheckPreconditionsPerCompany",
+            "OnUpgradePerCompany",
+            "OnValidateUpgradePerCompany",
+            "OnInstallAppPerCompany"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Upgrade codeunits (Subtype = Upgrade) support check preconditions, upgrade and validate triggers, per company and per database. OnInstallAppPerCompany belongs to install codeunits.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "up-12",
+        "skill": "Install and upgrade",
+        "type": "order",
+        "question": "Put the per-company upgrade triggers in the order they serve in an upgrade.",
+        "items": [
+            "OnCheckPreconditionsPerCompany",
+            "OnUpgradePerCompany",
+            "OnValidateUpgradePerCompany"
+        ],
+        "explanation": "First you check that the requirements are met, then the upgrade does its actual work, and finally a validation trigger checks that the upgrade was successful.",
+        "source": "Upgrading extensions",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-upgrading-extensions"
+    },
+    {
+        "id": "app-07",
+        "skill": "Application types",
+        "question": "Which AL analyzer enforces the official AL Coding Guidelines?",
+        "options": [
+            "UICop",
+            "CodeCop",
+            "AppSourceCop",
+            "PerTenantExtensionCop"
+        ],
+        "answer": 1,
+        "explanation": "CodeCop enforces the official AL Coding Guidelines. The AL Language extension contains four analyzers: CodeCop, UICop, AppSourceCop and PerTenantExtensionCop.",
+        "source": "The code analysis tool",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool"
+    },
+    {
+        "id": "app-08",
+        "skill": "Application types",
+        "question": "Which analyzer enforces rules for extensions meant to be installed for individual tenants?",
+        "options": [
+            "CodeCop",
+            "UICop",
+            "AppSourceCop",
+            "PerTenantExtensionCop"
+        ],
+        "answer": 3,
+        "explanation": "PerTenantExtensionCop enforces rules that must be respected by extensions meant to be installed for individual tenants. AppSourceCop does the same for extensions meant to be published to AppSource.",
+        "source": "The code analysis tool",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool"
+    },
+    {
+        "id": "app-09",
+        "skill": "Application types",
+        "type": "multi",
+        "question": "Which two settings turn on code analysis and choose the analyzers to run? (Select two)",
+        "options": [
+            "al.enableCodeAnalysis",
+            "al.codeAnalyzers",
+            "startupObjectId in launch.json",
+            "target in app.json"
+        ],
+        "answer": [
+            0,
+            1
+        ],
+        "explanation": "You set al.enableCodeAnalysis to true in the settings file, and use al.codeAnalyzers to list the analyzers, for example \"${CodeCop}\" and \"${UICop}\".",
+        "source": "The code analysis tool",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool"
+    },
+    {
+        "id": "app-10",
+        "skill": "Application types",
+        "question": "Which two analyzers should you NOT enable together, because you pick one based on your deployment target?",
+        "options": [
+            "CodeCop and UICop",
+            "AppSourceCop and PerTenantExtensionCop",
+            "CodeCop and AppSourceCop",
+            "UICop and PerTenantExtensionCop"
+        ],
+        "answer": 1,
+        "explanation": "Enable either PerTenantExtensionCop or AppSourceCop based on your deployment target, not both. Per-tenant extensions are installed for a single customer, while Marketplace apps are published for all customers.",
+        "source": "Use GitHub Codespaces for AL development",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-code-spaces-al"
+    },
+    {
+        "id": "app-11",
+        "skill": "Application types",
+        "question": "Which shortcut builds the project and runs the code analyzers on the entire project?",
+        "options": [
+            "F6",
+            "F7",
+            "Ctrl+Shift+B",
+            "Ctrl+F5"
+        ],
+        "answer": 2,
+        "explanation": "Code analysis runs in the background by default. Pressing Ctrl+Shift+B builds the project and runs the analyzers on the entire project, with the issues shown in the Output window.",
+        "source": "The code analysis tool",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/Business-Central/dev-ITPro/developer/devenv-using-code-analysis-tool"
+    },
+    {
+        "id": "app-12",
+        "skill": "Application types",
+        "type": "match",
+        "question": "Match each description to the analyzer. One item won't be used.",
+        "pairs": [
+            [
+                "Enforces the official AL Coding Guidelines",
+                "CodeCop"
+            ],
+            [
+                "Rules for extensions meant to be published to AppSource",
+                "AppSourceCop"
+            ],
+            [
+                "Rules for extensions meant to be installed for individual tenants",
+                "PerTenantExtensionCop"
+            ],
+            [
+                "Rules for extensions that customize the web client",
+                "UICop"
+            ]
+        ],
+        "extras": [
+            "ALCop"
+        ],
+        "explanation": "The AL Language extension contains four analyzers: CodeCop, AppSourceCop, PerTenantExtensionCop and UICop. ALCop isn't one of them.",
+        "source": "The code analysis tool",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool"
     }
 ]
