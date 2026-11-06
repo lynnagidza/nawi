@@ -23,7 +23,7 @@
         <div id="home">
             <section class="hero">
                 <h2>Revise the way you learn best.</h2>
-                <p>Practise with exam-style questions, identify your knowledge gaps, rinse & repeat.
+                <p>Practise with exam-style questions, see why each answer is right, then write down what you learnt.
                 </p>
             </section>
 
@@ -35,60 +35,71 @@
                     <option value="i">Intermediate</option>
                     <option value="a">Advanced</option>
                 </select>
-                <span class="hint">Applies to Quick, Standard and Practice by skill. Exam-like always mixes
-                    levels.</span>
+                <span class="hint">Applies to Quick, Standard and By skill. Exam-like always mixes levels.</span>
             </div>
 
-            <section class="tiers">
-                <article class="card tier-quick">
-                    <h3>Quick</h3>
-                    <p class="meta">10 questions · 15 min</p>
-                    <p>A short drill. Feedback after every question.</p>
-                    <button class="btn start" data-tier="quick">Start</button>
-                </article>
+            <nav class="tabs">
+                <button class="tab active" data-tab="practice" type="button">Practice</button>
+                <button class="tab" data-tab="skills" type="button">By skill</button>
+                <button class="tab" data-tab="progress" type="button">My progress</button>
+            </nav>
 
-                <article class="card tier-standard">
-                    <h3>Standard</h3>
-                    <p class="meta">25 questions · 40 min</p>
-                    <p>Mixed skill areas. Answers revealed at the end.</p>
-                    <button class="btn start" data-tier="standard">Start</button>
-                </article>
+            <div class="tab-panel" data-panel="practice">
+                <section class="tiers">
+                    <article class="card tier-quick">
+                        <h3>Quick</h3>
+                        <p class="meta">10 questions · 15 min</p>
+                        <p>A short drill. Feedback after every question.</p>
+                        <button class="btn start" data-tier="quick">Start</button>
+                    </article>
 
-                <article class="card tier-exam">
-                    <h3>Exam-like</h3>
-                    <p class="meta">50 questions · 100 min</p>
-                    <p>Timed, no hints, weighted like the real exam, scored out of 1000.</p>
-                    <button class="btn start" data-tier="exam">Start</button>
-                </article>
-            </section>
+                    <article class="card tier-standard">
+                        <h3>Standard</h3>
+                        <p class="meta">25 questions · 40 min</p>
+                        <p>Mixed skill areas. Answers revealed at the end.</p>
+                        <button class="btn start" data-tier="standard">Start</button>
+                    </article>
 
-            <section class="bundles">
-                <h2>Practice by skill</h2>
-                <p class="hint">Pick a skill area to drill every question in it, with instant feedback and no timer.</p>
+                    <article class="card tier-exam">
+                        <h3>Exam-like</h3>
+                        <p class="meta">50 questions · 100 min</p>
+                        <p>Timed, no hints, weighted like the real exam, scored out of 1000.</p>
+                        <button class="btn start" data-tier="exam">Start</button>
+                    </article>
+                </section>
                 <div id="missed-box" class="missed-box"></div>
-                <div id="bundle-list"></div>
-            </section>
+            </div>
 
-            <section class="history" hidden>
-                <h2>Recent runs</h2>
-                <div id="history-list"></div>
-            </section>
+            <div class="tab-panel" data-panel="skills" hidden>
+                <section class="bundles">
+                    <p class="hint">Pick a skill area to drill every question in it, with instant feedback and no timer.
+                    </p>
+                    <div id="bundle-list"></div>
+                </section>
+            </div>
 
-            <section class="notes" hidden>
-                <h2>My notes</h2>
-                <p class="hint">What you wrote after reading the docs, by skill.</p>
-                <div id="notes-list"></div>
-            </section>
+            <div class="tab-panel" data-panel="progress" hidden>
+                <section class="history" hidden>
+                    <h2>Recent runs</h2>
+                    <div id="history-list"></div>
+                </section>
 
-            <section class="data-tools">
-                <h2>My data</h2>
-                <p class="hint">Move your missed questions, history and notes to another browser or device.</p>
-                <button id="export-data" class="btn btn-secondary" type="button">Export</button>
-                <label class="btn btn-secondary import-label">Import
-                    <input id="import-data" type="file" accept="application/json" hidden>
-                </label>
-                <p id="data-status" class="meta"></p>
-            </section>
+                <section class="notes" hidden>
+                    <h2>My notes</h2>
+                    <p class="hint">What you wrote after reading the docs, by skill.</p>
+                    <div id="notes-list"></div>
+                </section>
+
+                <section class="data-tools">
+                    <h2>My data</h2>
+                    <p class="hint">Move your missed questions, history and notes to another browser or device.</p>
+                    <button id="export-data" class="btn btn-secondary" type="button">Export</button>
+                    <label class="btn btn-secondary import-label">Import
+                        <input id="import-data" type="file" accept="application/json" hidden>
+                    </label>
+                    <p id="data-status" class="meta"></p>
+                </section>
+            </div>
         </div>
 
         <section id="quiz" hidden>

@@ -360,15 +360,15 @@ function renderBundles() {
         const skills = g.skills.filter((s) => counts[s]);
         if (!skills.length) return;
 
-        const head = document.createElement('h3');
-        head.className = 'bundle-domain';
-        head.textContent = g.name;
-        if (g.weight) {
-            const w = document.createElement('span');
-            w.textContent = g.weight + ' of exam';
-            head.appendChild(w);
-        }
-        list.appendChild(head);
+        const group = document.createElement('details');
+        group.className = 'bundle-group';
+
+        const summary = document.createElement('summary');
+        summary.textContent = g.name;
+        const meta = document.createElement('span');
+        meta.textContent = `${g.weight ? g.weight + ' of exam · ' : ''}${skills.length} skills`;
+        summary.appendChild(meta);
+        group.appendChild(summary);
 
         const grid = document.createElement('div');
         grid.className = 'bundle-grid';
@@ -383,7 +383,8 @@ function renderBundles() {
             btn.addEventListener('click', () => startBundle(s));
             grid.appendChild(btn);
         });
-        list.appendChild(grid);
+        group.appendChild(grid);
+        list.appendChild(group);
     });
 }
 
@@ -1125,6 +1126,18 @@ $('import-data').addEventListener('change', (e) => {
     e.target.value = '';
 });
 $('level-filter').addEventListener('change', renderBundles);
+function showTab(name) {
+    document.querySelectorAll('.tab').forEach((t) => {
+        t.classList.toggle('active', t.dataset.tab === name);
+    });
+    document.querySelectorAll('.tab-panel').forEach((p) => {
+        p.hidden = p.dataset.panel !== name;
+    });
+    document.querySelector('.level-filter').hidden = name === 'progress';
+}
+document.querySelectorAll('.tab').forEach((t) => {
+    t.addEventListener('click', () => showTab(t.dataset.tab));
+});
 
 loadQuestions()
     .then(() => {

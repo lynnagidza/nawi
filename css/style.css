@@ -900,3 +900,57 @@ footer {
     color: var(--muted);
     font-size: 0.9rem;
 }
+
+/* Home tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid var(--sand);
+    margin: 1.25rem 0 1.5rem;
+}
+
+.tab {
+    background: none;
+    border: 0;
+    border-bottom: 4px solid transparent;
+    margin-bottom: -2px;
+    padding: 0.6rem 1rem;
+    font: 700 1rem "DM Sans", sans-serif;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.tab:hover {
+    color: var(--indigo);
+}
+
+.tab.active {
+    color: var(--indigo);
+    border-bottom-color: var(--crimson);
+}
+
+/* Collapsible skill groups */
+.bundle-group {
+    background: var(--surface);
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.6rem;
+}
+
+.bundle-group summary {
+    cursor: pointer;
+    font: 600 1.05rem "Fraunces", Georgia, serif;
+    color: var(--indigo);
+}
+
+.bundle-group summary span {
+    margin-left: 0.6rem;
+    font: 500 0.85rem "DM Sans", sans-serif;
+    color: var(--muted);
+}
+
+.bundle-group .bundle-grid {
+    margin-top: 0.75rem;
+    padding-bottom: 0.4rem;
+}
