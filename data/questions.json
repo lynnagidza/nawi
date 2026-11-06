@@ -4513,5 +4513,205 @@
         "explanation": "The AL Language extension contains four analyzers: CodeCop, AppSourceCop, PerTenantExtensionCop and UICop. ALCop isn't one of them.",
         "source": "The code analysis tool",
         "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool"
+    },
+    {
+        "id": "file-08",
+        "skill": "File management",
+        "question": "In the web client, a loop calls DownloadFromStream to send several generated files. What reaches the browser?",
+        "options": [
+            "Only the first file",
+            "All of them, one after the other",
+            "Only the last file",
+            "None of them"
+        ],
+        "answer": 2,
+        "explanation": "With the web client, if the download method is called in a loop that generates multiple files, only the last file is sent to the browser. When designing for the web client, bundle the files in a .zip archive instead.",
+        "source": "File.Download method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-download-method"
+    },
+    {
+        "id": "file-09",
+        "skill": "File management",
+        "question": "Which codeunit does Microsoft point to for creating .zip archives when you develop extensions in AL?",
+        "options": [
+            "File Management (codeunit 419)",
+            "Temp Blob",
+            "Dialog",
+            "Data Compression (codeunit 425)"
+        ],
+        "answer": 3,
+        "explanation": "The documentation says to use the external methods of codeunit 425 Data Compression when developing extensions in AL, for example to bundle several files into one archive before downloading.",
+        "source": "File.Download method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-download-method"
+    },
+    {
+        "id": "file-10",
+        "skill": "File management",
+        "type": "match",
+        "question": "Match each purpose to the AL feature. One item won't be used.",
+        "pairs": [
+            [
+                "Sends a file from the client to the Business Central service",
+                "UploadIntoStream"
+            ],
+            [
+                "Sends a file from the service to the client",
+                "DownloadFromStream"
+            ],
+            [
+                "Bundles several files into one archive",
+                "Data Compression codeunit"
+            ],
+            [
+                "Holds binary data in memory without a table record",
+                "Temp Blob codeunit"
+            ]
+        ],
+        "extras": [
+            "File Management codeunit"
+        ],
+        "explanation": "Upload and UploadIntoStream send a file from the client to the service, while Download and DownloadFromStream send it the other way. Data Compression builds archives, and Temp Blob holds data in memory. File Management helps with file names and extensions, which none of these four descriptions mention.",
+        "source": "File.Download method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-download-method"
+    },
+    {
+        "id": "file-11",
+        "skill": "File management",
+        "question": "Where is File.Download (the non-stream version) supported?",
+        "options": [
+            "Only in sandbox environments",
+            "Only online",
+            "Only on-premises",
+            "Everywhere"
+        ],
+        "answer": 2,
+        "explanation": "File.Download is supported only in Business Central on-premises, and its business logic runs on the server computer, not on the client. Extensions should use the stream methods, such as DownloadFromStream.",
+        "source": "File.Download method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/file/file-download-method"
+    },
+    {
+        "id": "err-08",
+        "skill": "Error handling",
+        "question": "Which ErrorInfo method makes an error actionable by adding a fix-it action?",
+        "options": [
+            "Collectible",
+            "Verbosity",
+            "AddAction",
+            "DetailedMessage"
+        ],
+        "answer": 2,
+        "explanation": "AddAction adds a fix-it action to the error message. The user can choose it in the error dialog to get unblocked, and the base app uses it for approval errors.",
+        "source": "ErrorInfo.AddAction method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/errorinfo/errorinfo-addaction-method"
+    },
+    {
+        "id": "err-09",
+        "skill": "Error handling",
+        "question": "What must the global method that an error action runs have?",
+        "options": [
+            "A Boolean return value",
+            "A parameter of the ErrorInfo data type",
+            "The TryFunction attribute",
+            "The ServiceEnabled attribute"
+        ],
+        "answer": 1,
+        "explanation": "AddAction takes the ID of a codeunit and a method name. The codeunit must contain at least one global method that has an ErrorInfo data type parameter, which receives the ErrorInfo object.",
+        "source": "ErrorInfo.AddAction method",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/errorinfo/errorinfo-addaction-method"
+    },
+    {
+        "id": "err-10",
+        "skill": "Error handling",
+        "question": "Where does the text set with ErrorInfo.DetailedMessage appear?",
+        "options": [
+            "In a message box shown to the end user",
+            "In the Copy details part of the error dialog, not directly to the end user",
+            "In the Windows event log only",
+            "In the page caption"
+        ],
+        "answer": 1,
+        "explanation": "The detailed message isn't shown to the end user directly. It's included in the Copy details part of the error dialog, and it's optional but can help whoever troubleshoots the issue.",
+        "source": "ErrorInfo.DetailedMessage method",
+        "url": "https://learn.microsoft.com/en-gb/dynamics365/business-central/dev-itpro/developer/methods-auto/errorinfo/errorinfo-detailedmessage-method"
+    },
+    {
+        "id": "err-11",
+        "skill": "Error handling",
+        "question": "Which method removes the last error message from memory?",
+        "options": [
+            "GetLastErrorText",
+            "ClearLastError",
+            "ClearCollectedErrors",
+            "GetLastErrorCallStack"
+        ],
+        "answer": 1,
+        "explanation": "ClearLastError removes the last error message from memory. GetLastErrorCallStack gets the call stack where the last error occurred, and ClearCollectedErrors clears collected errors instead.",
+        "source": "AL error handling",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling"
+    },
+    {
+        "id": "err-12",
+        "skill": "Error handling",
+        "type": "multi",
+        "question": "Which three System methods handle collected errors in the current collection scope? (Select three)",
+        "options": [
+            "HasCollectedErrors",
+            "GetCollectedErrors",
+            "ClearCollectedErrors",
+            "GetLastErrorCallStack"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "HasCollectedErrors tells you whether errors have been collected, GetCollectedErrors returns them, and ClearCollectedErrors clears them. GetLastErrorCallStack is about the last raised error, not collected ones.",
+        "source": "Collectible errors API",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-error-collection-api"
+    },
+    {
+        "id": "err-13",
+        "skill": "Error handling",
+        "question": "Which call creates a new ErrorInfo object that already has Collectible set to true?",
+        "options": [
+            "ErrorInfo.AddAction()",
+            "ErrorInfo.Verbosity()",
+            "ErrorInfo.DetailedMessage()",
+            "ErrorInfo.Create()"
+        ],
+        "answer": 3,
+        "explanation": "ErrorInfo.Create() with no parameters creates a new ErrorInfo object with Collectible set to true. The overload with parameters creates an ordinary one.",
+        "source": "ErrorInfo data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/errorinfo/errorinfo-data-type"
+    },
+    {
+        "id": "err-14",
+        "skill": "Error handling",
+        "type": "match",
+        "question": "Match each purpose to the ErrorInfo method. One item won't be used.",
+        "pairs": [
+            [
+                "Adds a fix-it action to the error message",
+                "AddAction"
+            ],
+            [
+                "Sets a detailed message that appears in Copy details",
+                "DetailedMessage"
+            ],
+            [
+                "Sets the severity, which affects whether the error is sent to telemetry",
+                "Verbosity"
+            ],
+            [
+                "Specifies whether the error can be collected",
+                "Collectible"
+            ]
+        ],
+        "extras": [
+            "GetLastErrorText"
+        ],
+        "explanation": "AddAction, DetailedMessage, Verbosity and Collectible are all ErrorInfo methods. GetLastErrorText is a separate method that returns the text of the last error.",
+        "source": "ErrorInfo data type",
+        "url": "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/methods-auto/errorinfo/errorinfo-data-type"
     }
 ]

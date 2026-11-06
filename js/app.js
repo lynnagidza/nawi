@@ -8,6 +8,7 @@ let bank = [];
 let resources = {};
 let domains = [];
 let levels = {};
+let selectedLevel = 'all';
 const LEVEL_NAMES = { b: 'Beginner', i: 'Intermediate', a: 'Advanced' };
 let questions = [];
 let tier = null;
@@ -93,8 +94,7 @@ function levelOf(q) {
 }
 
 function inLevel(q) {
-    const selected = $('level-filter').value;
-    return selected === 'all' || levelOf(q) === selected;
+    return selectedLevel === 'all' || levelOf(q) === selectedLevel;
 }
 
 function weightOf(domain) {
@@ -1052,6 +1052,18 @@ function finishQuiz(timedOut) {
         text += ` Your bank only has ${total} questions so far, so this ${tier.label} run was shorter than usual.`;
     }
     $('summary').textContent = text;
+    const byLevel = { b: [0, 0], i: [0, 0], a: [0, 0] };
+    questions.forEach((q, i) => {
+        const l = levelOf(q);
+        byLevel[l][1]++;
+        if (isCorrect(q, answers[i])) byLevel[l][0]++;
+    });
+    $('level-line').textContent =
+        'By level: ' +
+        Object.entries(byLevel)
+            .filter(([, v]) => v[1])
+            .map(([k, v]) => `${LEVEL_NAMES[k]} ${v[0]}/${v[1]}`)
+            .join(' · ');
 
     renderBreakdown();
     recordResults(scaled);
@@ -1125,7 +1137,13 @@ $('import-data').addEventListener('change', (e) => {
     if (file) importData(file);
     e.target.value = '';
 });
-$('level-filter').addEventListener('change', renderBundles);
+document.querySelectorAll('.seg').forEach((b) => {
+    b.addEventListener('click', () => {
+        selectedLevel = b.dataset.level;
+        document.querySelectorAll('.seg').forEach((s) => s.classList.toggle('active', s === b));
+        renderBundles();
+    });
+});
 function showTab(name) {
     document.querySelectorAll('.tab').forEach((t) => {
         t.classList.toggle('active', t.dataset.tab === name);

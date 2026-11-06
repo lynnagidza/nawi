@@ -28,14 +28,16 @@
             </section>
 
             <div class="level-filter">
-                <label for="level-filter">Level</label>
-                <select id="level-filter">
-                    <option value="all">All levels</option>
-                    <option value="b">Beginner</option>
-                    <option value="i">Intermediate</option>
-                    <option value="a">Advanced</option>
-                </select>
-                <span class="hint">Applies to Quick, Standard and By skill. Exam-like always mixes levels.</span>
+                <div class="level-row">
+                    <span class="level-label">Level</span>
+                    <div class="segmented" id="level-filter" role="group" aria-label="Level">
+                        <button type="button" class="seg active" data-level="all">All</button>
+                        <button type="button" class="seg" data-level="b">Beginner</button>
+                        <button type="button" class="seg" data-level="i">Intermediate</button>
+                        <button type="button" class="seg" data-level="a">Advanced</button>
+                    </div>
+                </div>
+                <p class="level-note">Applies to Quick, Standard and By skill. Exam-like always mixes levels.</p>
             </div>
 
             <nav class="tabs">
@@ -149,6 +151,7 @@
                 <div>
                     <p id="verdict" class="verdict"></p>
                     <p id="summary"></p>
+                    <p id="level-line" class="meta"></p>
                     <p class="meta">Estimate only. Microsoft's real scaling isn't published. Pass mark: 700.</p>
                 </div>
             </div>
